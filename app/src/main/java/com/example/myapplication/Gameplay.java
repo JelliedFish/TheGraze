@@ -19,7 +19,9 @@ public class Gameplay extends AppCompatActivity {
         List<CustomButton> fields = new ArrayList<CustomButton>();
 
         for(int i=0;i<84;i++){
-            fields.add(new CustomButton(getBaseContext()));
+            CustomButton tmp=new CustomButton(getBaseContext());
+            tmp.setImageResource(R.drawable.square);
+            fields.add(tmp);
         }
 
         GridView gridView = (GridView) findViewById(R.id.gridView);

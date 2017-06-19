@@ -34,15 +34,7 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Button button;
 
-        if (convertView == null) {
-            button = new Button(context);
-        } else {
-            button = (Button) convertView;
-        }
-        button.setId(position);
-
-        return button;
+        return bugs.get(position);
     }
 }
