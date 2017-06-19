@@ -15,7 +15,7 @@ public class Help extends AppCompatActivity {
         ImageButton btn_help_to_main = (ImageButton)findViewById(R.id.btn_back1);
         btn_help_to_main.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent help_to_main = new Intent(getBaseContext(), MainActivity.class);
+                Intent help_to_main = new Intent(getBaseContext(), MainMenu.class);
                 startActivity(help_to_main);
 
             }

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back1"
-    tools:context="com.example.myapplication.MainActivity">
-
+    android:background="@drawable/background"
+    tools:context="com.example.myapplication.MainMenu">
 
 
     <ImageButton
@@ -14,9 +13,8 @@
         style="@style/Widget.AppCompat.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/btn_mm_play"
         android:padding="0dp"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="250dp"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/btn2"
         android:layout_alignStart="@+id/btn2" />
@@ -25,32 +23,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn2"
-        android:src="@drawable/btn_mm_options"
         android:padding="0dp"
         android:layout_below="@+id/btn1"
         android:layout_marginBottom="2dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="7dp"/>
 
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn3"
-        android:src="@drawable/btn_mm_help"
         android:padding="0dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/btn2"
         android:layout_marginTop="7dp"
         />
 
-
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn4"
-        android:src="@drawable/btn_mm_exit"
         android:padding="0dp"
         android:layout_below="@+id/btn3"
         android:layout_centerHorizontal="true"

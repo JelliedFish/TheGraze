@@ -19,7 +19,7 @@ public class Options extends AppCompatActivity {
         ImageButton btn_options_to_main = (ImageButton)findViewById(R.id.btn_back2);
         btn_options_to_main.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent options_to_main = new Intent(getBaseContext(), MainActivity.class);
+                Intent options_to_main = new Intent(getBaseContext(), MainMenu.class);
                 startActivity(options_to_main);
 
             }
