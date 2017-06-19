@@ -5,11 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +31,22 @@ public class MainActivity extends AppCompatActivity {
                 Intent main_to_help = new Intent(getBaseContext(), Help.class);
                 startActivity(main_to_help);
 
+            }
+        });
+        ImageButton btn_options = (ImageButton)findViewById(R.id.btn2);
+        btn_options.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent main_to_options = new Intent(getBaseContext(), Options.class);
+                startActivity(main_to_options);
+
+            }
+        });
+
+            ImageButton btn_exit = (ImageButton) findViewById(R.id.bnt4);
+        btn_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
