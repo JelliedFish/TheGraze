@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-            ImageButton btn_exit = (ImageButton) findViewById(R.id.bnt4);
+        ImageButton btn_exit = (ImageButton) findViewById(R.id.btn4);
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                AppExit();
             }
         });
 
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton btn_exit = (ImageButton)findViewById(R.id.btn4);
-        btn_exit.setOnClickListener(new View.OnClickListener() {
+        ImageButton btn_exit1 = (ImageButton)findViewById(R.id.btn4);
+        btn_exit1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
             }
@@ -84,5 +84,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d(tag,"onPause | ");
     }
 
+    public void AppExit() {
+        this.finish();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
 }
