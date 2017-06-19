@@ -26,7 +26,7 @@ The connectivity component of the unit you crushed is called connected, if at le
 
 Ending
 The loser is one who can not make a move. This is due to the fact that all the units of one of the players are blocked by walls from his units, eaten by the rival."
-        android:textColor="@drawable/back"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="12dp"
         android:textStyle="italic" />
 </LinearLayout>
