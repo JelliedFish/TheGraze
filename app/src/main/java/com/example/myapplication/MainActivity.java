@@ -50,6 +50,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton btn_play = (ImageButton)findViewById(R.id.btn1);
+        btn_play.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent main_to_play = new Intent(getBaseContext(), Gameplay.class);
+                startActivity(main_to_play);
+
+            }
+        });
+
+        ImageButton btn_exit = (ImageButton)findViewById(R.id.btn4);
+        btn_exit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 
