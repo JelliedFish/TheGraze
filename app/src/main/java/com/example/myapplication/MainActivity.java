@@ -30,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        ImageButton btn_options = (ImageButton)findViewById(R.id.btn2);
+        btn_options.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent main_to_options = new Intent(getBaseContext(), Options.class);
+                startActivity(main_to_options);
+
+            }
+        });
 
     }
 
