@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-            ImageButton btn_exit = (ImageButton) findViewById(R.id.btn4);
+            ImageButton btn_exit = (ImageButton) findViewById(R.id.bnt4);
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
 
     }
 

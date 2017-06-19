@@ -4,15 +4,24 @@
     android:layout_height="match_parent"
     android:background="@drawable/back1"
     >
-
-    <EditText
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_back1"
+        android:src="@drawable/options_help_return"
+        android:padding="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp" />
+    <TextView
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Game regulations:
 
 
- Start:
+ Start
  The game takes place on a rectangular checkered field, on a sheet in a cage of any size (in official tournaments 10 cm by 15 cm). Play from 2 to 10 players (in official tournaments 2 or 4).
 
    Each player has a base (1 cell), which has its own unit. They are located in opposite corners of the sheet. The cells are considered to be bordering both sides and diagonally.
@@ -28,15 +37,6 @@ Ending
 The loser is one who can not make a move. This is due to the fact that all the units of one of the players are blocked by walls from his units, eaten by the rival."
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12dp"
-        android:textStyle="italic" />
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_back1"
-        android:src="@drawable/btn_mm_play"
-        android:padding="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp" />
+        android:textStyle="italic"
+        android:layout_below="@id/btn_back1"/>
 </RelativeLayout>
