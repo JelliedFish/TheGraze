@@ -4,6 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 public class CustomButton extends android.support.v7.widget.AppCompatImageButton {
+    int state;
+    public int getState(){
+        return this.state;
+    }
+    public void setState(int st){
+        this.state=st;
+    }
+
 
     public CustomButton(Context context) {
         super(context);
