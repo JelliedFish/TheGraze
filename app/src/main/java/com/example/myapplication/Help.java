@@ -12,7 +12,7 @@ public class Help extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
-        ImageButton btn_help_to_main = (ImageButton)findViewById(R.id.btn_back1);
+        ImageButton btn_help_to_main = (ImageButton)findViewById(R.id.help_return);
         btn_help_to_main.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent help_to_main = new Intent(getBaseContext(), MainMenu.class);
