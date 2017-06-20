@@ -16,7 +16,7 @@ public class Options extends AppCompatActivity {
         setContentView(R.layout.activity_options);
         Log.d(tag,"onCreate | ");
 
-        ImageButton btn_options_to_main = (ImageButton)findViewById(R.id.btn_back2);
+        ImageButton btn_options_to_main = (ImageButton) findViewById(R.id.options_return);
         btn_options_to_main.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent options_to_main = new Intent(getBaseContext(), MainMenu.class);
