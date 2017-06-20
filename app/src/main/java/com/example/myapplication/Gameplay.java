@@ -20,7 +20,7 @@ public class Gameplay extends AppCompatActivity {
 
         for(int i=0;i<84;i++){
             CustomButton tmp=new CustomButton(getBaseContext());
-            tmp.setImageResource(R.drawable.grnd_main);
+            tmp.setImageResource(R.drawable.grnd_sand);
             fields.add(tmp);
         }
 
