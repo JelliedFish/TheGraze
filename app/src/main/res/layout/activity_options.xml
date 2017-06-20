@@ -23,5 +23,23 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_music"
+        android:src="@drawable/ic_btn_settings_music"
+        android:layout_below="@id/options_return"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_music_onoff"
+        android:layout_alignTop="@+id/options_music"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/options_music"
+        android:layout_marginRight="20dp"/>
 
 </RelativeLayout>
