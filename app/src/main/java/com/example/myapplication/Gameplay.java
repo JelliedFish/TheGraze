@@ -141,7 +141,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd","-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.die_black_man);
+                            tmp.setImageResource(R.drawable.die_b);
                             Log.d("asdasd","-2");
                             break;
                     }
