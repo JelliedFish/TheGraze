@@ -1,11 +1,14 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.myapplication.Additionals.CustomAdapter;
@@ -157,16 +160,24 @@ public class Gameplay extends AppCompatActivity {
         menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
         menu.setMenu(R.layout.sidemenu);
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
-
-        String[] items = {"Первый фрагмент","Второй фрагмент"};
-        ((ListView) findViewById(R.id.sidemenu)).setAdapter(
-                new ArrayAdapter<Object>(
-                        this,
-                        R.layout.sidemenu_item,
-                        R.id.text,
-                        items
-                )
-        );
+        final ImageButton btn_sliding_menu_return_to_main_menu = (ImageButton) findViewById(R.id.sliding_menu_btn_main_menu);
+        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_mm_help);
+        btn_sliding_menu_return_to_main_menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_mm_helpclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_mm_help);
+                        Intent main_to_help = new Intent(getBaseContext(), Help.class);
+                        startActivity(main_to_help);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     ////
