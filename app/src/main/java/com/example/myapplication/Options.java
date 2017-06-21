@@ -1,9 +1,7 @@
 package com.example.myapplication;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +26,7 @@ public class Options extends AppCompatActivity {
             }
         });
 
-        final ImageButton btn_music_onoff = (ImageButton) findViewById(R.id.options_btn_music_onoff);
+        /*final ImageButton btn_music_onoff = (ImageButton) findViewById(R.id.options_btn_music_onoff);
         if (musicState)
             btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_on);
         else
