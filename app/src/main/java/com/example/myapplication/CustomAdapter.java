@@ -1,11 +1,10 @@
-package com.example.myapplication.Additionals;
+package com.example.myapplication;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
-import com.example.myapplication.Additionals.CustomButton;
+import android.widget.Button;
 
 import java.util.List;
 
