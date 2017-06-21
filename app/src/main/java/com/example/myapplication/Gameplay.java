@@ -2,13 +2,10 @@ package com.example.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +75,7 @@ public class Gameplay extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Log.d("asda", "pressed");
+                    Log.d("check_the trouble", "pressed");
 
 
                     step++;
@@ -116,7 +113,7 @@ public class Gameplay extends AppCompatActivity {
                         {
                             if (ReasonsToPut(x, y) && tmp.getState() != -2 && tmp.getState() != 2) {
                                 if (tmp.getState() == 1) {
-                                    step = step - 1;
+                                    step--;
                                 } else {
                                     if (tmp.getState() == -1) {
                                         tmp.setState(-2);
@@ -130,12 +127,12 @@ public class Gameplay extends AppCompatActivity {
                                         tmp.setState(-2);
                                     }
                                 } else {
-                                    step = step - 1;
+                                    step--;
                                 }
                             }
                         }
                     }else{
-                        step=step-1;
+                        step--;
                     }
 
                     switch (tmp.getState()) {
@@ -276,5 +273,16 @@ public class Gameplay extends AppCompatActivity {
                     (d==buttons[Width-2][Height-1].getState());
         }
         return b;
+    }
+
+    private static void update(SpotSystem ss, int team) {
+        for (Spot spot : ss.spots) {
+            boolean newIsActive = false;
+            for (Point P : spot.TargetList) {
+                //тут проверка на то, что в точке P есть живой клоп своей команды. Если есть, newIsActive = true
+            }
+            spot.isActive = newIsActive;
+        }
+
     }
 }
