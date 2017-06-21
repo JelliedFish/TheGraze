@@ -3,15 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back"
+    android:background="@drawable/ic_background"
     tools:context="com.example.myapplication.MainMenu">
-
 
     <ImageView
         android:id="@+id/options_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_options_help_title"/>
+        android:src="@drawable/ic_options_help_title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/options_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_options_help_title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -23,5 +34,68 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_music"
+        android:src="@drawable/ic_btn_settings_music"
+        android:layout_below="@+id/options_return"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_btn_music_onoff"
+        android:layout_alignTop="@+id/options_music"
+        android:layout_toRightOf="@id/options_music"
+        android:layout_marginLeft="30dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_diff"
+        android:src="@drawable/ic_btn_settings_diff"
+        android:layout_below="@+id/options_music"
+        android:layout_alignLeft="@+id/options_music"
+        android:layout_alignStart="@+id/options_music"
+        android:layout_marginTop="18dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_btn_easy"
+        android:layout_below="@+id/options_diff"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_btn_medium"
+        android:layout_below="@+id/options_btn_easy"
+        android:layout_alignLeft="@+id/options_btn_easy"
+        android:layout_alignStart="@+id/options_btn_easy"
+        android:layout_marginTop="8dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_btn_hard"
+        android:layout_below="@+id/options_btn_medium"
+        android:layout_alignLeft="@+id/options_btn_medium"
+        android:layout_alignStart="@+id/options_btn_medium"
+        android:layout_marginTop="8dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_btn_reset"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

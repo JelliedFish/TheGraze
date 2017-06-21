@@ -4,8 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
+
+import com.example.myapplication.Additionals.CustomAdapter;
+import com.example.myapplication.Additionals.CustomButton;
 
 import java.util.ArrayList;
 import java.util.List;
