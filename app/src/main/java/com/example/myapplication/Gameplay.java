@@ -2,21 +2,24 @@ package com.example.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    int Height=12;
-    int Width=8;
+    int Height=15;
+    int Width=10;
 
     CustomButton[][] buttons=new CustomButton[Width][Height];
-    static int step=0;
+    static int step=3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +31,13 @@ public class Gameplay extends AppCompatActivity {
         for (int i = 0; i < Height*Width; i++) {
             CustomButton tmp = new CustomButton(getBaseContext());
             tmp.setImageResource(R.drawable.grnd_main);
+            tmp.setImageAlpha(210);
             fields.add(tmp);
         }
 
         int l = 0;
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < Height; i++) {
             for (int j = 0; j < Width; j++) {
                 buttons[j][i] = fields.get(l);
                 l++;
@@ -47,6 +51,21 @@ public class Gameplay extends AppCompatActivity {
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new CustomAdapter(this, fields));
         gridView.setNumColumns(Width);
+
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+//        displayMetrics.widthPixels;
+//        displayMetrics.heightPixels;
+
+        LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        int GridHeight=(displayMetrics.widthPixels-60)/Width*Height;
+        layoutParams.setMargins(30,(displayMetrics.heightPixels-GridHeight)/3,30,(displayMetrics.heightPixels-GridHeight)/3*2);
+        wrapperView.setLayoutParams(layoutParams);
+
 
 
         for (int position=0; position< Height*Width; position++) {

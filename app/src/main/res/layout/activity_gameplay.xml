@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:numColumns="7"
-    android:verticalSpacing="0dp"
-    android:horizontalSpacing="0dp"
-    android:id="@+id/gridView">
+    android:orientation="vertical"
+    android:weightSum="4"
+    android:background="@drawable/background_gameplay"
+    android:layout_height="match_parent">
 
 
-</GridView>
+    <LinearLayout
+        android:id="@+id/wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="7"
+            android:layout_weight="3"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:id="@+id/gridView">
+
+
+        </GridView>
+
+    </LinearLayout>
+
+
+</LinearLayout>
