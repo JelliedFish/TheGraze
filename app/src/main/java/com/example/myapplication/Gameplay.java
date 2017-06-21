@@ -160,6 +160,7 @@ public class Gameplay extends AppCompatActivity {
         menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
         menu.setMenu(R.layout.sidemenu);
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
+
         final ImageButton btn_sliding_menu_return_to_main_menu = (ImageButton) findViewById(R.id.sliding_menu_btn_main_menu);
         btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_mm_help);
         btn_sliding_menu_return_to_main_menu.setOnTouchListener(new View.OnTouchListener() {
@@ -171,8 +172,46 @@ public class Gameplay extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_mm_help);
-                        Intent main_to_help = new Intent(getBaseContext(), Help.class);
-                        startActivity(main_to_help);
+                        Intent sliding_menu_to_main_menu = new Intent(getBaseContext(), MainMenu.class);
+                        startActivity(sliding_menu_to_main_menu);
+                        break;
+                }
+                return true;
+            }
+        });
+
+        final ImageButton btn_sliding_menu_return_to_options = (ImageButton) findViewById(R.id.sliding_menu_btn_options);
+        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_mm_help);
+        btn_sliding_menu_return_to_options.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_mm_helpclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_mm_help);
+                        Intent sliding_menu_to_options = new Intent(getBaseContext(), Options.class);
+                        startActivity(sliding_menu_to_options);
+                        break;
+                }
+                return true;
+            }
+        });
+
+        final ImageButton btn_sliding_menu_return_to_help = (ImageButton) findViewById(R.id.sliding_menu_btn_help);
+        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
+        btn_sliding_menu_return_to_help.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_mm_helpclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
+                        Intent sliding_menu_to_help = new Intent(getBaseContext(), Help.class);
+                        startActivity(sliding_menu_to_help);
                         break;
                 }
                 return true;
