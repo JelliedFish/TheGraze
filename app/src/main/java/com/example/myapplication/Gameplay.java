@@ -60,7 +60,7 @@ public class Gameplay extends AppCompatActivity {
                     Log.d("asda", "pressed");
 
 
-                    step = step + 1;
+                    step++;
 
                     if (tmp.getState() != -2 && tmp.getState() != 2) {
                         //
@@ -69,7 +69,7 @@ public class Gameplay extends AppCompatActivity {
                         if ((step % 6 == 1 || step % 6 == 2 || step % 6 == 3)) {
                             if (ReasonsToPut(x, y)) {
                                 if (tmp.getState() == -1) {
-                                    step = step - 1;
+                                    step--;
                                 } else {
                                     if (tmp.getState() == 1) {
                                         tmp.setState(2);
@@ -83,7 +83,7 @@ public class Gameplay extends AppCompatActivity {
                                         tmp.setState(2);
                                     }
                                 } else {
-                                    step = step - 1;
+                                    step--;
                                 }
                             }
                         }else
