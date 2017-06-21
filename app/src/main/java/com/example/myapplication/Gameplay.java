@@ -2,10 +2,18 @@ package com.example.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+
+import com.example.myapplication.Additionals.CustomAdapter;
+import com.example.myapplication.Additionals.CustomButton;
+import com.example.myapplication.Additionals.Point;
+import com.example.myapplication.Additionals.Spot;
+import com.example.myapplication.Additionals.SpotSystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,23 +145,23 @@ public class Gameplay extends AppCompatActivity {
 
                     switch (tmp.getState()) {
                         case 2:
-                            tmp.setImageResource(R.drawable.two);
-                            Log.d("asdasd","2");
+                            tmp.setImageResource(R.drawable.die_b);
+                            Log.d("state","2");
                             break;
                         case 1:
                             tmp.setImageResource(R.drawable.grnd_grace);
-                            Log.d("asdasd","1");
+                            Log.d("state","1");
                             break;
                         case -1:
                             tmp.setImageResource(R.drawable.grnd_black);
-                            Log.d("asdasd","-1");
+                            Log.d("state","-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.minustwo);
-                            Log.d("asdasd","-2");
+                            tmp.setImageResource(R.drawable.die_l);
+                            Log.d("state","-2");
                             break;
                     }
-                    Log.d("asdasd","unpressed");
+                    Log.d("OnClick  |   ","unpressed");
                 }
             });
         }
