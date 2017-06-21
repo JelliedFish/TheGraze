@@ -57,7 +57,7 @@ public class Gameplay extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Log.d("asda", "pressed");
+                    Log.d("check_the trouble", "pressed");
 
 
                     step++;
