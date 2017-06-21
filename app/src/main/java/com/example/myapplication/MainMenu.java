@@ -12,9 +12,6 @@ import android.widget.ImageButton;
 public class MainMenu extends AppCompatActivity {
 
 
-    String tag = "main_menu";
-
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

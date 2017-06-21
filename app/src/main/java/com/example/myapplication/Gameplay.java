@@ -4,11 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.example.myapplication.SupportingClasses.CustomAdapter;
-import com.example.myapplication.SupportingClasses.CustomButton;
+import com.example.myapplication.Additionals.CustomAdapter;
+import com.example.myapplication.Additionals.CustomButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +40,8 @@ public class Gameplay extends AppCompatActivity {
         }
         fields.get(0).setState(1);
         fields.get(83).setState(-1);
-        fields.get(0).setImageResource(R.drawable.first);
-        fields.get(83).setImageResource(R.drawable.minusfirst);
+        fields.get(0).setImageResource(R.drawable.grnd_grace);
+        fields.get(83).setImageResource(R.drawable.grnd_black);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new CustomAdapter(this, fields));
@@ -124,11 +123,11 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd","2");
                             break;
                         case 1:
-                            tmp.setImageResource(R.drawable.first);
+                            tmp.setImageResource(R.drawable.grnd_grace);
                             Log.d("asdasd","1");
                             break;
                         case -1:
-                            tmp.setImageResource(R.drawable.minusfirst);
+                            tmp.setImageResource(R.drawable.grnd_black);
                             Log.d("asdasd","-1");
                             break;
                         case -2:
