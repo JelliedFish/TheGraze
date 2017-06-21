@@ -28,40 +28,40 @@ public class Options extends AppCompatActivity {
 
         /*final ImageButton btn_music_onoff = (ImageButton) findViewById(R.id.options_btn_music_onoff);
         if (musicState)
-            btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_on);
+            btn_music_onoff.setBackgroundResource(R.drawable.grnd_black);
         else
-            btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
+            btn_music_onoff.setBackgroundResource(R.drawable.grnd_black);
 
         final ImageButton btn_diff_easy = (ImageButton) findViewById(R.id.options_btn_easy);
         if (diffState == 0)
-            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
+            btn_diff_easy.setBackgroundResource(R.drawable.grnd_black);
         else
-            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easy);
+            btn_diff_easy.setBackgroundResource(R.drawable.grnd_black);
 
         final ImageButton btn_diff_medium = (ImageButton) findViewById(R.id.options_btn_medium);
         if (diffState == 1)
-            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_mediumselected);
+            btn_diff_medium.setBackgroundResource(R.drawable.grnd_black);
         else
-            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
+            btn_diff_medium.setBackgroundResource(R.drawable.grnd_black);
 
         final ImageButton btn_diff_hard = (ImageButton) findViewById(R.id.options_btn_hard);
         if (diffState == 2)
-            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hardselected);
+            btn_diff_hard.setBackgroundResource(R.drawable.grnd_black);
         else
-            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
+            btn_diff_hard.setBackgroundResource(R.drawable.grnd_black);
 
         final ImageButton btn_reset = (ImageButton) findViewById(R.id.options_btn_reset);
-        btn_reset.setBackgroundResource(R.drawable.ic_settings_reset);
+        btn_reset.setBackgroundResource(R.drawable.grnd_black);
 
 
         btn_music_onoff.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (musicState) {
                     musicState = false;
-                    btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
+                    btn_music_onoff.setBackgroundResource(R.drawable.grnd_black);
                 } else {
                     musicState = true;
-                    btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_on);
+                    btn_music_onoff.setBackgroundResource(R.drawable.grnd_black);
                 }
             }
         });
@@ -72,13 +72,13 @@ public class Options extends AppCompatActivity {
                 if (diffState != 0) {
                     switch (motionEvent.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyclicked);
+                            btn_diff_easy.setBackgroundResource(R.drawable.grnd_black);
                             break;
                         case MotionEvent.ACTION_UP:
                             diffState = 0;
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
+                            btn_diff_easy.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_medium.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_hard.setBackgroundResource(R.drawable.grnd_black);
                             break;
                     }
                 }
@@ -92,13 +92,13 @@ public class Options extends AppCompatActivity {
                 if (diffState != 1) {
                     switch (motionEvent.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_mediumclicked);
+                            btn_diff_medium.setBackgroundResource(R.drawable.grnd_black);
                             break;
                         case MotionEvent.ACTION_UP:
                             diffState = 1;
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easy);
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_mediumselected);
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
+                            btn_diff_easy.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_medium.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_hard.setBackgroundResource(R.drawable.grnd_black);
                             break;
                     }
                 }
@@ -112,13 +112,13 @@ public class Options extends AppCompatActivity {
                 if (diffState != 2) {
                     switch (motionEvent.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hardclicked);
+                            btn_diff_hard.setBackgroundResource(R.drawable.grnd_black);
                             break;
                         case MotionEvent.ACTION_UP:
                             diffState = 2;
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easy);
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hardselected);
+                            btn_diff_easy.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_medium.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_hard.setBackgroundResource(R.drawable.grnd_black);
                             break;
                     }
                 }
@@ -132,16 +132,16 @@ public class Options extends AppCompatActivity {
                 if (diffState != 2) {
                     switch (motionEvent.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            btn_reset.setBackgroundResource(R.drawable.ic_settings_resetlicked);
+                            btn_reset.setBackgroundResource(R.drawable.grnd_black);
                             break;
                         case MotionEvent.ACTION_UP:
-                            btn_reset.setBackgroundResource(R.drawable.ic_settings_reset);
+                            btn_reset.setBackgroundResource(R.drawable.grnd_black);
                             musicState = false;
                             diffState = 0;
-                            btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
+                            btn_music_onoff.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_easy.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_medium.setBackgroundResource(R.drawable.grnd_black);
+                            btn_diff_hard.setBackgroundResource(R.drawable.grnd_black);
                             break;
                     }
                 }

@@ -1,30 +1,30 @@
 package com.example.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.example.myapplication.Additionals.CustomAdapter;
 import com.example.myapplication.Additionals.CustomButton;
 import com.example.myapplication.Additionals.Point;
 import com.example.myapplication.Additionals.Spot;
 import com.example.myapplication.Additionals.SpotSystem;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    int Height=15;
-    int Width=10;
+    int Height=12;
+    int Width=8;
 
     CustomButton[][] buttons=new CustomButton[Width][Height];
-    static int step=3;
+    static int step=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,6 @@ public class Gameplay extends AppCompatActivity {
         for (int i = 0; i < Height*Width; i++) {
             CustomButton tmp = new CustomButton(getBaseContext());
             tmp.setImageResource(R.drawable.grnd_main);
-            tmp.setImageAlpha(210);
             fields.add(tmp);
         }
 
@@ -56,21 +55,6 @@ public class Gameplay extends AppCompatActivity {
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new CustomAdapter(this, fields));
         gridView.setNumColumns(Width);
-
-
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-//        displayMetrics.widthPixels;
-//        displayMetrics.heightPixels;
-
-        LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-
-        int GridHeight=(displayMetrics.widthPixels-60)/Width*Height;
-        layoutParams.setMargins(30,(displayMetrics.heightPixels-GridHeight)/3,30,(displayMetrics.heightPixels-GridHeight)/3*2);
-        wrapperView.setLayoutParams(layoutParams);
-
 
 
         for (int position=0; position< Height*Width; position++) {
@@ -145,28 +129,44 @@ public class Gameplay extends AppCompatActivity {
 
                     switch (tmp.getState()) {
                         case 2:
-                            tmp.setImageResource(R.drawable.die_b);
-                            Log.d("state","2");
+                            tmp.setImageResource(R.drawable.two);
+                            Log.d("asdasd","2");
                             break;
                         case 1:
                             tmp.setImageResource(R.drawable.grnd_grace);
-                            Log.d("state","1");
+                            Log.d("asdasd","1");
                             break;
                         case -1:
                             tmp.setImageResource(R.drawable.grnd_black);
-                            Log.d("state","-1");
+                            Log.d("asdasd","-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.die_l);
-                            Log.d("state","-2");
+                            tmp.setImageResource(R.drawable.minustwo);
+                            Log.d("asdasd","-2");
                             break;
                     }
-                    Log.d("OnClick  |   ","unpressed");
+                    Log.d("asdasd","unpressed");
                 }
             });
         }
 
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.RIGHT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
+        menu.setMenu(R.layout.sidemenu);
+        menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
 
+        String[] items = {"Первый фрагмент","Второй фрагмент"};
+        ((ListView) findViewById(R.id.sidemenu)).setAdapter(
+                new ArrayAdapter<Object>(
+                        this,
+                        R.layout.sidemenu_item,
+                        R.id.text,
+                        items
+                )
+        );
     }
 
     ////
