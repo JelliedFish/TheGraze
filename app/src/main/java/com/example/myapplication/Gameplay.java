@@ -49,8 +49,8 @@ public class Gameplay extends AppCompatActivity {
         }
         fields.get(0).setState(1);
         fields.get(Height*Width-1).setState(-1);
-        fields.get(0).setImageResource(R.drawable.grnd_grace);
-        fields.get(Height*Width-1).setImageResource(R.drawable.grnd_black);
+        fields.get(0).setImageResource(R.drawable.ctl_grace);
+        fields.get(Height*Width-1).setImageResource(R.drawable.ctl_black);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new CustomAdapter(this, fields));
@@ -129,7 +129,7 @@ public class Gameplay extends AppCompatActivity {
 
                     switch (tmp.getState()) {
                         case 2:
-                            tmp.setImageResource(R.drawable.two);
+                            tmp.setImageResource(R.drawable.die_man_black1);
                             Log.d("asdasd","2");
                             break;
                         case 1:
@@ -141,7 +141,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd","-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.minustwo);
+                            tmp.setImageResource(R.drawable.die_black_man);
                             Log.d("asdasd","-2");
                             break;
                     }
