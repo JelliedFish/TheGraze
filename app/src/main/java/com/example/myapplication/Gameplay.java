@@ -12,7 +12,10 @@ import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    static CustomButton[][] buttons=new CustomButton[7][12];
+    int Height=12;
+    int Width=8;
+
+    CustomButton[][] buttons=new CustomButton[Width][Height];
     static int step=0;
 
     @Override
@@ -22,7 +25,7 @@ public class Gameplay extends AppCompatActivity {
 
         final List<CustomButton> fields = new ArrayList<CustomButton>();
 
-        for (int i = 0; i < 84; i++) {
+        for (int i = 0; i < Height*Width; i++) {
             CustomButton tmp = new CustomButton(getBaseContext());
             tmp.setImageResource(R.drawable.grnd_main);
             fields.add(tmp);
@@ -31,25 +34,26 @@ public class Gameplay extends AppCompatActivity {
         int l = 0;
 
         for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < Width; j++) {
                 buttons[j][i] = fields.get(l);
                 l++;
             }
         }
         fields.get(0).setState(1);
-        fields.get(83).setState(-1);
+        fields.get(Height*Width-1).setState(-1);
         fields.get(0).setImageResource(R.drawable.grnd_grace);
-        fields.get(83).setImageResource(R.drawable.grnd_black);
+        fields.get(Height*Width-1).setImageResource(R.drawable.grnd_black);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new CustomAdapter(this, fields));
+        gridView.setNumColumns(Width);
 
 
-        for (int position=0; position< 84; position++) {
+        for (int position=0; position< Height*Width; position++) {
 
             final CustomButton tmp = fields.get(position);
-            final int x = position % 7;
-            final int y = position / 7;
+            final int x = position % Width;
+            final int y = position / Width;
 
             tmp.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,28 +160,28 @@ public class Gameplay extends AppCompatActivity {
         }else{
             d=1;
         }
-        if (x > 0 && y > 0 && x < 6 && y < 11) {
+        if (x > 0 && y > 0 && x < Width-1 && y < Height-1) {
             b=(d==buttons[x+1][y+1].getState())||(d==buttons[x+1][y].getState())||
                     (d==buttons[x+1][y-1].getState())||(d==buttons[x][y+1].getState())||
                     (d==buttons[x][y-1].getState())||(d==buttons[x-1][y+1].getState())||
                     (d==buttons[x-1][y].getState())||(d==buttons[x-1][y-1].getState());
         }
-        if (x == 0 && y < 11 && y > 0) {
+        if (x == 0 && y < Height-1 && y > 0) {
             b=(d==buttons[x+1][y+1].getState())||(d==buttons[x+1][y].getState())||
                     (d==buttons[x+1][y-1].getState())||(d==buttons[x][y+1].getState())||
                     (d==buttons[x][y-1].getState());
         }
-        if (x==6&&y<11&&y>0){
+        if (x==Width-1&&y<Height-1&&y>0){
             b=(d==buttons[x][y+1].getState())||
                     (d==buttons[x][y-1].getState())||(d==buttons[x-1][y+1].getState())||
                     (d==buttons[x-1][y].getState())||(d==buttons[x-1][y-1].getState());
         }
-        if (y==0&&x>0&&x<6){
+        if (y==0&&x>0&&x<Width-1){
             b=(d==buttons[x+1][y].getState())||(d==buttons[x+1][y+1].getState())||
                     (d==buttons[x][y+1].getState())||(d==buttons[x-1][y+1].getState())||
                     (d==buttons[x-1][y].getState());
         }
-        if(y==11&&x>0&&x<6){
+        if(y==Height-1&&x>0&&x<Width-1){
             b=(d==buttons[x+1][y].getState())||(d==buttons[x+1][y-1].getState())||
                     (d==buttons[x][y-1].getState())||(d==buttons[x-1][y-1].getState())||
                     (d==buttons[x-1][y].getState());
@@ -186,17 +190,17 @@ public class Gameplay extends AppCompatActivity {
             b=(d==buttons[0][1].getState())||(d==buttons[1][1].getState())||
                     (d==buttons[1][0].getState());
         }
-        if(y==11&x==0){
-            b=(d==buttons[0][10].getState())||(d==buttons[1][10].getState())||
-                    (d==buttons[1][11].getState());
+        if(y==Height-1&x==0){
+            b=(d==buttons[0][Height-2].getState())||(d==buttons[1][Height-2].getState())||
+                    (d==buttons[1][Height-1].getState());
         }
-        if(y==0&&x==6){
-            b=(d==buttons[6][1].getState())||(d==buttons[5][1].getState())||
-                    (d==buttons[5][0].getState());
+        if(y==0&&x==Width-1){
+            b=(d==buttons[Width-1][1].getState())||(d==buttons[Width-2][1].getState())||
+                    (d==buttons[Width-2][0].getState());
         }
-        if(y==11&x==6){
-            b=(d==buttons[6][10].getState())||(d==buttons[5][10].getState())||
-                    (d==buttons[5][11].getState());
+        if(y==Height-1&x==Width-1){
+            b=(d==buttons[Width-1][Height-2].getState())||(d==buttons[Width-2][Height-2].getState())||
+                    (d==buttons[Width-2][Height-1].getState());
         }
         return b;
     }
@@ -210,28 +214,28 @@ public class Gameplay extends AppCompatActivity {
         }else{
             d=-2;
         }
-        if (x > 0 && y > 0 && x < 6 && y < 11) {
+        if (x > 0 && y > 0 && x < Width-1 && y < Height-1) {
             b=(d==buttons[x+1][y+1].getState())||(d==buttons[x+1][y].getState())||
                     (d==buttons[x+1][y-1].getState())||(d==buttons[x][y+1].getState())||
                     (d==buttons[x][y-1].getState())||(d==buttons[x-1][y+1].getState())||
                     (d==buttons[x-1][y].getState())||(d==buttons[x-1][y-1].getState());
         }
-        if (x == 0 && y < 11 && y > 0) {
+        if (x == 0 && y < Height-1 && y > 0) {
             b=(d==buttons[x+1][y+1].getState())||(d==buttons[x+1][y].getState())||
                     (d==buttons[x+1][y-1].getState())||(d==buttons[x][y+1].getState())||
                     (d==buttons[x][y-1].getState());
         }
-        if (x==6&&y<11&&y>0){
+        if (x==Width-1&&y<Height-1&&y>0){
             b=(d==buttons[x][y+1].getState())||
                     (d==buttons[x][y-1].getState())||(d==buttons[x-1][y+1].getState())||
                     (d==buttons[x-1][y].getState())||(d==buttons[x-1][y-1].getState());
         }
-        if (y==0&&x>0&&x<6){
+        if (y==0&&x>0&&x<Width-1){
             b=(d==buttons[x+1][y].getState())||(d==buttons[x+1][y+1].getState())||
                     (d==buttons[x][y+1].getState())||(d==buttons[x-1][y+1].getState())||
                     (d==buttons[x-1][y].getState());
         }
-        if(y==11&&x>0&&x<6){
+        if(y==Height-1&&x>0&&x<Width-1){
             b=(d==buttons[x+1][y].getState())||(d==buttons[x+1][y-1].getState())||
                     (d==buttons[x][y-1].getState())||(d==buttons[x-1][y-1].getState())||
                     (d==buttons[x-1][y].getState());
@@ -240,17 +244,17 @@ public class Gameplay extends AppCompatActivity {
             b=(d==buttons[0][1].getState())||(d==buttons[1][1].getState())||
                     (d==buttons[1][0].getState());
         }
-        if(y==11&x==0){
-            b=(d==buttons[0][10].getState())||(d==buttons[1][10].getState())||
-                    (d==buttons[1][11].getState());
+        if(y==Height-1&x==0){
+            b=(d==buttons[0][Height-2].getState())||(d==buttons[1][Height-2].getState())||
+                    (d==buttons[1][Height-1].getState());
         }
-        if(y==0&&x==6){
-            b=(d==buttons[6][1].getState())||(d==buttons[5][1].getState())||
-                    (d==buttons[5][0].getState());
+        if(y==0&&x==Width-1){
+            b=(d==buttons[Width-1][1].getState())||(d==buttons[Width-2][1].getState())||
+                    (d==buttons[Width-2][0].getState());
         }
-        if(y==11&x==6){
-            b=(d==buttons[6][10].getState())||(d==buttons[5][10].getState())||
-                    (d==buttons[5][11].getState());
+        if(y==Height-1&x==Width-1){
+            b=(d==buttons[Width-1][Height-2].getState())||(d==buttons[Width-2][Height-2].getState())||
+                    (d==buttons[Width-2][Height-1].getState());
         }
         return b;
     }
