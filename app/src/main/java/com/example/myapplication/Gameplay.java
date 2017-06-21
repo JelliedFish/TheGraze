@@ -1,11 +1,16 @@
 package com.example.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
+
+import com.example.myapplication.Additionals.CustomAdapter;
+import com.example.myapplication.Additionals.CustomButton;
+import com.example.myapplication.Additionals.Point;
+import com.example.myapplication.Additionals.Spot;
+import com.example.myapplication.Additionals.SpotSystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +38,7 @@ public class Gameplay extends AppCompatActivity {
 
         int l = 0;
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < Height; i++) {
             for (int j = 0; j < Width; j++) {
                 buttons[j][i] = fields.get(l);
                 l++;
@@ -97,7 +102,7 @@ public class Gameplay extends AppCompatActivity {
                         {
                             if (ReasonsToPut(x, y) && tmp.getState() != -2 && tmp.getState() != 2) {
                                 if (tmp.getState() == 1) {
-                                    step = step - 1;
+                                    step--;
                                 } else {
                                     if (tmp.getState() == -1) {
                                         tmp.setState(-2);
@@ -111,12 +116,12 @@ public class Gameplay extends AppCompatActivity {
                                         tmp.setState(-2);
                                     }
                                 } else {
-                                    step = step - 1;
+                                    step--;
                                 }
                             }
                         }
                     }else{
-                        step=step-1;
+                        step--;
                     }
 
                     switch (tmp.getState()) {
@@ -257,5 +262,16 @@ public class Gameplay extends AppCompatActivity {
                     (d==buttons[Width-2][Height-1].getState());
         }
         return b;
+    }
+
+    private static void update(SpotSystem ss, int team) {
+        for (Spot spot : ss.spots) {
+            boolean newIsActive = false;
+            for (Point P : spot.TargetList) {
+                //тут проверка на то, что в точке P есть живой клоп своей команды. Если есть, newIsActive = true
+            }
+            spot.isActive = newIsActive;
+        }
+
     }
 }
