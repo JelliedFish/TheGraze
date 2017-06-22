@@ -1,6 +1,10 @@
 [
     {
-        "merged": "D:\\AndroidStudioProjects\\TheGraze\\lib\\SlidingMenu\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\slidingmenumain.xml",
-        "source": "D:\\AndroidStudioProjects\\TheGraze\\lib\\SlidingMenu\\build\\intermediates\\bundles\\debug\\res\\layout\\slidingmenumain.xml"
+        "merged": "/home/user/AndroidProject/TheGraze/D:\\AndroidStudioProjects\\TheGraze\\lib\\SlidingMenu\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\slidingmenumain.xml",
+        "source": "/home/user/AndroidProject/TheGraze/D:\\AndroidStudioProjects\\TheGraze\\lib\\SlidingMenu\\build\\intermediates\\bundles\\debug\\res\\layout\\slidingmenumain.xml"
+    },
+    {
+        "merged": "/home/user/AndroidProject/TheGraze/lib/SlidingMenu/build/intermediates/res/merged/androidTest/debug/layout/slidingmenumain.xml",
+        "source": "/home/user/AndroidProject/TheGraze/lib/SlidingMenu/build/intermediates/bundles/debug/res/layout/slidingmenumain.xml"
     }
 ]
