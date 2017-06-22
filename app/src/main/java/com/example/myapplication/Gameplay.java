@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.myapplication.Additionals.CustomAdapter;
 import com.example.myapplication.Additionals.CustomButton;
@@ -76,7 +75,7 @@ public class Gameplay extends AppCompatActivity {
         layoutParams.setMargins(30, (displayMetrics.heightPixels - GridHeight) / 3, 30, (displayMetrics.heightPixels - GridHeight) / 3 * 2);
         wrapperView.setLayoutParams(layoutParams);
 
-        
+
 
 
         for (int position = 0; position < Height * Width; position++) {
@@ -153,7 +152,7 @@ public class Gameplay extends AppCompatActivity {
 
                     switch (tmp.getState()) {
                         case 2:
-                            tmp.setImageResource(R.drawable.die_grace_black);
+                            tmp.setImageResource(R.drawable.die_man_black1);
                             Log.d("asdasd", "2");
                             break;
                         case 1:
@@ -165,7 +164,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd", "-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.die_black_grace);
+                            tmp.setImageResource(R.drawable.die_b);
                             Log.d("asdasd", "-2");
                             break;
                     }
@@ -185,16 +184,16 @@ public class Gameplay extends AppCompatActivity {
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
 
         final ImageButton btn_sliding_menu_return_to_main_menu = (ImageButton) findViewById(R.id.sliding_menu_btn_main_menu);
-        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_mm_help);
+        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_main_menu);
         btn_sliding_menu_return_to_main_menu.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_mm_helpclicked);
+                        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_main_menu_onclicked);
                         break;
                     case MotionEvent.ACTION_UP:
-                        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_mm_help);
+                        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_main_menu);
                         Intent sliding_menu_to_main_menu = new Intent(getBaseContext(), MainMenu.class);
                         startActivity(sliding_menu_to_main_menu);
                         break;
@@ -204,16 +203,16 @@ public class Gameplay extends AppCompatActivity {
         });
 
         final ImageButton btn_sliding_menu_return_to_options = (ImageButton) findViewById(R.id.sliding_menu_btn_options);
-        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_mm_help);
+        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_options);
         btn_sliding_menu_return_to_options.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_mm_helpclicked);
+                        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_options_onclicked);
                         break;
                     case MotionEvent.ACTION_UP:
-                        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_mm_help);
+                        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_options);
                         Intent sliding_menu_to_options = new Intent(getBaseContext(), Options.class);
                         startActivity(sliding_menu_to_options);
                         break;
@@ -223,16 +222,16 @@ public class Gameplay extends AppCompatActivity {
         });
 
         final ImageButton btn_sliding_menu_return_to_help = (ImageButton) findViewById(R.id.sliding_menu_btn_help);
-        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
+        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_help);
         btn_sliding_menu_return_to_help.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_mm_helpclicked);
+                        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_helponclicked);
                         break;
                     case MotionEvent.ACTION_UP:
-                        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
+                        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_help);
                         Intent sliding_menu_to_help = new Intent(getBaseContext(), Help.class);
                         startActivity(sliding_menu_to_help);
                         break;
