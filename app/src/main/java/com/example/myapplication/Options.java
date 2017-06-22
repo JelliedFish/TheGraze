@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class Options extends AppCompatActivity {
@@ -21,6 +24,8 @@ public class Options extends AppCompatActivity {
     Button stopButton ;
     Button startButton;
     Button pauseButton;
+    SeekBar volumeControl;
+    AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,6 +257,29 @@ public class Options extends AppCompatActivity {
         stopButton = (Button) findViewById(R.id.options_btn_music_stop);
         startButton = (Button) findViewById(R.id.options_btn_music_start);
         pauseButton = (Button) findViewById(R.id.options_btn_music_pause);
+
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int curValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        volumeControl = (SeekBar) findViewById(R.id.volumeControl);
+        volumeControl.setMax(maxVolume);
+        volumeControl.setProgress(curValue);
+        volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
     }
