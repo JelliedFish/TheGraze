@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 
 public class MainMenu extends AppCompatActivity {
 
+    String debug = "DEBUG";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +30,8 @@ public class MainMenu extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         btn_play.setBackgroundResource(R.drawable.ic_btn_mm_play);
-                        Intent main_to_play = new Intent(getBaseContext(), Gameplay.class);
-                        startActivity(main_to_play);
+                        Intent main_to_gs = new Intent(getBaseContext(), GameSelect.class);
+                        startActivity(main_to_gs);
                         break;
                 }
                 return true;
