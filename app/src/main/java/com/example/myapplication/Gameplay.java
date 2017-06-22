@@ -7,7 +7,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -22,8 +21,8 @@ import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    final  int Height = 15;
-    final  int Width = 10;
+    final int Height = 15;
+    final int Width = 10;
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
     static int step = 0;
@@ -86,44 +85,44 @@ public class Gameplay extends AppCompatActivity {
             final int y = position / Width;
 
             tmp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                                       @Override
+                                       public void onClick(View v) {
 
-                    Log.d("check_the_trouble", "pressed");
+                                           Log.d("check_the_trouble", "pressed");
 
 
-                    step++;
+                                           step++;
 
-                    if (tmp.getState() != -2 && tmp.getState() != 2) {
-                        //
-                        //если ходит 1ый
-                        //
-                        if ((step % 6 == 1 || step % 6 == 2 || step % 6 == 3)) {
+                                           if (tmp.getState() != -2 && tmp.getState() != 2) {
+                                               //
+                                               //если ходит 1ый
+                                               //
+                                               if ((step % 6 == 1 || step % 6 == 2 || step % 6 == 3)) {
 
-                            if (ReasonsToPut(x, y)) {
-                                if (tmp.getState() == -1) {
-                                    step--;
-                                } else {
-                                    if (tmp.getState() == 1) {
-                                        tmp.setState(2);
-                                    } else {
-                                        tmp.setState(-1);
-                                    }
-                                }
-                            } else {
-                                if (ReasonsToEat(x, y)) {
-                                    if (tmp.getState() == 1) {
-                                        tmp.setState(2);
-                                    }
-                                } else {
-                                    step--;
-                                }
-                            }
-                        } else
+                                                   if (ReasonsToPut(x, y)) {
+                                                       if (tmp.getState() == -1) {
+                                                           step--;
+                                                       } else {
+                                                           if (tmp.getState() == 1) {
+                                                               tmp.setState(2);
+                                                           } else {
+                                                               tmp.setState(-1);
+                                                           }
+                                                       }
+                                                   } else {
+                                                       if (ReasonsToEat(x, y)) {
+                                                           if (tmp.getState() == 1) {
+                                                               tmp.setState(2);
+                                                           }
+                                                       } else {
+                                                           step--;
+                                                       }
+                                                   }
+                                               } else
 
-                        //
-                        //если ходит 2ой
-                        //
+                                               //
+                                               //если ходит 2ой
+                                               //
 
                         {
                             if (ReasonsToPut(x, y) && tmp.getState() != -2 && tmp.getState() != 2) {
@@ -155,19 +154,34 @@ public class Gameplay extends AppCompatActivity {
 
                     switch (tmp.getState()) {
                         case 2:
-                            tmp.setImageResource(R.drawable.die_grace_black);
+                            if (x!=0 && y!=0) {
+                                tmp.setImageResource(R.drawable.black_kill);
+                            }
+                            else {
+                                tmp.setImageResource(R.drawable.ctl_grace_die);
+                            }
+
                             Log.d("asdasd", "2");
                             break;
                         case 1:
+                            if (x!=0 && y!=0) {
                             tmp.setImageResource(R.drawable.grnd_grace);
+                        }
                             Log.d("asdasd", "1");
                             break;
                         case -1:
-                            tmp.setImageResource(R.drawable.grnd_black);
+                            if (x!= Width-1 && y!=Height-1){
+                            tmp.setImageResource(R.drawable.grnd_sand);
+                                }
                             Log.d("asdasd", "-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.die_black_grace);
+                          if  (x!=Width-1 && y!=Height-1) {
+                            tmp.setImageResource(R.drawable.grace_kill);
+                        }
+                        else {
+                              tmp.setImageResource(R.drawable.ctl_black_die);
+                          }
                             Log.d("asdasd", "-2");
                             break;
                     }
@@ -376,9 +390,7 @@ public class Gameplay extends AppCompatActivity {
         boolean main_flg=false;
         CustomButton tmp=buttons[x][y];
         tmp.setCheckable(false);
-
         Log.d("L","B");
-
         main_flg=ReasonsToPut(x,y);
         if (main_flg==true){
             result=true;
@@ -431,7 +443,7 @@ public class Gameplay extends AppCompatActivity {
                         result8=checkActivity(x,y-1);
                     }
 
-                    result=(result1||result5||result2||result3||result4||result6||result7||result8);
+                 return (result1|| result2 || result3 || result4 || result5 || result6 || result7 || result8);
                 }
 
 
