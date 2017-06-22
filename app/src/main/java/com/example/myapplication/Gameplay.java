@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.myapplication.Additionals.CustomAdapter;
 import com.example.myapplication.Additionals.CustomButton;
@@ -67,9 +68,15 @@ public class Gameplay extends AppCompatActivity {
         LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
         int GridHeight = (displayMetrics.widthPixels - 60) / Width * Height;
+
+
         layoutParams.setMargins(30, (displayMetrics.heightPixels - GridHeight) / 3, 30, (displayMetrics.heightPixels - GridHeight) / 3 * 2);
         wrapperView.setLayoutParams(layoutParams);
+
+        
 
 
         for (int position = 0; position < Height * Width; position++) {
@@ -146,7 +153,7 @@ public class Gameplay extends AppCompatActivity {
 
                     switch (tmp.getState()) {
                         case 2:
-                            tmp.setImageResource(R.drawable.die_man_black1);
+                            tmp.setImageResource(R.drawable.die_grace_black);
                             Log.d("asdasd", "2");
                             break;
                         case 1:
@@ -158,7 +165,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd", "-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.die_b);
+                            tmp.setImageResource(R.drawable.die_black_grace);
                             Log.d("asdasd", "-2");
                             break;
                     }

@@ -26,5 +26,12 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/StepText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="12dp"
+        android:textStyle="italic"
+        android:layout_below="@id/help_return"/>
 
 </LinearLayout>
