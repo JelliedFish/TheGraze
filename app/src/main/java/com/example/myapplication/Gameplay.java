@@ -270,7 +270,7 @@ public class Gameplay extends AppCompatActivity {
             }
         });
 
-        mPlayer=MediaPlayer.create(this, R.raw.melodiya_dlya_sharmanki_melodiya_dlya_sharmanki);
+        mPlayer=MediaPlayer.create(this, R.raw.big_russian_boss);
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
