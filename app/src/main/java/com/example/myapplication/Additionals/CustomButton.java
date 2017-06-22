@@ -5,6 +5,13 @@ import android.util.AttributeSet;
 
 public class CustomButton extends android.support.v7.widget.AppCompatImageButton {
     int state;
+    boolean checkable;
+    public boolean getCheckable(){
+        return checkable;
+    }
+    public void setCheckable(boolean bl){
+        checkable=bl;
+    }
     public int getState(){
         return this.state;
     }

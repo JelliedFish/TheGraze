@@ -3,19 +3,16 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 
 import com.example.myapplication.Additionals.CustomAdapter;
 import com.example.myapplication.Additionals.CustomButton;
-import com.example.myapplication.Additionals.Point;
-import com.example.myapplication.Additionals.Spot;
-import com.example.myapplication.Additionals.SpotSystem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
@@ -23,11 +20,11 @@ import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    int Height=12;
-    int Width=8;
+    final  int Height = 15;
+    final  int Width = 10;
 
-    CustomButton[][] buttons=new CustomButton[Width][Height];
-    static int step=0;
+    CustomButton[][] buttons = new CustomButton[Width][Height];
+    static int step = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +33,11 @@ public class Gameplay extends AppCompatActivity {
 
         final List<CustomButton> fields = new ArrayList<CustomButton>();
 
-        for (int i = 0; i < Height*Width; i++) {
+        for (int i = 0; i < Height * Width; i++) {
             CustomButton tmp = new CustomButton(getBaseContext());
             tmp.setImageResource(R.drawable.grnd_main);
+            tmp.setImageAlpha(210);
+            tmp.setCheckable(true);
             fields.add(tmp);
         }
 
@@ -51,16 +50,28 @@ public class Gameplay extends AppCompatActivity {
             }
         }
         fields.get(0).setState(1);
-        fields.get(Height*Width-1).setState(-1);
+        fields.get(Height * Width - 1).setState(-1);
         fields.get(0).setImageResource(R.drawable.ctl_grace);
-        fields.get(Height*Width-1).setImageResource(R.drawable.ctl_black);
+        fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_black);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new CustomAdapter(this, fields));
         gridView.setNumColumns(Width);
 
 
-        for (int position=0; position< Height*Width; position++) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+
+        //displayMetrics.widthPixels;
+        //displayMetrics.heightPixels;
+        LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        int GridHeight = (displayMetrics.widthPixels - 60) / Width * Height;
+        layoutParams.setMargins(30, (displayMetrics.heightPixels - GridHeight) / 3, 30, (displayMetrics.heightPixels - GridHeight) / 3 * 2);
+        wrapperView.setLayoutParams(layoutParams);
+
+
+        for (int position = 0; position < Height * Width; position++) {
 
             final CustomButton tmp = fields.get(position);
             final int x = position % Width;
@@ -70,7 +81,7 @@ public class Gameplay extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Log.d("check_the trouble", "pressed");
+                    Log.d("check_the_trouble", "pressed");
 
 
                     step++;
@@ -80,6 +91,7 @@ public class Gameplay extends AppCompatActivity {
                         //если ходит 1ый
                         //
                         if ((step % 6 == 1 || step % 6 == 2 || step % 6 == 3)) {
+
                             if (ReasonsToPut(x, y)) {
                                 if (tmp.getState() == -1) {
                                     step--;
@@ -99,7 +111,7 @@ public class Gameplay extends AppCompatActivity {
                                     step--;
                                 }
                             }
-                        }else
+                        } else
 
                         //
                         //если ходит 2ой
@@ -126,30 +138,33 @@ public class Gameplay extends AppCompatActivity {
                                 }
                             }
                         }
-                    }else{
+                    } else {
                         step--;
                     }
+                    clear();
 
                     switch (tmp.getState()) {
                         case 2:
                             tmp.setImageResource(R.drawable.die_man_black1);
-                            Log.d("asdasd","2");
+                            Log.d("asdasd", "2");
                             break;
                         case 1:
                             tmp.setImageResource(R.drawable.grnd_grace);
-                            Log.d("asdasd","1");
+                            Log.d("asdasd", "1");
                             break;
                         case -1:
                             tmp.setImageResource(R.drawable.grnd_black);
-                            Log.d("asdasd","-1");
+                            Log.d("asdasd", "-1");
                             break;
                         case -2:
                             tmp.setImageResource(R.drawable.die_b);
-                            Log.d("asdasd","-2");
+                            Log.d("asdasd", "-2");
                             break;
                     }
-                    Log.d("asdasd","unpressed");
+                    Log.d("asdasd", "unpressed");
                 }
+
+
             });
         }
 
@@ -227,121 +242,247 @@ public class Gameplay extends AppCompatActivity {
     //
     //
 
-    private boolean ReasonsToPut(int x,int y){
-        boolean b=false;
+    private boolean ReasonsToPut(int x, int y) {
+        boolean b = false;
         int d;
-        if(step%6==1||step%6==2||step%6==3){
-            d=-1;
-        }else{
-            d=1;
+        if (step % 6 == 1 || step % 6 == 2 || step % 6 == 3) {
+            d = -1;
+        } else {
+            d = 1;
         }
-        if (x > 0 && y > 0 && x < Width-1 && y < Height-1) {
-            b=(d==buttons[x+1][y+1].getState())||(d==buttons[x+1][y].getState())||
-                    (d==buttons[x+1][y-1].getState())||(d==buttons[x][y+1].getState())||
-                    (d==buttons[x][y-1].getState())||(d==buttons[x-1][y+1].getState())||
-                    (d==buttons[x-1][y].getState())||(d==buttons[x-1][y-1].getState());
+        if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
+            b = (d == buttons[x + 1][y + 1].getState()) || (d == buttons[x + 1][y].getState()) ||
+                    (d == buttons[x + 1][y - 1].getState()) || (d == buttons[x][y + 1].getState()) ||
+                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
+                    (d == buttons[x - 1][y].getState()) || (d == buttons[x - 1][y - 1].getState());
         }
-        if (x == 0 && y < Height-1 && y > 0) {
-            b=(d==buttons[x+1][y+1].getState())||(d==buttons[x+1][y].getState())||
-                    (d==buttons[x+1][y-1].getState())||(d==buttons[x][y+1].getState())||
-                    (d==buttons[x][y-1].getState());
+        if (x == 0 && y < Height - 1 && y > 0) {
+            b = (d == buttons[x + 1][y + 1].getState()) || (d == buttons[x + 1][y].getState()) ||
+                    (d == buttons[x + 1][y - 1].getState()) || (d == buttons[x][y + 1].getState()) ||
+                    (d == buttons[x][y - 1].getState());
         }
-        if (x==Width-1&&y<Height-1&&y>0){
-            b=(d==buttons[x][y+1].getState())||
-                    (d==buttons[x][y-1].getState())||(d==buttons[x-1][y+1].getState())||
-                    (d==buttons[x-1][y].getState())||(d==buttons[x-1][y-1].getState());
+        if (x == Width - 1 && y < Height - 1 && y > 0) {
+            b = (d == buttons[x][y + 1].getState()) ||
+                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
+                    (d == buttons[x - 1][y].getState()) || (d == buttons[x - 1][y - 1].getState());
         }
-        if (y==0&&x>0&&x<Width-1){
-            b=(d==buttons[x+1][y].getState())||(d==buttons[x+1][y+1].getState())||
-                    (d==buttons[x][y+1].getState())||(d==buttons[x-1][y+1].getState())||
-                    (d==buttons[x-1][y].getState());
+        if (y == 0 && x > 0 && x < Width - 1) {
+            b = (d == buttons[x + 1][y].getState()) || (d == buttons[x + 1][y + 1].getState()) ||
+                    (d == buttons[x][y + 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
+                    (d == buttons[x - 1][y].getState());
         }
-        if(y==Height-1&&x>0&&x<Width-1){
-            b=(d==buttons[x+1][y].getState())||(d==buttons[x+1][y-1].getState())||
-                    (d==buttons[x][y-1].getState())||(d==buttons[x-1][y-1].getState())||
-                    (d==buttons[x-1][y].getState());
+        if (y == Height - 1 && x > 0 && x < Width - 1) {
+            b = (d == buttons[x + 1][y].getState()) || (d == buttons[x + 1][y - 1].getState()) ||
+                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y - 1].getState()) ||
+                    (d == buttons[x - 1][y].getState());
         }
-        if(y==0&x==0){
-            b=(d==buttons[0][1].getState())||(d==buttons[1][1].getState())||
-                    (d==buttons[1][0].getState());
+        if (y == 0 & x == 0) {
+            b = (d == buttons[0][1].getState()) || (d == buttons[1][1].getState()) ||
+                    (d == buttons[1][0].getState());
         }
-        if(y==Height-1&x==0){
-            b=(d==buttons[0][Height-2].getState())||(d==buttons[1][Height-2].getState())||
-                    (d==buttons[1][Height-1].getState());
+        if (y == Height - 1 & x == 0) {
+            b = (d == buttons[0][Height - 2].getState()) || (d == buttons[1][Height - 2].getState()) ||
+                    (d == buttons[1][Height - 1].getState());
         }
-        if(y==0&&x==Width-1){
-            b=(d==buttons[Width-1][1].getState())||(d==buttons[Width-2][1].getState())||
-                    (d==buttons[Width-2][0].getState());
+        if (y == 0 && x == Width - 1) {
+            b = (d == buttons[Width - 1][1].getState()) || (d == buttons[Width - 2][1].getState()) ||
+                    (d == buttons[Width - 2][0].getState());
         }
-        if(y==Height-1&x==Width-1){
-            b=(d==buttons[Width-1][Height-2].getState())||(d==buttons[Width-2][Height-2].getState())||
-                    (d==buttons[Width-2][Height-1].getState());
+        if (y == Height - 1 & x == Width - 1) {
+            b = (d == buttons[Width - 1][Height - 2].getState()) || (d == buttons[Width - 2][Height - 2].getState()) ||
+                    (d == buttons[Width - 2][Height - 1].getState());
         }
         return b;
     }
 
 
-    private boolean ReasonsToEat(int x,int y){
-        boolean b=false;
+    private boolean ReasonsToEat(int x, int y) {
+        boolean b = false;
         int d;
-        if(step%6==1||step%6==2||step%6==3){
-            d=2;
-        }else{
-            d=-2;
+        if (step % 6 == 1 || step % 6 == 2 || step % 6 == 3) {
+            d = 2;
+        } else {
+            d = -2;
         }
-        if (x > 0 && y > 0 && x < Width-1 && y < Height-1) {
-            b=(d==buttons[x+1][y+1].getState())||(d==buttons[x+1][y].getState())||
-                    (d==buttons[x+1][y-1].getState())||(d==buttons[x][y+1].getState())||
-                    (d==buttons[x][y-1].getState())||(d==buttons[x-1][y+1].getState())||
-                    (d==buttons[x-1][y].getState())||(d==buttons[x-1][y-1].getState());
+        if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
+            b = (d == buttons[x + 1][y + 1].getState()&&checkActivity(x+1,y+1)) || (d == buttons[x + 1][y].getState()&&checkActivity(x+1,y)) ||
+                    (d == buttons[x + 1][y - 1].getState()&&checkActivity(x+1,y-1)) || (d == buttons[x][y + 1].getState()&&checkActivity(x,y+1)) ||
+                    (d == buttons[x][y - 1].getState()&&checkActivity(x,y-1)) || (d == buttons[x - 1][y + 1].getState()&&checkActivity(x-1,y+1)) ||
+                    (d == buttons[x - 1][y].getState()&&checkActivity(x-1,y)) || (d == buttons[x - 1][y - 1].getState()&&checkActivity(x-1,y-1));
         }
-        if (x == 0 && y < Height-1 && y > 0) {
-            b=(d==buttons[x+1][y+1].getState())||(d==buttons[x+1][y].getState())||
-                    (d==buttons[x+1][y-1].getState())||(d==buttons[x][y+1].getState())||
-                    (d==buttons[x][y-1].getState());
+
+
+        if (x == 0 && y < Height - 1 && y > 0) {
+            b = (d == buttons[x + 1][y + 1].getState()) || (d == buttons[x + 1][y].getState()) ||
+                    (d == buttons[x + 1][y - 1].getState()) || (d == buttons[x][y + 1].getState()) ||
+                    (d == buttons[x][y - 1].getState());
         }
-        if (x==Width-1&&y<Height-1&&y>0){
-            b=(d==buttons[x][y+1].getState())||
-                    (d==buttons[x][y-1].getState())||(d==buttons[x-1][y+1].getState())||
-                    (d==buttons[x-1][y].getState())||(d==buttons[x-1][y-1].getState());
+        if (x == Width - 1 && y < Height - 1 && y > 0) {
+            b = (d == buttons[x][y + 1].getState()) ||
+                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
+                    (d == buttons[x - 1][y].getState()) || (d == buttons[x - 1][y - 1].getState());
         }
-        if (y==0&&x>0&&x<Width-1){
-            b=(d==buttons[x+1][y].getState())||(d==buttons[x+1][y+1].getState())||
-                    (d==buttons[x][y+1].getState())||(d==buttons[x-1][y+1].getState())||
-                    (d==buttons[x-1][y].getState());
+        if (y == 0 && x > 0 && x < Width - 1) {
+            b = (d == buttons[x + 1][y].getState()) || (d == buttons[x + 1][y + 1].getState()) ||
+                    (d == buttons[x][y + 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
+                    (d == buttons[x - 1][y].getState());
         }
-        if(y==Height-1&&x>0&&x<Width-1){
-            b=(d==buttons[x+1][y].getState())||(d==buttons[x+1][y-1].getState())||
-                    (d==buttons[x][y-1].getState())||(d==buttons[x-1][y-1].getState())||
-                    (d==buttons[x-1][y].getState());
+        if (y == Height - 1 && x > 0 && x < Width - 1) {
+            b = (d == buttons[x + 1][y].getState()) || (d == buttons[x + 1][y - 1].getState()) ||
+                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y - 1].getState()) ||
+                    (d == buttons[x - 1][y].getState());
         }
-        if(y==0&x==0){
-            b=(d==buttons[0][1].getState())||(d==buttons[1][1].getState())||
-                    (d==buttons[1][0].getState());
+        if (y == 0 & x == 0) {
+            b = (d == buttons[0][1].getState()) || (d == buttons[1][1].getState()) ||
+                    (d == buttons[1][0].getState());
         }
-        if(y==Height-1&x==0){
-            b=(d==buttons[0][Height-2].getState())||(d==buttons[1][Height-2].getState())||
-                    (d==buttons[1][Height-1].getState());
+        if (y == Height - 1 & x == 0) {
+            b = (d == buttons[0][Height - 2].getState()) || (d == buttons[1][Height - 2].getState()) ||
+                    (d == buttons[1][Height - 1].getState());
         }
-        if(y==0&&x==Width-1){
-            b=(d==buttons[Width-1][1].getState())||(d==buttons[Width-2][1].getState())||
-                    (d==buttons[Width-2][0].getState());
+        if (y == 0 && x == Width - 1) {
+            b = (d == buttons[Width - 1][1].getState()) || (d == buttons[Width - 2][1].getState()) ||
+                    (d == buttons[Width - 2][0].getState());
         }
-        if(y==Height-1&x==Width-1){
-            b=(d==buttons[Width-1][Height-2].getState())||(d==buttons[Width-2][Height-2].getState())||
-                    (d==buttons[Width-2][Height-1].getState());
+        if (y == Height - 1 & x == Width - 1) {
+            b = (d == buttons[Width - 1][Height - 2].getState()) || (d == buttons[Width - 2][Height - 2].getState()) ||
+                    (d == buttons[Width - 2][Height - 1].getState());
         }
         return b;
     }
 
-    private static void update(SpotSystem ss, int team) {
-        for (Spot spot : ss.spots) {
-            boolean newIsActive = false;
-            for (Point P : spot.TargetList) {
-                //тут проверка на то, что в точке P есть живой клоп своей команды. Если есть, newIsActive = true
+    public boolean checkActivity(int x,int y){
+        boolean result=false;
+        boolean main_flg=false;
+        CustomButton tmp=buttons[x][y];
+        tmp.setCheckable(false);
+        Log.d("L","B");
+        main_flg=ReasonsToPut(x,y);
+        if (main_flg==true){
+            result=true;
+            Log.d("N","True");
+        }else{
+            if(existEatenNear(x,y)){
+                Log.d("L","Yes");
+
+
+
+
+
+                if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
+                    if(buttons[x + 1][y + 1].getState()==tmp.getState()&&buttons[x+1][y+1].getCheckable()) {
+                        result=checkActivity(x+1,y+1);
+                    }
+
+
+                    if(buttons[x][y + 1].getState()==tmp.getState()&&buttons[x][y+1].getCheckable()) {
+                        result=checkActivity(x,y+1);
+                    }
+
+
+                    if(buttons[x -1][y+1].getState()==tmp.getState()&&buttons[x-1][y+1].getCheckable()) {
+                        result=checkActivity(x-1,y+1);
+                    }
+
+
+                    if(buttons[x-1][y ].getState()==tmp.getState()&&buttons[x-1][y].getCheckable()) {
+                        result=checkActivity(x-1,y);
+                    }
+
+
+                    if(buttons[x+1][y ].getState()==tmp.getState()&&buttons[x+1][y].getCheckable()) {
+                        result=checkActivity(x+1,y);
+                    }
+
+
+                    if(buttons[x -1][y-1].getState()==tmp.getState()&&buttons[x-1][y-1].getCheckable()) {
+                        result=checkActivity(x-1,y-1);
+                    }
+
+
+                    if(buttons[x + 1][y - 1].getState()==tmp.getState()&&buttons[x+1][y-1].getCheckable()) {
+                        result=checkActivity(x+1,y-1);
+                    }
+
+
+                    if(buttons[x ][y - 1].getState()==tmp.getState()&&buttons[x][y-1].getCheckable()) {
+                        result=checkActivity(x,y-1);
+                    }
+
+
+                }
+
+
+
+
+
+
+
+            }else{
+                result=false;
+                Log.d("aksdahfskjashf", "false");
             }
-            spot.isActive = newIsActive;
         }
 
+
+        return result;
+    }
+
+    public boolean existEatenNear(int x,int y){
+        int xy=buttons[x][y].getState();
+
+        boolean b=false;
+        if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
+            b = (xy == buttons[x + 1][y + 1].getState()) || (xy == buttons[x + 1][y].getState()) ||
+                    (xy == buttons[x + 1][y - 1].getState()) || (xy == buttons[x][y + 1].getState()) ||
+                    (xy == buttons[x][y - 1].getState()) || (xy == buttons[x - 1][y + 1].getState()) ||
+                    (xy == buttons[x - 1][y].getState()) || (xy == buttons[x - 1][y - 1].getState());
+        }
+        if (x == 0 && y < Height - 1 && y > 0) {
+            b = (xy == buttons[x + 1][y + 1].getState()) || (xy == buttons[x + 1][y].getState()) ||
+                    (xy == buttons[x + 1][y - 1].getState()) || (xy == buttons[x][y + 1].getState()) ||
+                    (xy == buttons[x][y - 1].getState());
+        }
+        if (x == Width - 1 && y < Height - 1 && y > 0) {
+            b = (xy == buttons[x][y + 1].getState()) ||
+                    (xy == buttons[x][y - 1].getState()) || (xy == buttons[x - 1][y + 1].getState()) ||
+                    (xy == buttons[x - 1][y].getState()) || (xy == buttons[x - 1][y - 1].getState());
+        }
+        if (y == 0 && x > 0 && x < Width - 1) {
+            b = (xy == buttons[x + 1][y].getState()) || (xy == buttons[x + 1][y + 1].getState()) ||
+                    (xy == buttons[x][y + 1].getState()) || (xy == buttons[x - 1][y + 1].getState()) ||
+                    (xy == buttons[x - 1][y].getState());
+        }
+        if (y == Height - 1 && x > 0 && x < Width - 1) {
+            b = (xy == buttons[x + 1][y].getState()) || (xy == buttons[x + 1][y - 1].getState()) ||
+                    (xy == buttons[x][y - 1].getState()) || (xy == buttons[x - 1][y - 1].getState()) ||
+                    (xy == buttons[x - 1][y].getState());
+        }
+        if (y == 0 & x == 0) {
+            b = (xy == buttons[0][1].getState()) || (xy == buttons[1][1].getState()) ||
+                    (xy == buttons[1][0].getState());
+        }
+        if (y == Height - 1 & x == 0) {
+            b = (xy == buttons[0][Height - 2].getState()) || (xy == buttons[1][Height - 2].getState()) ||
+                    (xy == buttons[1][Height - 1].getState());
+        }
+        if (y == 0 && x == Width - 1) {
+            b = (xy == buttons[Width - 1][1].getState()) || (xy == buttons[Width - 2][1].getState()) ||
+                    (xy == buttons[Width - 2][0].getState());
+        }
+        if (y == Height - 1 & x == Width - 1) {
+            b = (xy == buttons[Width - 1][Height - 2].getState()) || (xy == buttons[Width - 2][Height - 2].getState()) ||
+                    (xy == buttons[Width - 2][Height - 1].getState());
+        }
+        return b;
+
+    }
+
+    public void clear(){
+        for(int k1=0;k1<Width;k1++){
+            for(int k2=0;k2<Height;k2++){
+                buttons[k1][k2].setCheckable(true);
+            }
+        }
     }
 }
