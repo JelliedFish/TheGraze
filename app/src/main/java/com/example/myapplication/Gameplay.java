@@ -1,13 +1,13 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -22,18 +22,29 @@ import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    final  int Height = 15;
-    final  int Width = 10;
+    int Width = 8;
+    int Height = 12;
 
-    CustomButton[][] buttons = new CustomButton[Width][Height];
+    CustomButton[][] buttons;
     static int step = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        final List<CustomButton> fields = new ArrayList<CustomButton>();
+
+        Intent sgf_to_gameplay = getIntent();
+        String gameFieldInfo = sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY");
+        int pos = gameFieldInfo.indexOf(';');
+        Width = Integer.parseInt(gameFieldInfo.substring(0, pos));
+        Height = Integer.parseInt(gameFieldInfo.substring(pos + 1));
+        buttons = new CustomButton[Width][Height];
+
+
+        final List<CustomButton> fields = new ArrayList<>();
 
         for (int i = 0; i < Height * Width; i++) {
             CustomButton tmp = new CustomButton(getBaseContext());
@@ -42,6 +53,7 @@ public class Gameplay extends AppCompatActivity {
             tmp.setCheckable(true);
             fields.add(tmp);
         }
+        Log.d("debug3", "2");
 
         int l = 0;
 
@@ -51,6 +63,7 @@ public class Gameplay extends AppCompatActivity {
                 l++;
             }
         }
+        Log.d("debug3", "2.1");
         fields.get(0).setState(1);
         fields.get(Height * Width - 1).setState(-1);
         fields.get(0).setImageResource(R.drawable.ctl_grace);
@@ -380,7 +393,7 @@ public class Gameplay extends AppCompatActivity {
         Log.d("L","B");
 
         main_flg=ReasonsToPut(x,y);
-        if (main_flg==true){
+        if (main_flg){
             result=true;
             Log.d("N","True");
         }else{

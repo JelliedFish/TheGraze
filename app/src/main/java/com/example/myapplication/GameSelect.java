@@ -4,18 +4,14 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 public class GameSelect extends AppCompatActivity {
 
-    String debug = "DEBUG";
-
     @Override
-     protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameselect);
@@ -57,12 +53,14 @@ public class GameSelect extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         btn_multiplayer.setBackgroundResource(R.drawable.ic_multiplayer);
-                        Intent gs_to_game = new Intent(getBaseContext(), Gameplay.class);
-                        startActivity(gs_to_game);
+                        Intent gs_to_sgf = new Intent(getBaseContext(), SetGameField.class);
+                        startActivity(gs_to_sgf);
                         break;
                 }
                 return true;
             }
         });
     }
+
+
 }
