@@ -1,16 +1,19 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.myapplication.Additionals.CustomAdapter;
 import com.example.myapplication.Additionals.CustomButton;
@@ -26,6 +29,11 @@ public class Gameplay extends AppCompatActivity {
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
     static int step = 0;
+
+    MediaPlayer mPlayer;
+    Button stopButton ;
+    Button startButton;
+    Button pauseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,6 +264,58 @@ public class Gameplay extends AppCompatActivity {
                 return true;
             }
         });
+
+        mPlayer=MediaPlayer.create(this, R.raw.melodiya_dlya_sharmanki_melodiya_dlya_sharmanki);
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlay();
+            }
+        });
+        stopButton = (Button) findViewById(R.id.sliding_menu_btn_music_stop);
+        startButton = (Button) findViewById(R.id.sliding_menu_btn_music_start);
+        pauseButton = (Button) findViewById(R.id.sliding_menu_btn_music_pause);
+        pauseButton.setEnabled(false);
+        stopButton.setEnabled(false);
+    }
+    //Методы для остановки и выключения музыки
+    private void stopPlay(){
+        mPlayer.stop();
+        pauseButton.setEnabled(false);
+        stopButton.setEnabled(false);
+        try {
+            mPlayer.prepare();
+            mPlayer.seekTo(0);
+            startButton.setEnabled(true);
+        }
+        catch (Throwable t) {
+            Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void play(View view){
+
+        mPlayer.start();
+        startButton.setEnabled(false);
+        pauseButton.setEnabled(true);
+        stopButton.setEnabled(true);
+    }
+    public void pause(View view){
+
+        mPlayer.pause();
+        startButton.setEnabled(true);
+        pauseButton.setEnabled(false);
+        stopButton.setEnabled(true);
+    }
+    public void stop(View view){
+        stopPlay();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mPlayer.isPlaying()) {
+            stopPlay();
+        }
     }
 
     ////
