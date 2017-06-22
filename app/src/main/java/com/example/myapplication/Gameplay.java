@@ -305,7 +305,7 @@ public class Gameplay extends AppCompatActivity {
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
     }
-    //Методы для остановки и выключения музыки
+    //Методы для остановки и выключения музыки 
     private void stopPlay(){
         mPlayer.stop();
         pauseButton.setEnabled(false);
