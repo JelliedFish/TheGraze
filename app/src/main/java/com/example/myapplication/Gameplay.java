@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.myapplication.Additionals.CustomAdapter;
@@ -34,6 +37,8 @@ public class Gameplay extends AppCompatActivity {
     Button stopButton ;
     Button startButton;
     Button pauseButton;
+    SeekBar volumeControl;
+    AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,10 +280,32 @@ public class Gameplay extends AppCompatActivity {
         stopButton = (Button) findViewById(R.id.sliding_menu_btn_music_stop);
         startButton = (Button) findViewById(R.id.sliding_menu_btn_music_start);
         pauseButton = (Button) findViewById(R.id.sliding_menu_btn_music_pause);
+
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int curValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        volumeControl = (SeekBar) findViewById(R.id.volumeControl);
+        volumeControl.setMax(maxVolume);
+        volumeControl.setProgress(curValue);
+        volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
     }
-    //Методы для остановки и выключения музыки 
+    //Методы для остановки и выключения музыки
     private void stopPlay(){
         mPlayer.stop();
         pauseButton.setEnabled(false);

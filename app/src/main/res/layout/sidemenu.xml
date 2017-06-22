@@ -76,5 +76,10 @@
         android:layout_marginLeft="30dp"
         android:onClick="stop"
         android:layout_centerHorizontal="true"/>
+    <SeekBar
+        android:id="@+id/volumeControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sliding_menu_btn_music_stop"/>
 
 </RelativeLayout>
