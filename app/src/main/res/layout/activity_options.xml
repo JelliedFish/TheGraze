@@ -54,6 +54,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginLeft="30dp"/>
 
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -204,5 +205,34 @@
         android:layout_toEndOf="@+id/options_player1_next"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp" />
+    <Button
+        android:text="start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_btn_music_start"
+        android:layout_below="@id/options_player2"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="play"/>
+    <Button
+        android:text="pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_btn_music_pause"
+        android:layout_below="@id/options_player2"
+        android:layout_toRightOf="@id/options_btn_music_start"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="pause"/>
+    <Button
+        android:text="stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_btn_music_stop"
+        android:layout_below="@id/options_player2"
+        android:layout_toRightOf="@id/options_btn_music_pause"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="stop"/>
 
 </RelativeLayout>

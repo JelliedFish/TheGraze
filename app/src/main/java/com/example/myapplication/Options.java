@@ -1,12 +1,15 @@
 package com.example.myapplication;
 
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class Options extends AppCompatActivity {
 
@@ -14,12 +17,17 @@ public class Options extends AppCompatActivity {
     byte diffState = 0;
     byte player1_textureState = 1;
     byte player2_textureState = 2;
+    MediaPlayer mPlayer;
+    Button stopButton ;
+    Button startButton;
+    Button pauseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         ImageButton btn_options_to_main = (ImageButton) findViewById(R.id.options_return);
         btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
@@ -234,6 +242,56 @@ public class Options extends AppCompatActivity {
                 return true;
             }
         });
+        mPlayer=MediaPlayer.create(this, R.raw.melodiya_dlya_sharmanki_melodiya_dlya_sharmanki);
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlay();
+            }
+        });
+        stopButton = (Button) findViewById(R.id.options_btn_music_stop);
+        startButton = (Button) findViewById(R.id.options_btn_music_start);
+        pauseButton = (Button) findViewById(R.id.options_btn_music_pause);
+        pauseButton.setEnabled(false);
+        stopButton.setEnabled(false);
+    }
+    private void stopPlay(){
+        mPlayer.stop();
+        pauseButton.setEnabled(false);
+        stopButton.setEnabled(false);
+        try {
+            mPlayer.prepare();
+            mPlayer.seekTo(0);
+            startButton.setEnabled(true);
+        }
+        catch (Throwable t) {
+            Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void play(View view){
+
+        mPlayer.start();
+        startButton.setEnabled(false);
+        pauseButton.setEnabled(true);
+        stopButton.setEnabled(true);
+    }
+    public void pause(View view){
+
+        mPlayer.pause();
+        startButton.setEnabled(true);
+        pauseButton.setEnabled(false);
+        stopButton.setEnabled(true);
+    }
+    public void stop(View view){
+        stopPlay();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mPlayer.isPlaying()) {
+            stopPlay();
+        }
     }
 
     private static void setPlayersPicturesForVar(byte var, ImageButton leftArrowBtn, ImageView img, ImageButton rightArrowBtn) {

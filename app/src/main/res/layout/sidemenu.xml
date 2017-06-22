@@ -11,21 +11,23 @@
     android:choiceMode="singleChoice"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sliding_menu_btn_options"
-        android:layout_centerInParent="true"
-        android:padding="0dp"
-        />
+
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sliding_menu_btn_main_menu"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/sliding_menu_btn_options"
         android:padding="0dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginTop="20dp"
+        />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sliding_menu_btn_options"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/sliding_menu_btn_main_menu"
+        android:layout_marginTop="20dp"
+        android:padding="0dp"
         />
     <ImageButton
         android:layout_width="wrap_content"
@@ -34,7 +36,45 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/sliding_menu_btn_options"
         android:padding="0dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="20dp"
         />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sliding_menu_music"
+        android:src="@drawable/ic_btn_settings_music"
+        android:layout_below="@+id/sliding_menu_btn_help"
+        android:layout_centerHorizontal="true"
+         />
+    <Button
+        android:text="start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sliding_menu_btn_music_start"
+        android:layout_below="@id/sliding_menu_music"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="play"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:text="pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sliding_menu_btn_music_pause"
+        android:layout_below="@id/sliding_menu_btn_music_start"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="pause"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:text="stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sliding_menu_btn_music_stop"
+        android:layout_below="@id/sliding_menu_btn_music_pause"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="stop"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
