@@ -132,7 +132,7 @@ public class Gameplay extends AppCompatActivity {
 
                     switch (tmp.getState()) {
                         case 2:
-                            tmp.setImageResource(R.drawable.die_man_black1);
+                            tmp.setImageResource(R.drawable.die_grace_black);
                             Log.d("asdasd","2");
                             break;
                         case 1:
@@ -144,7 +144,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd","-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.die_b);
+                            tmp.setImageResource(R.drawable.die_black_grace);
                             Log.d("asdasd","-2");
                             break;
                     }
