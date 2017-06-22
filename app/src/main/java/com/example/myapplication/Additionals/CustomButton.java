@@ -8,6 +8,14 @@ public class CustomButton extends android.support.v7.widget.AppCompatImageButton
     public int getState(){
         return this.state;
     }
+    /*
+     * state - состояние клетки.
+     * 0 - пустая клетка
+     * 1 - занята 1-й командой
+     * 2 - убита 1-й командой
+     * 3 - занята 2-й командой
+     * 4 - убита 2-й командой
+     */
     public void setState(int st){
         this.state=st;
     }
