@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.myapplication.Additionals.CustomAdapter;
 import com.example.myapplication.Additionals.CustomButton;
@@ -65,8 +66,8 @@ public class Gameplay extends AppCompatActivity {
         //displayMetrics.widthPixels;
         //displayMetrics.heightPixels;
         LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
 
         int GridHeight = (displayMetrics.widthPixels - 60) / Width * Height;
@@ -148,11 +149,13 @@ public class Gameplay extends AppCompatActivity {
                     } else {
                         step--;
                     }
+
+
                     clear();
 
                     switch (tmp.getState()) {
                         case 2:
-                            tmp.setImageResource(R.drawable.die_man_black1);
+                            tmp.setImageResource(R.drawable.die_grace_black);
                             Log.d("asdasd", "2");
                             break;
                         case 1:
@@ -164,7 +167,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd", "-1");
                             break;
                         case -2:
-                            tmp.setImageResource(R.drawable.die_b);
+                            tmp.setImageResource(R.drawable.die_black_grace);
                             Log.d("asdasd", "-2");
                             break;
                     }
@@ -360,10 +363,22 @@ public class Gameplay extends AppCompatActivity {
 
     public boolean checkActivity(int x,int y){
         boolean result=false;
+        boolean result1,result2,result3,result4,result5,result6,result7,result8;
+        result1=false;
+        result2=false;
+        result3=false;
+        result4=false;
+        result5=false;
+        result6=false;
+        result7=false;
+        result8=false;
+
         boolean main_flg=false;
         CustomButton tmp=buttons[x][y];
         tmp.setCheckable(false);
+
         Log.d("L","B");
+
         main_flg=ReasonsToPut(x,y);
         if (main_flg==true){
             result=true;
@@ -378,45 +393,45 @@ public class Gameplay extends AppCompatActivity {
 
                 if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
                     if(buttons[x + 1][y + 1].getState()==tmp.getState()&&buttons[x+1][y+1].getCheckable()) {
-                        result=checkActivity(x+1,y+1);
+                        result1=checkActivity(x+1,y+1);
                     }
 
 
                     if(buttons[x][y + 1].getState()==tmp.getState()&&buttons[x][y+1].getCheckable()) {
-                        result=checkActivity(x,y+1);
+                        result2=checkActivity(x,y+1);
                     }
 
 
                     if(buttons[x -1][y+1].getState()==tmp.getState()&&buttons[x-1][y+1].getCheckable()) {
-                        result=checkActivity(x-1,y+1);
+                        result3=checkActivity(x-1,y+1);
                     }
 
 
-                    if(buttons[x-1][y ].getState()==tmp.getState()&&buttons[x-1][y].getCheckable()) {
-                        result=checkActivity(x-1,y);
+                    if(buttons[x-1][y].getState()==tmp.getState()&&buttons[x-1][y].getCheckable()) {
+                        result4=checkActivity(x-1,y);
                     }
 
 
-                    if(buttons[x+1][y ].getState()==tmp.getState()&&buttons[x+1][y].getCheckable()) {
-                        result=checkActivity(x+1,y);
+                    if(buttons[x+1][y].getState()==tmp.getState()&&buttons[x+1][y].getCheckable()) {
+                        result5=checkActivity(x+1,y);
                     }
 
 
                     if(buttons[x -1][y-1].getState()==tmp.getState()&&buttons[x-1][y-1].getCheckable()) {
-                        result=checkActivity(x-1,y-1);
+                        result6=checkActivity(x-1,y-1);
                     }
 
 
                     if(buttons[x + 1][y - 1].getState()==tmp.getState()&&buttons[x+1][y-1].getCheckable()) {
-                        result=checkActivity(x+1,y-1);
+                        result7=checkActivity(x+1,y-1);
                     }
 
 
                     if(buttons[x ][y - 1].getState()==tmp.getState()&&buttons[x][y-1].getCheckable()) {
-                        result=checkActivity(x,y-1);
+                        result8=checkActivity(x,y-1);
                     }
 
-
+                    result=(result1||result5||result2||result3||result4||result6||result7||result8);
                 }
 
 
@@ -430,6 +445,8 @@ public class Gameplay extends AppCompatActivity {
                 Log.d("aksdahfskjashf", "false");
             }
         }
+
+
 
 
         return result;

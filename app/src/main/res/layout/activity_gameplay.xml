@@ -2,36 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:weightSum="4"
     android:background="@drawable/background_gameplay"
     android:layout_height="match_parent">
 
-
-    <LinearLayout
-        android:id="@+id/wrapper"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <GridView
+        <TextView
+            android:id="@+id/text1"
+            android:text="Zzzzzzzzzzzzz"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="7"
-            android:layout_weight="3"
-            android:verticalSpacing="0dp"
-            android:horizontalSpacing="0dp"
-            android:id="@+id/gridView">
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="7"
+                android:layout_weight="3"
+                android:verticalSpacing="0dp"
+                android:horizontalSpacing="0dp"
+                android:id="@+id/gridView">
 
 
-        </GridView>
+            </GridView>
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/StepText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="12dp"
-        android:textStyle="italic"
-        android:layout_below="@id/help_return"/>
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/text2"
+            android:layout_marginBottom="40dp"
+            android:text="Zzzzzzzzzzzzz"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>
