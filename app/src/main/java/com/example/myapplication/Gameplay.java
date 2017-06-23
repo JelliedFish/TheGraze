@@ -24,6 +24,10 @@ public class Gameplay extends AppCompatActivity {
 
     int Height = 15;
     int Width = 10;
+    static int player1_pers =1;
+    static int player2_pers =2;
+    static int player1_vs =2;
+    static int player2_vs =1;
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
     static int step = 0;//переменная для подсчета шагов
@@ -88,9 +92,6 @@ public class Gameplay extends AppCompatActivity {
             case 1:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_black);
                 break;
         }
-        GridView gridView = (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new CustomAdapter(this, fields));
-        gridView.setNumColumns(Width);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);//создаем гридвью
         gridView.setAdapter(new CustomAdapter(this, fields));//связываем гридвью и адптер
