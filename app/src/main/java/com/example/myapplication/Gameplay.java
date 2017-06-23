@@ -7,7 +7,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -22,20 +21,21 @@ import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    final  int Height = 15;
-    final  int Width = 10;
+    final int Height = 15;
+    final int Width = 10;
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
-    static int step = 0;
+    static int step = 0;//переменная для подсчета шагов
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
 
-        final List<CustomButton> fields = new ArrayList<CustomButton>();
 
-        for (int i = 0; i < Height * Width; i++) {
+        final List<CustomButton> fields = new ArrayList<CustomButton>();//массив всех кнопок
+
+        for (int i = 0; i < Height * Width; i++) {//заполнение всех кнопок картинками, установка прозрачности
             CustomButton tmp = new CustomButton(getBaseContext());
             tmp.setImageResource(R.drawable.grnd_main);
             tmp.setImageAlpha(210);
@@ -43,90 +43,100 @@ public class Gameplay extends AppCompatActivity {
             fields.add(tmp);
         }
 
+
         int l = 0;
 
-        for (int i = 0; i < Height; i++) {
+        for (int i = 0; i < Height; i++) {//связываем массив кнопок с двумерным массивом кнопок
             for (int j = 0; j < Width; j++) {
                 buttons[j][i] = fields.get(l);
                 l++;
             }
         }
-        fields.get(0).setState(1);
+
+
+        fields.get(0).setState(1);//установка для углавых клеток
         fields.get(Height * Width - 1).setState(-1);
         fields.get(0).setImageResource(R.drawable.ctl_grace);
         fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_black);
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new CustomAdapter(this, fields));
-        gridView.setNumColumns(Width);
+
+        GridView gridView = (GridView) findViewById(R.id.gridView);//создаем гридвью
+        gridView.setAdapter(new CustomAdapter(this, fields));//связываем гридвью и адптер
+        gridView.setNumColumns(Width);//установка кол-ва колонок для гридвтю
 
 
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();//фича, необходимая для получения высоты и ширины экрана в пикселях
         //displayMetrics.widthPixels;
         //displayMetrics.heightPixels;
-        LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);
+
+
+        LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);//устанавливаем разметчик для активити
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
 
-        int GridHeight = (displayMetrics.widthPixels - 60) / Width * Height;
+        int GridHeight = (displayMetrics.widthPixels - 60) / Width * Height;//просто переменная - высота гридвью
 
 
         layoutParams.setMargins(30, (displayMetrics.heightPixels - GridHeight) / 3, 30, (displayMetrics.heightPixels - GridHeight) / 3 * 2);
-        wrapperView.setLayoutParams(layoutParams);
+        wrapperView.setLayoutParams(layoutParams);//задаем месторасположение гридвью ч\з марджин
 
 
-
-
-        for (int position = 0; position < Height * Width; position++) {
+        for (int position = 0; position < Height * Width; position++) {//обрабатываем кждую кнопку
 
             final CustomButton tmp = fields.get(position);
-            final int x = position % Width;
-            final int y = position / Width;
+            final int x = position % Width;//находим месторасположение кнопки в двумерном массиве (и на поле соотвественно)
+            final int y = position / Width;//задаем эти значения переменным
+
 
             tmp.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v) {  //добавляем для каждой кнопки слушатель действия
 
-                    Log.d("check_the_trouble", "pressed");
+                    Log.d("check_the_trouble", "pressed"); //лог
 
 
-                    step++;
+                    step++;//увеличиваем шаг (ход игрока)
 
-                    if (tmp.getState() != -2 && tmp.getState() != 2) {
-                        //
-                        //если ходит 1ый
-                        //
+                    if (tmp.getState() != -2 && tmp.getState() != 2) {//если мы не нажали на "мертвую" клетку, то
+
+
+                        //если ходит первый
                         if ((step % 6 == 1 || step % 6 == 2 || step % 6 == 3)) {
 
-                            if (ReasonsToPut(x, y)) {
-                                if (tmp.getState() == -1) {
+
+                            if (ReasonsToPut(x, y)) {//есть ли рядом живые клопы
+
+                                if (tmp.getState() == -1) {//нажал на своего
                                     step--;
                                 } else {
-                                    if (tmp.getState() == 1) {
-                                        tmp.setState(2);
+                                    if (tmp.getState() == 1) {//нажал на чужого - убивает его
+                                        tmp.setState(2);//изменение состояния мертвого клопа
                                     } else {
                                         tmp.setState(-1);
                                     }
                                 }
+
                             } else {
-                                if (ReasonsToEat(x, y)) {
-                                    if (tmp.getState() == 1) {
+
+                                if (ReasonsToEat(x, y)) {//можно ли сЪесть данную клетку
+                                    if (tmp.getState() == 1) {//да
                                         tmp.setState(2);
                                     }
-                                } else {
+                                } else {//нет
                                     step--;
                                 }
+
                             }
-                        } else
 
-                        //
-                        //если ходит 2ой
-                        //
 
-                        {
+                        } else {
+
+
+                            //если ходит второй (все аналогично)
                             if (ReasonsToPut(x, y) && tmp.getState() != -2 && tmp.getState() != 2) {
+
+
                                 if (tmp.getState() == 1) {
                                     step--;
                                 } else {
@@ -146,12 +156,14 @@ public class Gameplay extends AppCompatActivity {
                                 }
                             }
                         }
+
+
                     } else {
                         step--;
                     }
 
 
-                    clear();
+                    clear();//обнуление флагов для проверки клеток с кучкой мертвых клопов
 
                     switch (tmp.getState()) {
                         case 2:
@@ -244,8 +256,7 @@ public class Gameplay extends AppCompatActivity {
         });
     }
 
-    ////
-    //
+
     //
     //
     //ФУНКЦИИ
@@ -260,50 +271,49 @@ public class Gameplay extends AppCompatActivity {
         } else {
             d = 1;
         }
-        if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
-            b = (d == buttons[x + 1][y + 1].getState()) || (d == buttons[x + 1][y].getState()) ||
-                    (d == buttons[x + 1][y - 1].getState()) || (d == buttons[x][y + 1].getState()) ||
-                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
-                    (d == buttons[x - 1][y].getState()) || (d == buttons[x - 1][y - 1].getState());
+        try {
+            b = b || (d == buttons[x - 1][y].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (x == 0 && y < Height - 1 && y > 0) {
-            b = (d == buttons[x + 1][y + 1].getState()) || (d == buttons[x + 1][y].getState()) ||
-                    (d == buttons[x + 1][y - 1].getState()) || (d == buttons[x][y + 1].getState()) ||
-                    (d == buttons[x][y - 1].getState());
+        try {
+            b = b || (d == buttons[x - 1][y - 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (x == Width - 1 && y < Height - 1 && y > 0) {
-            b = (d == buttons[x][y + 1].getState()) ||
-                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
-                    (d == buttons[x - 1][y].getState()) || (d == buttons[x - 1][y - 1].getState());
+        try {
+            b = b || (d == buttons[x - 1][y + 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == 0 && x > 0 && x < Width - 1) {
-            b = (d == buttons[x + 1][y].getState()) || (d == buttons[x + 1][y + 1].getState()) ||
-                    (d == buttons[x][y + 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
-                    (d == buttons[x - 1][y].getState());
+        try {
+            b = b || (d == buttons[x][y - 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == Height - 1 && x > 0 && x < Width - 1) {
-            b = (d == buttons[x + 1][y].getState()) || (d == buttons[x + 1][y - 1].getState()) ||
-                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y - 1].getState()) ||
-                    (d == buttons[x - 1][y].getState());
+        try {
+            b = b || (d == buttons[x][y + 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == 0 & x == 0) {
-            b = (d == buttons[0][1].getState()) || (d == buttons[1][1].getState()) ||
-                    (d == buttons[1][0].getState());
+        try {
+            b = b || (d == buttons[x + 1][y - 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == Height - 1 & x == 0) {
-            b = (d == buttons[0][Height - 2].getState()) || (d == buttons[1][Height - 2].getState()) ||
-                    (d == buttons[1][Height - 1].getState());
+        try {
+            b = b || (d == buttons[x + 1][y].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == 0 && x == Width - 1) {
-            b = (d == buttons[Width - 1][1].getState()) || (d == buttons[Width - 2][1].getState()) ||
-                    (d == buttons[Width - 2][0].getState());
+        try {
+            b = b || (d == buttons[x + 1][y + 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == Height - 1 & x == Width - 1) {
-            b = (d == buttons[Width - 1][Height - 2].getState()) || (d == buttons[Width - 2][Height - 2].getState()) ||
-                    (d == buttons[Width - 2][Height - 1].getState());
-        }
+
         return b;
-    }
+    }//для првоерки постановки клопа
 
 
     private boolean ReasonsToEat(int x, int y) {
@@ -314,199 +324,191 @@ public class Gameplay extends AppCompatActivity {
         } else {
             d = -2;
         }
-        if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
-            b = (d == buttons[x + 1][y + 1].getState()&&checkActivity(x+1,y+1)) || (d == buttons[x + 1][y].getState()&&checkActivity(x+1,y)) ||
-                    (d == buttons[x + 1][y - 1].getState()&&checkActivity(x+1,y-1)) || (d == buttons[x][y + 1].getState()&&checkActivity(x,y+1)) ||
-                    (d == buttons[x][y - 1].getState()&&checkActivity(x,y-1)) || (d == buttons[x - 1][y + 1].getState()&&checkActivity(x-1,y+1)) ||
-                    (d == buttons[x - 1][y].getState()&&checkActivity(x-1,y)) || (d == buttons[x - 1][y - 1].getState()&&checkActivity(x-1,y-1));
+
+
+        try {
+            b = b || (d == buttons[x - 1][y].getState() && checkActivity(x - 1, y));
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+        }
+        try {
+            b = b || (d == buttons[x - 1][y - 1].getState() && checkActivity(x - 1, y - 1));
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+        }
+        try {
+            b = b || (d == buttons[x - 1][y + 1].getState() && checkActivity(x - 1, y + 1));
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+        }
+        try {
+            b = b || (d == buttons[x][y - 1].getState() && checkActivity(x, y - 1));
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+        }
+        try {
+            b = b || (d == buttons[x][y + 1].getState() && checkActivity(x, y + 1));
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+        }
+        try {
+            b = b || (d == buttons[x + 1][y - 1].getState() && checkActivity(x + 1, y - 1));
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+        }
+        try {
+            b = b || (d == buttons[x + 1][y].getState() && checkActivity(x + 1, y));
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+        }
+        try {
+            b = b || (d == buttons[x + 1][y + 1].getState() && checkActivity(x + 1, y + 1));
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
 
 
-        if (x == 0 && y < Height - 1 && y > 0) {
-            b = (d == buttons[x + 1][y + 1].getState()) || (d == buttons[x + 1][y].getState()) ||
-                    (d == buttons[x + 1][y - 1].getState()) || (d == buttons[x][y + 1].getState()) ||
-                    (d == buttons[x][y - 1].getState());
-        }
-        if (x == Width - 1 && y < Height - 1 && y > 0) {
-            b = (d == buttons[x][y + 1].getState()) ||
-                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
-                    (d == buttons[x - 1][y].getState()) || (d == buttons[x - 1][y - 1].getState());
-        }
-        if (y == 0 && x > 0 && x < Width - 1) {
-            b = (d == buttons[x + 1][y].getState()) || (d == buttons[x + 1][y + 1].getState()) ||
-                    (d == buttons[x][y + 1].getState()) || (d == buttons[x - 1][y + 1].getState()) ||
-                    (d == buttons[x - 1][y].getState());
-        }
-        if (y == Height - 1 && x > 0 && x < Width - 1) {
-            b = (d == buttons[x + 1][y].getState()) || (d == buttons[x + 1][y - 1].getState()) ||
-                    (d == buttons[x][y - 1].getState()) || (d == buttons[x - 1][y - 1].getState()) ||
-                    (d == buttons[x - 1][y].getState());
-        }
-        if (y == 0 & x == 0) {
-            b = (d == buttons[0][1].getState()) || (d == buttons[1][1].getState()) ||
-                    (d == buttons[1][0].getState());
-        }
-        if (y == Height - 1 & x == 0) {
-            b = (d == buttons[0][Height - 2].getState()) || (d == buttons[1][Height - 2].getState()) ||
-                    (d == buttons[1][Height - 1].getState());
-        }
-        if (y == 0 && x == Width - 1) {
-            b = (d == buttons[Width - 1][1].getState()) || (d == buttons[Width - 2][1].getState()) ||
-                    (d == buttons[Width - 2][0].getState());
-        }
-        if (y == Height - 1 & x == Width - 1) {
-            b = (d == buttons[Width - 1][Height - 2].getState()) || (d == buttons[Width - 2][Height - 2].getState()) ||
-                    (d == buttons[Width - 2][Height - 1].getState());
-        }
         return b;
-    }
+    }//для проверки съедания клопа
 
-    public boolean checkActivity(int x,int y){
-        boolean result=false;
-        boolean result1,result2,result3,result4,result5,result6,result7,result8;
-        result1=false;
-        result2=false;
-        result3=false;
-        result4=false;
-        result5=false;
-        result6=false;
-        result7=false;
-        result8=false;
 
-        boolean main_flg=false;
-        CustomButton tmp=buttons[x][y];
+    public boolean checkActivity(int x, int y) {
+        boolean result = false;
+
+        boolean main_flg = false;
+        CustomButton tmp = buttons[x][y];
         tmp.setCheckable(false);
 
-        Log.d("L","B");
 
-        main_flg=ReasonsToPut(x,y);
-        if (main_flg==true){
-            result=true;
-            Log.d("N","True");
-        }else{
-            if(existEatenNear(x,y)){
-                Log.d("L","Yes");
+        main_flg = ReasonsToPut(x, y);
+        if (main_flg == true) {
+            result = true;
+            Log.d("N", "True");
+        } else {
+            if (existEatenNear(x, y)) {
+                Log.d("L", "Yes");
 
-
-
-
-
-                if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
-                    if(buttons[x + 1][y + 1].getState()==tmp.getState()&&buttons[x+1][y+1].getCheckable()) {
-                        result1=checkActivity(x+1,y+1);
+                try {
+                    if (buttons[x + 1][y + 1].getState() == tmp.getState() && buttons[x + 1][y + 1].getCheckable()) {
+                        result = result || checkActivity(x + 1, y + 1);
                     }
-
-
-                    if(buttons[x][y + 1].getState()==tmp.getState()&&buttons[x][y+1].getCheckable()) {
-                        result2=checkActivity(x,y+1);
-                    }
-
-
-                    if(buttons[x -1][y+1].getState()==tmp.getState()&&buttons[x-1][y+1].getCheckable()) {
-                        result3=checkActivity(x-1,y+1);
-                    }
-
-
-                    if(buttons[x-1][y].getState()==tmp.getState()&&buttons[x-1][y].getCheckable()) {
-                        result4=checkActivity(x-1,y);
-                    }
-
-
-                    if(buttons[x+1][y].getState()==tmp.getState()&&buttons[x+1][y].getCheckable()) {
-                        result5=checkActivity(x+1,y);
-                    }
-
-
-                    if(buttons[x -1][y-1].getState()==tmp.getState()&&buttons[x-1][y-1].getCheckable()) {
-                        result6=checkActivity(x-1,y-1);
-                    }
-
-
-                    if(buttons[x + 1][y - 1].getState()==tmp.getState()&&buttons[x+1][y-1].getCheckable()) {
-                        result7=checkActivity(x+1,y-1);
-                    }
-
-
-                    if(buttons[x ][y - 1].getState()==tmp.getState()&&buttons[x][y-1].getCheckable()) {
-                        result8=checkActivity(x,y-1);
-                    }
-
-                    result=(result1||result5||result2||result3||result4||result6||result7||result8);
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("i gotcha:", "promahnulis' mimo imdexa");
                 }
+                try {
+                    if (buttons[x + 1][y - 1].getState() == tmp.getState() && buttons[x + 1][y - 1].getCheckable()) {
+                        result = result || checkActivity(x + 1, y - 1);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("i gotcha:", "promahnulis' mimo imdexa");
+                }
+                try {
+                    if (buttons[x + 1][y].getState() == tmp.getState() && buttons[x + 1][y].getCheckable()) {
+                        result = result || checkActivity(x + 1, y);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("i gotcha:", "promahnulis' mimo imdexa");
+                }
+                try {
+                    if (buttons[x][y - 1].getState() == tmp.getState() && buttons[x][y - 1].getCheckable()) {
+                        result = result || checkActivity(x, y - 1);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("i gotcha:", "promahnulis' mimo imdexa");
+                }
+                try {
+                    if (buttons[x - 1][y - 1].getState() == tmp.getState() && buttons[x - 1][y - 1].getCheckable()) {
+                        result = result || checkActivity(x - 1, y - 1);
+                    }
 
-
-
-
-
-
-
-            }else{
-                result=false;
-                Log.d("aksdahfskjashf", "false");
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("i gotcha:", "promahnulis' mimo imdexa");
+                }
+                try {
+                    if (buttons[x - 1][y].getState() == tmp.getState() && buttons[x - 1][y].getCheckable()) {
+                        result = result || checkActivity(x - 1, y);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("i gotcha:", "promahnulis' mimo imdexa");
+                }
+                try {
+                    if (buttons[x - 1][y + 1].getState() == tmp.getState() && buttons[x - 1][y + 1].getCheckable()) {
+                        result = result || checkActivity(x - 1, y + 1);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("i gotcha:", "promahnulis' mimo imdexa");
+                }
+                try {
+                    if (buttons[x][y + 1].getState() == tmp.getState() && buttons[x][y + 1].getCheckable()) {
+                        result = result || checkActivity(x, y + 1);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("i gotcha:", "promahnulis' mimo imdexa");
+                }
+            } else {
+                result = false;
             }
         }
-
-
 
 
         return result;
-    }
+    }//для проверки активности мертвых кучей клопов
 
-    public boolean existEatenNear(int x,int y){
-        int xy=buttons[x][y].getState();
 
-        boolean b=false;
-        if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
-            b = (xy == buttons[x + 1][y + 1].getState()) || (xy == buttons[x + 1][y].getState()) ||
-                    (xy == buttons[x + 1][y - 1].getState()) || (xy == buttons[x][y + 1].getState()) ||
-                    (xy == buttons[x][y - 1].getState()) || (xy == buttons[x - 1][y + 1].getState()) ||
-                    (xy == buttons[x - 1][y].getState()) || (xy == buttons[x - 1][y - 1].getState());
+    public boolean existEatenNear(int x, int y) {
+        int d = buttons[x][y].getState();
+
+        boolean b = false;
+        try {
+            b = b || (d == buttons[x - 1][y].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (x == 0 && y < Height - 1 && y > 0) {
-            b = (xy == buttons[x + 1][y + 1].getState()) || (xy == buttons[x + 1][y].getState()) ||
-                    (xy == buttons[x + 1][y - 1].getState()) || (xy == buttons[x][y + 1].getState()) ||
-                    (xy == buttons[x][y - 1].getState());
+        try {
+            b = b || (d == buttons[x - 1][y - 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (x == Width - 1 && y < Height - 1 && y > 0) {
-            b = (xy == buttons[x][y + 1].getState()) ||
-                    (xy == buttons[x][y - 1].getState()) || (xy == buttons[x - 1][y + 1].getState()) ||
-                    (xy == buttons[x - 1][y].getState()) || (xy == buttons[x - 1][y - 1].getState());
+        try {
+            b = b || (d == buttons[x - 1][y + 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == 0 && x > 0 && x < Width - 1) {
-            b = (xy == buttons[x + 1][y].getState()) || (xy == buttons[x + 1][y + 1].getState()) ||
-                    (xy == buttons[x][y + 1].getState()) || (xy == buttons[x - 1][y + 1].getState()) ||
-                    (xy == buttons[x - 1][y].getState());
+        try {
+            b = b || (d == buttons[x][y - 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == Height - 1 && x > 0 && x < Width - 1) {
-            b = (xy == buttons[x + 1][y].getState()) || (xy == buttons[x + 1][y - 1].getState()) ||
-                    (xy == buttons[x][y - 1].getState()) || (xy == buttons[x - 1][y - 1].getState()) ||
-                    (xy == buttons[x - 1][y].getState());
+        try {
+            b = b || (d == buttons[x][y + 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == 0 & x == 0) {
-            b = (xy == buttons[0][1].getState()) || (xy == buttons[1][1].getState()) ||
-                    (xy == buttons[1][0].getState());
+        try {
+            b = b || (d == buttons[x + 1][y - 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == Height - 1 & x == 0) {
-            b = (xy == buttons[0][Height - 2].getState()) || (xy == buttons[1][Height - 2].getState()) ||
-                    (xy == buttons[1][Height - 1].getState());
+        try {
+            b = b || (d == buttons[x + 1][y].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == 0 && x == Width - 1) {
-            b = (xy == buttons[Width - 1][1].getState()) || (xy == buttons[Width - 2][1].getState()) ||
-                    (xy == buttons[Width - 2][0].getState());
+        try {
+            b = b || (d == buttons[x + 1][y + 1].getState());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("i gotcha:", "promahnulis' mimo imdexa");
         }
-        if (y == Height - 1 & x == Width - 1) {
-            b = (xy == buttons[Width - 1][Height - 2].getState()) || (xy == buttons[Width - 2][Height - 2].getState()) ||
-                    (xy == buttons[Width - 2][Height - 1].getState());
-        }
+
         return b;
+    }//для проверки существования рядом мертвых клопов
 
-    }
 
-    public void clear(){
-        for(int k1=0;k1<Width;k1++){
-            for(int k2=0;k2<Height;k2++){
+    public void clear() {
+        for (int k1 = 0; k1 < Width; k1++) {
+            for (int k2 = 0; k2 < Height; k2++) {
                 buttons[k1][k2].setCheckable(true);
             }
         }
-    }
+    }//для обнуления флагов клеток
 }
