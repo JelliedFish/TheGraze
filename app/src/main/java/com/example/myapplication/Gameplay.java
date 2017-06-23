@@ -289,7 +289,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd", "2");
                             break;
                         case 1:
-                            if(x!=0 && y!=0) {
+                            if(x!=0 || y!=0) {
                             switch (player1_pers) {
                                 case 1:
                                     tmp.setImageResource(R.drawable.grnd_black);
@@ -329,7 +329,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd", "-1");
                             break;
                         case -2:
-                            if (x==Width-1 && y==Height-1) {
+                            if (x==Width-1 || y==Height-1) {
                                 switch (player2_pers) {
                                     case 1:     tmp.setImageResource(R.drawable.ctl_black_die);
                                         break;
