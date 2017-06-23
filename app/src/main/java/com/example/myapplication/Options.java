@@ -21,6 +21,11 @@ public class Options extends AppCompatActivity {
         setContentView(R.layout.activity_options);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        Gameplay.player1_pers = 1;
+        Gameplay.player1_vs = 2;
+        Gameplay.player2_pers = 2;
+        Gameplay.player2_vs = 1;
+
         ImageButton btn_options_to_main = (ImageButton) findViewById(R.id.options_return);
         btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
         btn_options_to_main.setOnClickListener(new View.OnClickListener() {
@@ -149,10 +154,8 @@ public class Options extends AppCompatActivity {
         player1_leftArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (player1_textureState > 1) {
-                    if (player1_textureState - 1 == player2_textureState) {
-                        player2_textureState++;
-                        setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
-                    }
+                    Gameplay.player1_pers--;
+                    Gameplay.player2_vs--;
                     player1_textureState--;
                     setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
                 }
@@ -162,10 +165,8 @@ public class Options extends AppCompatActivity {
         player1_rightArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (player1_textureState < 4) {
-                    if (player1_textureState + 1 == player2_textureState) {
-                        player2_textureState--;
-                        setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
-                    }
+                    Gameplay.player1_pers++;
+                    Gameplay.player2_vs++;
                     player1_textureState++;
                     setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
                 }
@@ -175,10 +176,8 @@ public class Options extends AppCompatActivity {
         player2_leftArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (player2_textureState > 1) {
-                    if (player2_textureState - 1 == player1_textureState) {
-                        player1_textureState++;
-                        setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
-                    }
+                    Gameplay.player2_pers--;
+                    Gameplay.player1_vs--;
                     player2_textureState--;
                     setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
                 }
@@ -188,10 +187,8 @@ public class Options extends AppCompatActivity {
         player2_rightArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (player2_textureState < 4) {
-                    if (player2_textureState + 1 == player1_textureState) {
-                        player1_textureState--;
-                        setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
-                    }
+                Gameplay.player2_pers++;
+                Gameplay.player1_vs++;
                     player2_textureState++;
                     setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
                 }
@@ -235,6 +232,8 @@ public class Options extends AppCompatActivity {
             }
         });
     }
+
+
 
     private static void setPlayersPicturesForVar(byte var, ImageButton leftArrowBtn, ImageView img, ImageButton rightArrowBtn) {
         if (var == 1)

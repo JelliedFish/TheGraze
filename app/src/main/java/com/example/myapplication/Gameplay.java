@@ -23,6 +23,10 @@ public class Gameplay extends AppCompatActivity {
 
     final int Height = 15;
     final int Width = 10;
+    static int player1_pers = 1;
+    static int player1_vs = 2;
+    static int player2_pers = 2;
+    static int player2_vs = 1;
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
     static int step = 0;
@@ -52,9 +56,27 @@ public class Gameplay extends AppCompatActivity {
         }
         fields.get(0).setState(1);
         fields.get(Height * Width - 1).setState(-1);
-        fields.get(0).setImageResource(R.drawable.ctl_grace);
-        fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_black);
+        switch (player1_pers) {
+            case 2:   fields.get(0).setImageResource(R.drawable.ctl_grace);
+                break;
+            case 3:   fields.get(0).setImageResource(R.drawable.ctl_lava);
+                break;
+            case 4:   fields.get(0).setImageResource(R.drawable.ctl_sand);
+                break;
+            case 1:   fields.get(0).setImageResource(R.drawable.ctl_black);
+                break;
+        }
 
+        switch (player2_pers) {
+            case 2:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_grace);
+                break;
+            case 3:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_lava);
+                break;
+            case 4:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_sand);
+                break;
+            case 1:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_black);
+                break;
+        }
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new CustomAdapter(this, fields));
         gridView.setNumColumns(Width);
@@ -154,35 +176,221 @@ public class Gameplay extends AppCompatActivity {
 
                     switch (tmp.getState()) {
                         case 2:
-                            if (x!=0 && y!=0) {
-                                tmp.setImageResource(R.drawable.black_kill);
+                            if (x== 0 && y==0) {
+                                switch (player1_pers) {
+                                    case 1:     tmp.setImageResource(R.drawable.ctl_black_die);
+                                        break;
+                                    case 2:     tmp.setImageResource(R.drawable.ctl_grace_die);
+                                        break;
+                                    case 3:     tmp.setImageResource(R.drawable.ctl_lava_die);
+                                        break;
+                                    case 4:     tmp.setImageResource(R.drawable.ctl_sand_die);
+                                        break;
+                                }
                             }
                             else {
-                                tmp.setImageResource(R.drawable.ctl_grace_die);
-                            }
+                                switch (player1_vs) {
+                                    case 1:
+                                        switch (player1_pers) {
+                                            case 1:
+                                                tmp.setImageResource(R.drawable.black_kill);
+                                                break;
+                                            case 2:
+                                                tmp.setImageResource(R.drawable.black_kill);
+                                                break;
 
+                                            case 3:
+                                                tmp.setImageResource(R.drawable.black_kill);
+                                                break;
+                                            case 4:
+                                                tmp.setImageResource(R.drawable.black_kill);
+                                                break;
+                                        }
+                                        break;
+                                    case 2:
+                                        switch (player1_pers) {
+                                            case 1:
+                                                tmp.setImageResource(R.drawable.grace_kill);
+                                                break;
+
+                                            case 3:
+                                                tmp.setImageResource(R.drawable.grace_kill);
+                                                break;
+
+                                            case 4:
+                                                tmp.setImageResource(R.drawable.grace_kill);
+                                                break;
+                                            case 2:
+                                                tmp.setImageResource(R.drawable.grace_kill);
+                                                break;
+                                        }
+                                        break;
+                                    case 3:
+                                        switch (player1_pers) {
+                                            case 2:
+                                                tmp.setImageResource(R.drawable.lava_kill);
+                                                break;
+
+                                            case 1:
+                                                tmp.setImageResource(R.drawable.lava_kill);
+                                                break;
+
+                                            case 4:
+                                                tmp.setImageResource(R.drawable.lava_kill);
+                                                break;
+                                            case 3:
+                                                tmp.setImageResource(R.drawable.lava_kill);
+                                                break;
+                                        }
+                                        break;
+                                    case 4:
+                                        switch (player1_pers) {
+                                            case 1:
+                                                tmp.setImageResource(R.drawable.sand_kill);
+                                                break;
+
+                                            case 3:
+                                                tmp.setImageResource(R.drawable.sand_kill);
+                                                break;
+
+                                            case 2:
+                                                tmp.setImageResource(R.drawable.sand_kill);
+                                                break;
+                                            case 4:
+                                                tmp.setImageResource(R.drawable.sand_kill);
+                                        }
+                                        break;
+                                }
+                            }
                             Log.d("asdasd", "2");
                             break;
                         case 1:
-                            if (x!=0 && y!=0) {
-                            tmp.setImageResource(R.drawable.grnd_grace);
-                        }
+                            if(x!=0 && y!=0) {
+                            switch (player1_pers) {
+                                case 1:
+                                    tmp.setImageResource(R.drawable.grnd_black);
+                                    break;
+                                case 2:
+                                    tmp.setImageResource(R.drawable.grnd_grace);
+                                    break;
+
+                                case 3:
+                                    tmp.setImageResource(R.drawable.grnd_lava);
+                                    break;
+                                case 4:
+                                    tmp.setImageResource(R.drawable.grnd_sand);
+                                    break;
+                            }
+                            }
                             Log.d("asdasd", "1");
                             break;
                         case -1:
-                            if (x!= Width-1 && y!=Height-1){
-                            tmp.setImageResource(R.drawable.grnd_sand);
+                            if(x!=Width-1 && y!=Height-1) {
+                                switch (player2_pers) {
+                                    case 1:
+                                        tmp.setImageResource(R.drawable.grnd_black);
+                                        break;
+                                    case 2:
+                                        tmp.setImageResource(R.drawable.grnd_grace);
+                                        break;
+
+                                    case 3:
+                                        tmp.setImageResource(R.drawable.grnd_lava);
+                                        break;
+                                    case 4:
+                                        tmp.setImageResource(R.drawable.grnd_sand);
+                                        break;
                                 }
+                            }
                             Log.d("asdasd", "-1");
                             break;
                         case -2:
-                          if  (x!=Width-1 && y!=Height-1) {
-                            tmp.setImageResource(R.drawable.grace_kill);
-                        }
-                        else {
-                              tmp.setImageResource(R.drawable.ctl_black_die);
-                          }
-                            Log.d("asdasd", "-2");
+                            if (x==Width-1 && y==Height-1) {
+                                switch (player2_pers) {
+                                    case 1:     tmp.setImageResource(R.drawable.ctl_black_die);
+                                        break;
+                                    case 2:     tmp.setImageResource(R.drawable.ctl_grace_die);
+                                        break;
+                                    case 3:     tmp.setImageResource(R.drawable.ctl_lava_die);
+                                        break;
+                                    case 4:     tmp.setImageResource(R.drawable.ctl_sand_die);
+                                        break;
+                                }
+                            }
+                            else {
+                                switch (player2_vs) {
+                                    case 1:
+                                            switch (player2_pers) {
+                                                case 1:
+                                                    tmp.setImageResource(R.drawable.black_kill);
+                                                    break;
+                                                case 2:
+                                                    tmp.setImageResource(R.drawable.black_kill);
+                                                    break;
+
+                                                case 3:
+                                                    tmp.setImageResource(R.drawable.black_kill);
+                                                    break;
+
+                                                case 4:
+                                                    tmp.setImageResource(R.drawable.black_kill);
+                                                    break;
+                                            }
+                                            break;
+                                    case 2:
+                                        switch (player2_pers) {
+                                            case 1:
+                                                tmp.setImageResource(R.drawable.grace_kill);
+                                                break;
+
+                                            case 3:
+                                                tmp.setImageResource(R.drawable.grace_kill);
+                                                break;
+
+                                            case 4:
+                                                tmp.setImageResource(R.drawable.grace_kill);
+                                                break;
+                                            case 2:
+                                                tmp.setImageResource(R.drawable.grace_kill);
+                                        }
+                                        break;
+                                    case 3:
+                                        switch (player2_pers) {
+                                            case 2:
+                                                tmp.setImageResource(R.drawable.lava_kill);
+                                                break;
+
+                                            case 1:
+                                                tmp.setImageResource(R.drawable.lava_kill);
+                                                break;
+
+                                            case 4:
+                                                tmp.setImageResource(R.drawable.lava_kill);
+                                                break;
+                                            case 3:
+                                                tmp.setImageResource(R.drawable.lava_kill);
+                                        }
+                                        break;
+                                    case 4:
+                                        switch (player2_pers) {
+                                            case 1:
+                                                tmp.setImageResource(R.drawable.sand_kill);
+                                                break;
+
+                                            case 3:
+                                                tmp.setImageResource(R.drawable.sand_kill);
+                                                break;
+
+                                            case 2:
+                                                tmp.setImageResource(R.drawable.sand_kill);
+                                                break;
+                                            case 4:
+                                                tmp.setImageResource(R.drawable.sand_kill);
+                                        }
+                                        break;
+                                }
+                            }
+                                        Log.d("asdasd", "-2");
                             break;
                     }
                     Log.d("asdasd", "unpressed");
