@@ -22,8 +22,8 @@ import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    final int Height = 15;
-    final int Width = 10;
+    int Height = 15;
+    int Width = 10;
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
     static int step = 0;//переменная для подсчета шагов
@@ -43,7 +43,6 @@ public class Gameplay extends AppCompatActivity {
         buttons = new CustomButton[Width][Height];
 
 
-        final List<CustomButton> fields = new ArrayList<>();
 
         final List<CustomButton> fields = new ArrayList<CustomButton>();//массив всех кнопок
 
