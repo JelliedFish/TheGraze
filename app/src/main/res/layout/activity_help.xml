@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background">
 
@@ -29,31 +30,76 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="0dp" />
 
-    <TextView
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Game regulations:
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/help_text"
+        android:layout_below="@+id/help_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switcher_back"
+        android:src="@drawable/ic_help_swithcer_back"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
- Start
- The game takes place on a rectangular checkered field, on a sheet in a cage of any size (in official tournaments 10 cm by 15 cm). Play from 2 to 10 players (in official tournaments 2 or 4).
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switcher_left"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="66dp"
+        android:layout_marginEnd="66dp"
+        android:layout_marginBottom="32dp"/>
 
-   Each player has a base (1 cell), which has its own unit. They are located in opposite corners of the sheet. The cells are considered to be bordering both sides and diagonally.
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switcher_right"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switcher_page1_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="89dp"
+        android:layout_marginEnd="89dp"
+        android:layout_marginBottom="5dp"/>
 
-Stroke
-Each move consists of 3 actions. In one action, you can either put one unit in an empty field cell, or crush someone else's unit. After crushing the unit, its cell can never be occupied again.
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switcher_page2_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="5dp" />
 
-The connectivity component of the unit you crushed is called connected, if at least one of them has your living unit nearby. You can walk either next to your living units, or from your connected ones.
-
-
-Ending
-The loser is one who can not make a move. This is due to the fact that all the units of one of the players are blocked by walls from his units, eaten by the rival."
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="12dp"
-        android:textStyle="italic"
-        android:layout_below="@id/help_return"/>
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switcher_page3_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp" />
 
 </RelativeLayout>

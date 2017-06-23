@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -31,7 +32,18 @@ public class Gameplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
+        Intent sgf_to_gameplay = getIntent();
+        String gameFieldInfo = sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY");
+        int pos = gameFieldInfo.indexOf(';');
+        Width = Integer.parseInt(gameFieldInfo.substring(0, pos));
+        Height = Integer.parseInt(gameFieldInfo.substring(pos + 1));
+        buttons = new CustomButton[Width][Height];
+
+
+        final List<CustomButton> fields = new ArrayList<>();
 
         final List<CustomButton> fields = new ArrayList<CustomButton>();//массив всех кнопок
 
