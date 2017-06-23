@@ -34,9 +34,9 @@ public class Gameplay extends AppCompatActivity {
     static int step = 0;
 
     MediaPlayer mPlayer;
-    Button stopButton ;
-    Button startButton;
-    Button pauseButton;
+    ImageButton stopButton ;
+    ImageButton startButton;
+    ImageButton pauseButton;
     SeekBar volumeControl;
     AudioManager audioManager;
 
@@ -270,16 +270,20 @@ public class Gameplay extends AppCompatActivity {
             }
         });
 
-        mPlayer=MediaPlayer.create(this, R.raw.big_russian_boss);
+        mPlayer=MediaPlayer.create(this, R.raw.melodiya_dlya_sharmanki_melodiya_dlya_sharmanki);
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 stopPlay();
             }
         });
-        stopButton = (Button) findViewById(R.id.sliding_menu_btn_music_stop);
-        startButton = (Button) findViewById(R.id.sliding_menu_btn_music_start);
-        pauseButton = (Button) findViewById(R.id.sliding_menu_btn_music_pause);
+        stopButton = (ImageButton) findViewById(R.id.sliding_menu_btn_music_stop);
+        startButton = (ImageButton) findViewById(R.id.sliding_menu_btn_music_start);
+        pauseButton = (ImageButton) findViewById(R.id.sliding_menu_btn_music_pause);
+
+        startButton.setBackgroundResource(R.drawable.ic_btn_sliding_menu_start);
+        pauseButton.setBackgroundResource(R.drawable.ic_btn_sliding_menu_pause);
+        stopButton.setBackgroundResource(R.drawable.ic_btn_sliding_menu_stop);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -305,7 +309,7 @@ public class Gameplay extends AppCompatActivity {
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
     }
-    //Методы для остановки и выключения музыки 
+    //Методы для остановки и выключения музыки
     private void stopPlay(){
         mPlayer.stop();
         pauseButton.setEnabled(false);

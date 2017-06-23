@@ -21,9 +21,9 @@ public class Options extends AppCompatActivity {
     byte player1_textureState = 1;
     byte player2_textureState = 2;
     MediaPlayer mPlayer;
-    Button stopButton ;
-    Button startButton;
-    Button pauseButton;
+    ImageButton stopButton ;
+    ImageButton startButton;
+    ImageButton pauseButton;
     SeekBar volumeControl;
     AudioManager audioManager;
 
@@ -43,8 +43,10 @@ public class Options extends AppCompatActivity {
         });
 
         final ImageButton btn_music_onoff = (ImageButton) findViewById(R.id.options_btn_music_onoff);
-        if (musicState)
+        if (musicState) {
             btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_on);
+
+        }
         else
             btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
 
@@ -247,16 +249,16 @@ public class Options extends AppCompatActivity {
                 return true;
             }
         });
-        mPlayer=MediaPlayer.create(this, R.raw.big_russian_boss);
+        mPlayer=MediaPlayer.create(this, R.raw.melodiya_dlya_sharmanki_melodiya_dlya_sharmanki);
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 stopPlay();
             }
         });
-        stopButton = (Button) findViewById(R.id.options_btn_music_stop);
-        startButton = (Button) findViewById(R.id.options_btn_music_start);
-        pauseButton = (Button) findViewById(R.id.options_btn_music_pause);
+        stopButton = (ImageButton) findViewById(R.id.options_btn_music_stop);
+        startButton = (ImageButton) findViewById(R.id.options_btn_music_start);
+        pauseButton = (ImageButton) findViewById(R.id.options_btn_music_pause);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -279,7 +281,25 @@ public class Options extends AppCompatActivity {
 
             }
         });
-
+        btn_diff_easy.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (diffState != 0) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyclicked);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            diffState = 0;
+                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
+                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
+                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
     }
