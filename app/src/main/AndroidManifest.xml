@@ -20,6 +20,7 @@
         <activity android:name=".Options" />
         <activity android:name=".Gameplay" />
         <activity android:name=".GameSelect" />
+        <activity android:name=".SetGameField" />
     </application>
 
 </manifest>
