@@ -27,6 +27,7 @@ public class MainMenu extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         btn_play.setBackgroundResource(R.drawable.ic_btn_mm_play);
                         Intent main_to_gs = new Intent(getBaseContext(), GameSelect.class);
+                        main_to_gs.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(main_to_gs);
                         break;
                 }
