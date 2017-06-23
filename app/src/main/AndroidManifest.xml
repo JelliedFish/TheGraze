@@ -20,6 +20,6 @@
         <activity android:name=".Options" />
         <activity android:name=".Gameplay" />
         <activity android:name=".GameSelect" />
+        <service android:enabled="true" android:name=".MyService" />
     </application>
-
 </manifest>

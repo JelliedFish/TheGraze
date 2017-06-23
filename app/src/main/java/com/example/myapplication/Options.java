@@ -20,12 +20,6 @@ public class Options extends AppCompatActivity {
     byte diffState = 0;
     byte player1_textureState = 1;
     byte player2_textureState = 2;
-    MediaPlayer mPlayer;
-    ImageButton stopButton ;
-    ImageButton startButton;
-    ImageButton pauseButton;
-    SeekBar volumeControl;
-    AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,98 +243,10 @@ public class Options extends AppCompatActivity {
                 return true;
             }
         });
-        mPlayer=MediaPlayer.create(this, R.raw.melodiya_dlya_sharmanki_melodiya_dlya_sharmanki);
-        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                stopPlay();
-            }
-        });
-        stopButton = (ImageButton) findViewById(R.id.options_btn_music_stop);
-        startButton = (ImageButton) findViewById(R.id.options_btn_music_start);
-        pauseButton = (ImageButton) findViewById(R.id.options_btn_music_pause);
 
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        int curValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-        volumeControl = (SeekBar) findViewById(R.id.volumeControl);
-        volumeControl.setMax(maxVolume);
-        volumeControl.setProgress(curValue);
-        volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        btn_diff_easy.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (diffState != 0) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyclicked);
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            diffState = 0;
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
-                            break;
-                    }
-                }
-                return true;
-            }
-        });
-        pauseButton.setEnabled(false);
-        stopButton.setEnabled(false);
-    }
-    private void stopPlay(){
-        mPlayer.stop();
-        pauseButton.setEnabled(false);
-        stopButton.setEnabled(false);
-        try {
-            mPlayer.prepare();
-            mPlayer.seekTo(0);
-            startButton.setEnabled(true);
-        }
-        catch (Throwable t) {
-            Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        }
     }
 
-    public void play(View view){
-
-        mPlayer.start();
-        startButton.setEnabled(false);
-        pauseButton.setEnabled(true);
-        stopButton.setEnabled(true);
-    }
-    public void pause(View view){
-
-        mPlayer.pause();
-        startButton.setEnabled(true);
-        pauseButton.setEnabled(false);
-        stopButton.setEnabled(true);
-    }
-    public void stop(View view){
-        stopPlay();
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mPlayer.isPlaying()) {
-            stopPlay();
-        }
-    }
 
     private static void setPlayersPicturesForVar(byte var, ImageButton leftArrowBtn, ImageView img, ImageButton rightArrowBtn) {
         if (var == 1)
