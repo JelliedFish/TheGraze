@@ -35,4 +35,9 @@ public class MyService extends Service {
         Toast.makeText(this, "My Service Started", Toast.LENGTH_LONG).show();
         mp.start();
     }
+
+    public void onPause(){
+        Toast.makeText(this, "My Service Paused", Toast.LENGTH_LONG).show();
+        mp.pause();
+    }
 }

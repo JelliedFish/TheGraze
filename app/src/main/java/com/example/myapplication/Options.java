@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -70,9 +71,11 @@ public class Options extends AppCompatActivity {
             public void onClick(View v) {
                 if (musicState) {
                     musicState = false;
+                    onPause();
                     btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
                 } else {
                     musicState = true;
+                    onStart();
                     btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_on);
                 }
             }
@@ -243,7 +246,7 @@ public class Options extends AppCompatActivity {
                 return true;
             }
         });
-
+        startService(new Intent(this, MyService.class));
 
     }
 
