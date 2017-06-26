@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;

@@ -98,8 +98,10 @@ public class SetGameField extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         setgamefield_start.setBackgroundResource(R.drawable.ic_setgamefield_play);
                         Intent sgf_to_gameplay = new Intent(getBaseContext(), Gameplay.class);
-                        String gameFieldInfo = fieldWidth + ";" + fieldHeight;
-                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY", gameFieldInfo);
+                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY_WIDTH", fieldWidth);
+                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY_HEIGHT", fieldHeight);
+                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY_TEAMSCOUNT", 2);
+                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY_CASTLESCOORDS", "0;" + (fieldWidth * fieldHeight - 1));
                         startActivity(sgf_to_gameplay);
                         break;
                 }

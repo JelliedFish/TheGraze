@@ -2,13 +2,18 @@
   <dictionary name="Михаил">
     <words>
       <w>castlekilled</w>
+      <w>castlescoords</w>
       <w>coords</w>
       <w>gameplay</w>
+      <w>gameselect</w>
       <w>indexa</w>
       <w>mimo</w>
+      <w>multiplayer</w>
       <w>onoff</w>
       <w>pers</w>
       <w>promahnulis</w>
+      <w>singleplayer</w>
+      <w>teamscount</w>
     </words>
   </dictionary>
 </component>

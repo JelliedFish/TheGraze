@@ -3,7 +3,6 @@ package com.example.myapplication;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,8 +20,6 @@ public class Options extends AppCompatActivity {
         setContentView(R.layout.activity_options);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
-        Log.d("OPTIONS_DEBUG", "players_textureState[0]=" + players_textureState[0] + "; players_textureState[1]=" + players_textureState[1]);
 
 
         ImageButton btn_options_to_main = (ImageButton) findViewById(R.id.options_return);
