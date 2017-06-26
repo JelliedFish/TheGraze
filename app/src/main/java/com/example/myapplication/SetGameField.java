@@ -100,7 +100,6 @@ public class SetGameField extends AppCompatActivity {
                         Intent sgf_to_gameplay = new Intent(getBaseContext(), Gameplay.class);
                         String gameFieldInfo = fieldWidth + ";" + fieldHeight;
                         sgf_to_gameplay.putExtra("GAME_FIELD_KEY", gameFieldInfo);
-                        sgf_to_gameplay.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(sgf_to_gameplay);
                         break;
                 }

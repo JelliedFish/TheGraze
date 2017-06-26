@@ -26,50 +26,49 @@ public class Gameplay extends AppCompatActivity {
     int Width = 10;
     static int player1_pers =1;
     static int player2_pers =2;
-    static int player1_vs =2;
-    static int player2_vs =1;
+    //static int player1_vs =2;
+    //static int player2_vs =1;
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
-    static int step = 0;//переменная для подсчета шагов
+    static int step = 0;                                                                            // переменная для подсчета шагов
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);                         // фиксируем вертикальную ориентацию окна
 
 
-        Intent sgf_to_gameplay = getIntent();
-        String gameFieldInfo = sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY");
-        int pos = gameFieldInfo.indexOf(';');
-        Width = Integer.parseInt(gameFieldInfo.substring(0, pos));
-        Height = Integer.parseInt(gameFieldInfo.substring(pos + 1));
-        buttons = new CustomButton[Width][Height];
+        Intent sgf_to_gameplay = getIntent();                                                       //
+        String gameFieldInfo = sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY");                    //
+        int pos = gameFieldInfo.indexOf(';');                                                       // считываем данные о ширине и высоте поля из
+        Width = Integer.parseInt(gameFieldInfo.substring(0, pos));                                  // предыдущего activity
+        Height = Integer.parseInt(gameFieldInfo.substring(pos + 1));                                //
+        buttons = new CustomButton[Width][Height];                                                  //
 
 
+        final List<CustomButton> fields = new ArrayList<>();                                        // массив всех кнопок
 
-        final List<CustomButton> fields = new ArrayList<CustomButton>();//массив всех кнопок
-
-        for (int i = 0; i < Height * Width; i++) {//заполнение всех кнопок картинками, установка прозрачности
-            CustomButton tmp = new CustomButton(getBaseContext());
-            tmp.setImageResource(R.drawable.grnd_main);
-            tmp.setImageAlpha(210);
-            tmp.setCheckable(true);
-            fields.add(tmp);
+        for (int i = 0; i < Height * Width; i++) {                                                  //
+            CustomButton tmp = new CustomButton(getBaseContext());                                  //
+            tmp.setImageResource(R.drawable.ic_grnd_main);                                          // заполнение всех кнопок картинками
+            tmp.setImageAlpha(210);                                                                 // установка прозрачности
+            tmp.setCheckable(true);                                                                 //
+            fields.add(tmp);                                                                        //
         }
 
 
         int l = 0;
 
-        for (int i = 0; i < Height; i++) {//связываем массив кнопок с двумерным массивом кнопок
-            for (int j = 0; j < Width; j++) {
-                buttons[j][i] = fields.get(l);
-                l++;
-            }
-        }
+        for (int i = 0; i < Height; i++) {                                                          //
+            for (int j = 0; j < Width; j++) {                                                       //
+                buttons[j][i] = fields.get(l);                                                      // связываем наш массив кнопок с двумерным массивом кнопок
+                l++;                                                                                //
+            }                                                                                       //
+        }                                                                                           //
 
 
-        fields.get(0).setState(1);//установка для углавых клеток
+        fields.get(0).setState(1);                                                                  // ставим текстуру базы для 1-й команды
         fields.get(Height * Width - 1).setState(-1);
         switch (player1_pers) {
             case 2:   fields.get(0).setImageResource(R.drawable.ctl_grace);
@@ -82,7 +81,7 @@ public class Gameplay extends AppCompatActivity {
                 break;
         }
 
-        switch (player2_pers) {
+        switch (player2_pers) {                                                                     // для 2-й команды
             case 2:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_grace);
                 break;
             case 3:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_lava);
@@ -93,58 +92,69 @@ public class Gameplay extends AppCompatActivity {
                 break;
         }
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);//создаем гридвью
-        gridView.setAdapter(new CustomAdapter(this, fields));//связываем гридвью и адптер
-        gridView.setNumColumns(Width);//установка кол-ва колонок для гридвтю
+        GridView gridView = (GridView) findViewById(R.id.gridView);                                 // создаем гридвью
+        gridView.setAdapter(new CustomAdapter(this, fields));                                       // связываем гридвью и адптер
+        gridView.setNumColumns(Width);                                                              // установка кол-ва колонок для гридвтю
 
 
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();//фича, необходимая для получения высоты и ширины экрана в пикселях
-        //displayMetrics.widthPixels;
-        //displayMetrics.heightPixels;
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();                         // фича, необходимая для получения высоты и ширины экрана в пикселях:
+                                                                                                    // displayMetrics.widthPixels;
+                                                                                                    // displayMetrics.heightPixels;
+
+        LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);                       // устанавливаем разметчик для activity
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams
+                (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+
+        int leftAndRightMargins = displayMetrics.widthPixels / 20;                                  //
+        int upMargin = displayMetrics.heightPixels / 10;                                            //
+        int downMargin = displayMetrics.heightPixels / 20;                                          // задаём гарантированно минимальные значения отступов
+        int maxGridWidth = displayMetrics.widthPixels - (leftAndRightMargins * 2);                  //
+        int maxGridHeight = displayMetrics.heightPixels - upMargin - downMargin;                    //
+        int additionalMargin;                                                                       //
+
+        if ((double) Width / Height < (double) maxGridWidth / maxGridHeight) {                      //
+            additionalMargin = (maxGridWidth - (maxGridHeight * Width / Height)) / 2;               // если гридвью не вписывается по горизонтали - делаем дополнительные вертикальные отступы
+            leftAndRightMargins += additionalMargin;                                                //
+        } else {
+            additionalMargin = (maxGridHeight - (maxGridWidth * Height / Width)) / 2;               //
+            upMargin += additionalMargin;                                                           // если по вертикали - доп. горизонтальные
+            downMargin += additionalMargin;                                                         //
+        }
+
+        Log.d("MARGINS", leftAndRightMargins + " " + upMargin + " " + leftAndRightMargins + " " + downMargin + "; ADD=" + additionalMargin + "; MAX= " + maxGridWidth + " " + maxGridHeight);
+        layoutParams.setMargins(leftAndRightMargins, upMargin, leftAndRightMargins, downMargin);
+        wrapperView.setLayoutParams(layoutParams);                                                  // устанавливаем полученные отступы в layout
 
 
-        LinearLayout wrapperView = (LinearLayout) findViewById(R.id.wrapper);//устанавливаем разметчик для активити
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        step = 0;
 
 
-        int GridHeight = (displayMetrics.widthPixels - 60) / Width * Height;//просто переменная - высота гридвью
-
-
-        layoutParams.setMargins(30, (displayMetrics.heightPixels - GridHeight) / 3, 30, (displayMetrics.heightPixels - GridHeight) / 3 * 2);
-        wrapperView.setLayoutParams(layoutParams);//задаем месторасположение гридвью ч\з марджин
-
-
-        for (int position = 0; position < Height * Width; position++) {//обрабатываем кждую кнопку
+        for (int position = 0; position < Height * Width; position++) {                             // обрабатываем каждую кнопку
 
             final CustomButton tmp = fields.get(position);
-            final int x = position % Width;//находим месторасположение кнопки в двумерном массиве (и на поле соотвественно)
-            final int y = position / Width;//задаем эти значения переменным
+            final int x = position % Width;                                                         // находим месторасположение кнопки в двумерном массиве (и на поле
+            final int y = position / Width;                                                         // соотвественно), задаем эти значения переменным
 
 
             tmp.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {  //добавляем для каждой кнопки слушатель действия
+                public void onClick(View v) {                                                         // добавляем для каждой кнопки слушатель действия
 
-                    Log.d("check_the_trouble", "pressed"); //лог
+                    step++;                                                                         // увеличиваем шаг (ход игрока)
 
-
-                    step++;//увеличиваем шаг (ход игрока)
-
-                    if (tmp.getState() != -2 && tmp.getState() != 2) {//если мы не нажали на "мертвую" клетку, то
+                    if (tmp.getState() != -2 && tmp.getState() != 2) {                              // если мы не нажали на "мертвую" клетку, то
 
 
-                        //если ходит первый
-                        if ((step % 6 == 1 || step % 6 == 2 || step % 6 == 3)) {
+                        if ((step % 6 == 1 || step % 6 == 2 || step % 6 == 3)) {                    // если ходит первый
 
 
-                            if (ReasonsToPut(x, y)) {//есть ли рядом живые клопы
+                            if (ReasonsToPut(x, y)) {                                               // есть ли рядом живые клопы
 
-                                if (tmp.getState() == -1) {//нажал на своего
+                                if (tmp.getState() == -1) {                                         // нажал на своего
                                     step--;
                                 } else {
-                                    if (tmp.getState() == 1) {//нажал на чужого - убивает его
-                                        tmp.setState(2);//изменение состояния мертвого клопа
+                                    if (tmp.getState() == 1) {                                      // нажал на чужого - убивает его
+                                        tmp.setState(2);                                            // изменение состояния мертвого клопа
                                     } else {
                                         tmp.setState(-1);
                                     }
@@ -152,11 +162,11 @@ public class Gameplay extends AppCompatActivity {
 
                             } else {
 
-                                if (ReasonsToEat(x, y)) {//можно ли сЪесть данную клетку
-                                    if (tmp.getState() == 1) {//да
+                                if (ReasonsToEat(x, y)) {                                           // можно ли съесть данную клетку
+                                    if (tmp.getState() == 1) {                                      // да
                                         tmp.setState(2);
                                     }
-                                } else {//нет
+                                } else {                                                            // нет
                                     step--;
                                 }
 
@@ -164,9 +174,7 @@ public class Gameplay extends AppCompatActivity {
 
 
                         } else {
-
-
-                            //если ходит второй (все аналогично)
+                                                                                                    // если ходит второй (тут всё аналогично)
                             if (ReasonsToPut(x, y) && tmp.getState() != -2 && tmp.getState() != 2) {
 
 
@@ -196,9 +204,9 @@ public class Gameplay extends AppCompatActivity {
                     }
 
 
-                    clear();//обнуление флагов для проверки клеток с кучкой мертвых клопов
+                    clear();                                                                        // обнуление флагов для проверки клеток с кучкой мертвых клопов
 
-                    switch (tmp.getState()) {
+                    switch (tmp.getState()) {                                                       // дальше обновление текстур
                         case 2:
                             if (x== 0 && y==0) {
                                 switch (player1_pers) {
@@ -213,76 +221,18 @@ public class Gameplay extends AppCompatActivity {
                                 }
                             }
                             else {
-                                switch (player1_vs) {
+                                switch (player2_pers) {                                             ////////////////////////////////////////////
                                     case 1:
-                                        switch (player1_pers) {
-                                            case 1:
-                                                tmp.setImageResource(R.drawable.black_kill);
-                                                break;
-                                            case 2:
-                                                tmp.setImageResource(R.drawable.black_kill);
-                                                break;
-
-                                            case 3:
-                                                tmp.setImageResource(R.drawable.black_kill);
-                                                break;
-                                            case 4:
-                                                tmp.setImageResource(R.drawable.black_kill);
-                                                break;
-                                        }
+                                        tmp.setImageResource(R.drawable.black_kill);
                                         break;
                                     case 2:
-                                        switch (player1_pers) {
-                                            case 1:
-                                                tmp.setImageResource(R.drawable.grace_kill);
-                                                break;
-
-                                            case 3:
-                                                tmp.setImageResource(R.drawable.grace_kill);
-                                                break;
-
-                                            case 4:
-                                                tmp.setImageResource(R.drawable.grace_kill);
-                                                break;
-                                            case 2:
-                                                tmp.setImageResource(R.drawable.grace_kill);
-                                                break;
-                                        }
+                                        tmp.setImageResource(R.drawable.grace_kill);
                                         break;
                                     case 3:
-                                        switch (player1_pers) {
-                                            case 2:
-                                                tmp.setImageResource(R.drawable.lava_kill);
-                                                break;
-
-                                            case 1:
-                                                tmp.setImageResource(R.drawable.lava_kill);
-                                                break;
-
-                                            case 4:
-                                                tmp.setImageResource(R.drawable.lava_kill);
-                                                break;
-                                            case 3:
-                                                tmp.setImageResource(R.drawable.lava_kill);
-                                                break;
-                                        }
+                                        tmp.setImageResource(R.drawable.lava_kill);
                                         break;
                                     case 4:
-                                        switch (player1_pers) {
-                                            case 1:
-                                                tmp.setImageResource(R.drawable.sand_kill);
-                                                break;
-
-                                            case 3:
-                                                tmp.setImageResource(R.drawable.sand_kill);
-                                                break;
-
-                                            case 2:
-                                                tmp.setImageResource(R.drawable.sand_kill);
-                                                break;
-                                            case 4:
-                                                tmp.setImageResource(R.drawable.sand_kill);
-                                        }
+                                        tmp.setImageResource(R.drawable.sand_kill);
                                         break;
                                 }
                             }
@@ -297,7 +247,6 @@ public class Gameplay extends AppCompatActivity {
                                 case 2:
                                     tmp.setImageResource(R.drawable.grnd_grace);
                                     break;
-
                                 case 3:
                                     tmp.setImageResource(R.drawable.grnd_lava);
                                     break;
@@ -317,7 +266,6 @@ public class Gameplay extends AppCompatActivity {
                                     case 2:
                                         tmp.setImageResource(R.drawable.grnd_grace);
                                         break;
-
                                     case 3:
                                         tmp.setImageResource(R.drawable.grnd_lava);
                                         break;
@@ -329,7 +277,7 @@ public class Gameplay extends AppCompatActivity {
                             Log.d("asdasd", "-1");
                             break;
                         case -2:
-                            if (x==Width-1 || y==Height-1) {
+                            if (x==Width-1 && y==Height-1) {
                                 switch (player2_pers) {
                                     case 1:     tmp.setImageResource(R.drawable.ctl_black_die);
                                         break;
@@ -342,75 +290,18 @@ public class Gameplay extends AppCompatActivity {
                                 }
                             }
                             else {
-                                switch (player2_vs) {
+                                switch (player1_pers) {                                             ////////////////////////////////////////////
                                     case 1:
-                                            switch (player2_pers) {
-                                                case 1:
-                                                    tmp.setImageResource(R.drawable.black_kill);
-                                                    break;
-                                                case 2:
-                                                    tmp.setImageResource(R.drawable.black_kill);
-                                                    break;
-
-                                                case 3:
-                                                    tmp.setImageResource(R.drawable.black_kill);
-                                                    break;
-
-                                                case 4:
-                                                    tmp.setImageResource(R.drawable.black_kill);
-                                                    break;
-                                            }
-                                            break;
+                                        tmp.setImageResource(R.drawable.black_kill);
+                                        break;
                                     case 2:
-                                        switch (player2_pers) {
-                                            case 1:
-                                                tmp.setImageResource(R.drawable.grace_kill);
-                                                break;
-
-                                            case 3:
-                                                tmp.setImageResource(R.drawable.grace_kill);
-                                                break;
-
-                                            case 4:
-                                                tmp.setImageResource(R.drawable.grace_kill);
-                                                break;
-                                            case 2:
-                                                tmp.setImageResource(R.drawable.grace_kill);
-                                        }
+                                        tmp.setImageResource(R.drawable.grace_kill);
                                         break;
                                     case 3:
-                                        switch (player2_pers) {
-                                            case 2:
-                                                tmp.setImageResource(R.drawable.lava_kill);
-                                                break;
-
-                                            case 1:
-                                                tmp.setImageResource(R.drawable.lava_kill);
-                                                break;
-
-                                            case 4:
-                                                tmp.setImageResource(R.drawable.lava_kill);
-                                                break;
-                                            case 3:
-                                                tmp.setImageResource(R.drawable.lava_kill);
-                                        }
+                                        tmp.setImageResource(R.drawable.lava_kill);
                                         break;
                                     case 4:
-                                        switch (player2_pers) {
-                                            case 1:
-                                                tmp.setImageResource(R.drawable.sand_kill);
-                                                break;
-
-                                            case 3:
-                                                tmp.setImageResource(R.drawable.sand_kill);
-                                                break;
-
-                                            case 2:
-                                                tmp.setImageResource(R.drawable.sand_kill);
-                                                break;
-                                            case 4:
-                                                tmp.setImageResource(R.drawable.sand_kill);
-                                        }
+                                        tmp.setImageResource(R.drawable.sand_kill);
                                         break;
                                 }
                             }
@@ -491,13 +382,12 @@ public class Gameplay extends AppCompatActivity {
     }
 
 
-    //
-    //
-    //ФУНКЦИИ
-    //
-    //
+    /*
+     * ФУНКЦИИ
+     */
 
-    private boolean ReasonsToPut(int x, int y) {
+
+    private boolean ReasonsToPut(int x, int y) {                                                    // проверка постановки клопа
         boolean b = false;
         int d;
         if (step % 6 == 1 || step % 6 == 2 || step % 6 == 3) {
@@ -547,10 +437,10 @@ public class Gameplay extends AppCompatActivity {
         }
 
         return b;
-    }//для првоерки постановки клопа
+    }
 
 
-    private boolean ReasonsToEat(int x, int y) {
+    private boolean ReasonsToEat(int x, int y) {                                                    // проверка съедания клопа
         boolean b = false;
         int d;
         if (step % 6 == 1 || step % 6 == 2 || step % 6 == 3) {
@@ -558,7 +448,6 @@ public class Gameplay extends AppCompatActivity {
         } else {
             d = -2;
         }
-
 
         try {
             b = b || (d == buttons[x - 1][y].getState() && checkActivity(x - 1, y));
@@ -603,10 +492,10 @@ public class Gameplay extends AppCompatActivity {
 
 
         return b;
-    }//для проверки съедания клопа
+    }
 
 
-    public boolean checkActivity(int x, int y) {
+    public boolean checkActivity(int x, int y) {                                                    // проверка активности мертвой кучи клопов
         boolean result = false;
 
         boolean main_flg = false;
@@ -688,10 +577,10 @@ public class Gameplay extends AppCompatActivity {
 
 
         return result;
-    }//для проверки активности мертвых кучей клопов
+    }
 
 
-    public boolean existEatenNear(int x, int y) {
+    public boolean existEatenNear(int x, int y) {                                                   // проверка существования рядом мертвых клопов
         int d = buttons[x][y].getState();
 
         boolean b = false;
@@ -737,14 +626,14 @@ public class Gameplay extends AppCompatActivity {
         }
 
         return b;
-    }//для проверки существования рядом мертвых клопов
+    }
 
 
-    public void clear() {
+    public void clear() {                                                                           // обнуление флагов клеток
         for (int k1 = 0; k1 < Width; k1++) {
             for (int k2 = 0; k2 < Height; k2++) {
                 buttons[k1][k2].setCheckable(true);
             }
         }
-    }//для обнуления флагов клеток
+    }
 }

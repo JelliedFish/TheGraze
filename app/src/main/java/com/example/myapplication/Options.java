@@ -22,9 +22,7 @@ public class Options extends AppCompatActivity {
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Gameplay.player1_pers = 1;
-        Gameplay.player1_vs = 2;
         Gameplay.player2_pers = 2;
-        Gameplay.player2_vs = 1;
 
         ImageButton btn_options_to_main = (ImageButton) findViewById(R.id.options_return);
         btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
@@ -155,7 +153,6 @@ public class Options extends AppCompatActivity {
             public void onClick(View v) {
                 if (player1_textureState > 1) {
                     Gameplay.player1_pers--;
-                    Gameplay.player2_vs--;
                     player1_textureState--;
                     setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
                 }
@@ -166,7 +163,6 @@ public class Options extends AppCompatActivity {
             public void onClick(View v) {
                 if (player1_textureState < 4) {
                     Gameplay.player1_pers++;
-                    Gameplay.player2_vs++;
                     player1_textureState++;
                     setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
                 }
@@ -177,7 +173,6 @@ public class Options extends AppCompatActivity {
             public void onClick(View v) {
                 if (player2_textureState > 1) {
                     Gameplay.player2_pers--;
-                    Gameplay.player1_vs--;
                     player2_textureState--;
                     setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
                 }
@@ -187,8 +182,7 @@ public class Options extends AppCompatActivity {
         player2_rightArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (player2_textureState < 4) {
-                Gameplay.player2_pers++;
-                Gameplay.player1_vs++;
+                    Gameplay.player2_pers++;
                     player2_textureState++;
                     setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
                 }

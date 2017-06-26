@@ -9,15 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text1"
-            android:text="Zzzzzzzzzzzzz"
-            android:gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <LinearLayout
             android:id="@+id/wrapper"
             android:layout_width="match_parent"
@@ -37,19 +28,6 @@
 
         </LinearLayout>
 
-
-        <TextView
-            android:gravity="center"
-            android:id="@+id/text2"
-            android:layout_marginBottom="40dp"
-            android:text="Zzzzzzzzzzzzz"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
     </RelativeLayout>
-
-
 
 </LinearLayout>
