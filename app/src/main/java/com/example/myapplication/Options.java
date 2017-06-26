@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -10,10 +11,9 @@ import android.widget.ImageView;
 
 public class Options extends AppCompatActivity {
 
-    boolean musicState = false;
-    byte diffState = 0;
-    byte player1_textureState = 1;
-    byte player2_textureState = 2;
+    static boolean musicState = false;
+    static byte diffState = 0;
+    static byte[] players_textureState = {1, 2, 3, 4};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +21,9 @@ public class Options extends AppCompatActivity {
         setContentView(R.layout.activity_options);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Gameplay.player1_pers = 1;
-        Gameplay.player2_pers = 2;
+
+        Log.d("OPTIONS_DEBUG", "players_textureState[0]=" + players_textureState[0] + "; players_textureState[1]=" + players_textureState[1]);
+
 
         ImageButton btn_options_to_main = (ImageButton) findViewById(R.id.options_return);
         btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
@@ -144,58 +145,60 @@ public class Options extends AppCompatActivity {
 
         final ImageButton textures_swap = (ImageButton) findViewById(R.id.options_textures_swap);
 
-        setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
-        setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
+        setPlayersPicturesForVar(players_textureState[0], player1_leftArrow, player1_texture, player1_rightArrow);
+        setPlayersPicturesForVar(players_textureState[1], player2_leftArrow, player2_texture, player2_rightArrow);
         textures_swap.setBackgroundResource(R.drawable.ic_btn_settings_swap);
 
 
         player1_leftArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (player1_textureState > 1) {
-                    Gameplay.player1_pers--;
-                    player1_textureState--;
-                    setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
+                if (players_textureState[0] > 1) {
+                    Gameplay.players_textures[0]--;
+                    players_textureState[0]--;
+                    setPlayersPicturesForVar(players_textureState[0], player1_leftArrow, player1_texture, player1_rightArrow);
                 }
             }
         });
 
         player1_rightArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (player1_textureState < 4) {
-                    Gameplay.player1_pers++;
-                    player1_textureState++;
-                    setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
+                if (players_textureState[0] < 4) {
+                    Gameplay.players_textures[0]++;
+                    players_textureState[0]++;
+                    setPlayersPicturesForVar(players_textureState[0], player1_leftArrow, player1_texture, player1_rightArrow);
                 }
             }
         });
 
         player2_leftArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (player2_textureState > 1) {
-                    Gameplay.player2_pers--;
-                    player2_textureState--;
-                    setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
+                if (players_textureState[1] > 1) {
+                    Gameplay.players_textures[1]--;
+                    players_textureState[1]--;
+                    setPlayersPicturesForVar(players_textureState[1], player2_leftArrow, player2_texture, player2_rightArrow);
                 }
             }
         });
 
         player2_rightArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (player2_textureState < 4) {
-                    Gameplay.player2_pers++;
-                    player2_textureState++;
-                    setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
+                if (players_textureState[1] < 4) {
+                    Gameplay.players_textures[1]++;
+                    players_textureState[1]++;
+                    setPlayersPicturesForVar(players_textureState[1], player2_leftArrow, player2_texture, player2_rightArrow);
                 }
             }
         });
 
         textures_swap.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                byte memory = player2_textureState;
-                player2_textureState = player1_textureState;
-                player1_textureState = memory;
-                setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
-                setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
+                byte memory = players_textureState[1];
+                players_textureState[1] = players_textureState[0];
+                players_textureState[0] = memory;
+                setPlayersPicturesForVar(players_textureState[0], player1_leftArrow, player1_texture, player1_rightArrow);
+                setPlayersPicturesForVar(players_textureState[1], player2_leftArrow, player2_texture, player2_rightArrow);
+                Gameplay.players_textures[0] = players_textureState[0];
+                Gameplay.players_textures[1] = players_textureState[1];
             }
         });
 
@@ -216,10 +219,10 @@ public class Options extends AppCompatActivity {
                         btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
                         btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
                         btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
-                        player1_textureState = 1;
-                        player2_textureState = 2;
-                        setPlayersPicturesForVar(player1_textureState, player1_leftArrow, player1_texture, player1_rightArrow);
-                        setPlayersPicturesForVar(player2_textureState, player2_leftArrow, player2_texture, player2_rightArrow);
+                        players_textureState[0] = 1;
+                        players_textureState[1] = 2;
+                        setPlayersPicturesForVar(players_textureState[0], player1_leftArrow, player1_texture, player1_rightArrow);
+                        setPlayersPicturesForVar(players_textureState[1], player2_leftArrow, player2_texture, player2_rightArrow);
                         break;
                 }
                 return true;

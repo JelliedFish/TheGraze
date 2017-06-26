@@ -22,15 +22,31 @@ import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
 
-    int Height = 15;
-    int Width = 10;
-    static int player1_pers =1;
-    static int player2_pers =2;
-    //static int player1_vs =2;
-    //static int player2_vs =1;
+    // КОНСТАНТЫ
+
+        private static final byte TEXTURE_MISSING = -1;
+        private static final byte TEXTURE_NEUTRAL = 0;
+        private static final byte TEXTURE_ALIVE = 1;
+        private static final byte TEXTURE_KILL = 2;
+        private static final byte TEXTURE_CASTLE = 3;
+        private static final byte TEXTURE_CASTLEKILLED = 4;
+
+    //
+
+    int Height;
+    int Width;
+    static int teamsCount = 2;                                                                      // количество команд в игре, на данный момент константа, равная 2.
+    static int[] castleCoords = {0, 0, 0, 0};                                                       // координаты (в массиве fields, а не двумерном массиве buttons!) замков соответствующих 4 команд
+
+
+    static int currentTeam;                                                                         // команда, которая сейчас ходит
+    static int stepsLeft;                                                                           // сколько ходов осталось этой команде
+    static int step;                                                                                // счётчик шагов (сейчас работает, но нигде не применяется)
+
+    static int[] players_textures = {1, 2, 3, 4};                                                   // тут хранятся данные о текстурах игроков. Команде N соответствует номер массива N-1
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
-    static int step = 0;                                                                            // переменная для подсчета шагов
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +67,7 @@ public class Gameplay extends AppCompatActivity {
 
         for (int i = 0; i < Height * Width; i++) {                                                  //
             CustomButton tmp = new CustomButton(getBaseContext());                                  //
-            tmp.setImageResource(R.drawable.ic_grnd_main);                                          // заполнение всех кнопок картинками
+            setTexture(tmp, 0, TEXTURE_NEUTRAL);                                                    // заполнение всех кнопок картинками
             tmp.setImageAlpha(210);                                                                 // установка прозрачности
             tmp.setCheckable(true);                                                                 //
             fields.add(tmp);                                                                        //
@@ -59,7 +75,6 @@ public class Gameplay extends AppCompatActivity {
 
 
         int l = 0;
-
         for (int i = 0; i < Height; i++) {                                                          //
             for (int j = 0; j < Width; j++) {                                                       //
                 buttons[j][i] = fields.get(l);                                                      // связываем наш массив кнопок с двумерным массивом кнопок
@@ -68,33 +83,16 @@ public class Gameplay extends AppCompatActivity {
         }                                                                                           //
 
 
-        fields.get(0).setState(1);                                                                  // ставим текстуру базы для 1-й команды
-        fields.get(Height * Width - 1).setState(-1);
-        switch (player1_pers) {
-            case 2:   fields.get(0).setImageResource(R.drawable.ctl_grace);
-                break;
-            case 3:   fields.get(0).setImageResource(R.drawable.ctl_lava);
-                break;
-            case 4:   fields.get(0).setImageResource(R.drawable.ctl_sand);
-                break;
-            case 1:   fields.get(0).setImageResource(R.drawable.ctl_black);
-                break;
-        }
-
-        switch (player2_pers) {                                                                     // для 2-й команды
-            case 2:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_grace);
-                break;
-            case 3:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_lava);
-                break;
-            case 4:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_sand);
-                break;
-            case 1:  fields.get(Height * Width - 1).setImageResource(R.drawable.ctl_black);
-                break;
-        }
+        castleCoords[0] = 0;
+        castleCoords[1] = Width * Height - 1;
+        fields.get(castleCoords[0]).setState(1);
+        fields.get(castleCoords[1]).setState(-1);
+        setTexture(fields.get(castleCoords[0]), 1, TEXTURE_CASTLE);                                 // ставим текстуры и координаты баз
+        setTexture(fields.get(castleCoords[1]), 2, TEXTURE_CASTLE);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);                                 // создаем гридвью
-        gridView.setAdapter(new CustomAdapter(this, fields));                                       // связываем гридвью и адптер
-        gridView.setNumColumns(Width);                                                              // установка кол-ва колонок для гридвтю
+        gridView.setAdapter(new CustomAdapter(this, fields));                                       // связываем гридвью и адаптер
+        gridView.setNumColumns(Width);                                                              // установка кол-ва колонок для гридвью
 
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();                         // фича, необходимая для получения высоты и ширины экрана в пикселях:
@@ -121,12 +119,13 @@ public class Gameplay extends AppCompatActivity {
             downMargin += additionalMargin;                                                         //
         }
 
-        Log.d("MARGINS", leftAndRightMargins + " " + upMargin + " " + leftAndRightMargins + " " + downMargin + "; ADD=" + additionalMargin + "; MAX= " + maxGridWidth + " " + maxGridHeight);
         layoutParams.setMargins(leftAndRightMargins, upMargin, leftAndRightMargins, downMargin);
         wrapperView.setLayoutParams(layoutParams);                                                  // устанавливаем полученные отступы в layout
 
 
         step = 0;
+        currentTeam = 1;
+        stepsLeft = 3;
 
 
         for (int position = 0; position < Height * Width; position++) {                             // обрабатываем каждую кнопку
@@ -140,47 +139,34 @@ public class Gameplay extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {                                                         // добавляем для каждой кнопки слушатель действия
 
-                    step++;                                                                         // увеличиваем шаг (ход игрока)
-
                     if (tmp.getState() != -2 && tmp.getState() != 2) {                              // если мы не нажали на "мертвую" клетку, то
 
 
-                        if ((step % 6 == 1 || step % 6 == 2 || step % 6 == 3)) {                    // если ходит первый
-
+                        if (currentTeam == 2) {                                                     // если ходит второй
 
                             if (ReasonsToPut(x, y)) {                                               // есть ли рядом живые клопы
-
-                                if (tmp.getState() == -1) {                                         // нажал на своего
-                                    step--;
-                                } else {
+                                if (tmp.getState() != -1) {                                         // если нажал не на своего
+                                    minusStep();
                                     if (tmp.getState() == 1) {                                      // нажал на чужого - убивает его
                                         tmp.setState(2);                                            // изменение состояния мертвого клопа
                                     } else {
                                         tmp.setState(-1);
                                     }
                                 }
-
                             } else {
-
                                 if (ReasonsToEat(x, y)) {                                           // можно ли съесть данную клетку
-                                    if (tmp.getState() == 1) {                                      // да
+                                    if (tmp.getState() == 1) {
                                         tmp.setState(2);
+                                        minusStep();
                                     }
-                                } else {                                                            // нет
-                                    step--;
                                 }
-
                             }
 
+                        } else {                                                                    // если ходит первый (тут всё аналогично)
 
-                        } else {
-                                                                                                    // если ходит второй (тут всё аналогично)
-                            if (ReasonsToPut(x, y) && tmp.getState() != -2 && tmp.getState() != 2) {
-
-
-                                if (tmp.getState() == 1) {
-                                    step--;
-                                } else {
+                            if (ReasonsToPut(x, y)) {
+                                if (tmp.getState() != 1) {
+                                    minusStep();
                                     if (tmp.getState() == -1) {
                                         tmp.setState(-2);
                                     } else {
@@ -191,124 +177,47 @@ public class Gameplay extends AppCompatActivity {
                                 if (ReasonsToEat(x, y)) {
                                     if (tmp.getState() == -1) {
                                         tmp.setState(-2);
+                                        minusStep();
                                     }
-                                } else {
-                                    step--;
                                 }
                             }
+
                         }
-
-
-                    } else {
-                        step--;
                     }
 
 
-                    clear();                                                                        // обнуление флагов для проверки клеток с кучкой мертвых клопов
+                    clear();                                                                        // обнуление флагов для проверки клеток с кучкой мёртвых клопов
 
                     switch (tmp.getState()) {                                                       // дальше обновление текстур
                         case 2:
-                            if (x== 0 && y==0) {
-                                switch (player1_pers) {
-                                    case 1:     tmp.setImageResource(R.drawable.ctl_black_die);
-                                        break;
-                                    case 2:     tmp.setImageResource(R.drawable.ctl_grace_die);
-                                        break;
-                                    case 3:     tmp.setImageResource(R.drawable.ctl_lava_die);
-                                        break;
-                                    case 4:     tmp.setImageResource(R.drawable.ctl_sand_die);
-                                        break;
-                                }
-                            }
-                            else {
-                                switch (player2_pers) {                                             ////////////////////////////////////////////
-                                    case 1:
-                                        tmp.setImageResource(R.drawable.black_kill);
-                                        break;
-                                    case 2:
-                                        tmp.setImageResource(R.drawable.grace_kill);
-                                        break;
-                                    case 3:
-                                        tmp.setImageResource(R.drawable.lava_kill);
-                                        break;
-                                    case 4:
-                                        tmp.setImageResource(R.drawable.sand_kill);
-                                        break;
-                                }
-                            }
-                            Log.d("asdasd", "2");
+
+                            if (isCastle(x, y, 1))
+                                setTexture(tmp, 1, TEXTURE_CASTLEKILLED);
+                            else
+                                setTexture(tmp, 2, TEXTURE_KILL);
                             break;
+
                         case 1:
-                            if(x!=0 || y!=0) {
-                            switch (player1_pers) {
-                                case 1:
-                                    tmp.setImageResource(R.drawable.grnd_black);
-                                    break;
-                                case 2:
-                                    tmp.setImageResource(R.drawable.grnd_grace);
-                                    break;
-                                case 3:
-                                    tmp.setImageResource(R.drawable.grnd_lava);
-                                    break;
-                                case 4:
-                                    tmp.setImageResource(R.drawable.grnd_sand);
-                                    break;
-                            }
-                            }
-                            Log.d("asdasd", "1");
+
+                            if (!isCastle(x, y, 1))
+                                setTexture(tmp, 1, TEXTURE_ALIVE);
                             break;
+
                         case -1:
-                            if(x!=Width-1 || y!=Height-1) {
-                                switch (player2_pers) {
-                                    case 1:
-                                        tmp.setImageResource(R.drawable.grnd_black);
-                                        break;
-                                    case 2:
-                                        tmp.setImageResource(R.drawable.grnd_grace);
-                                        break;
-                                    case 3:
-                                        tmp.setImageResource(R.drawable.grnd_lava);
-                                        break;
-                                    case 4:
-                                        tmp.setImageResource(R.drawable.grnd_sand);
-                                        break;
-                                }
-                            }
-                            Log.d("asdasd", "-1");
+
+                            if (!isCastle(x, y, 2))
+                                setTexture(tmp, 2, TEXTURE_ALIVE);
                             break;
+
                         case -2:
-                            if (x==Width-1 && y==Height-1) {
-                                switch (player2_pers) {
-                                    case 1:     tmp.setImageResource(R.drawable.ctl_black_die);
-                                        break;
-                                    case 2:     tmp.setImageResource(R.drawable.ctl_grace_die);
-                                        break;
-                                    case 3:     tmp.setImageResource(R.drawable.ctl_lava_die);
-                                        break;
-                                    case 4:     tmp.setImageResource(R.drawable.ctl_sand_die);
-                                        break;
-                                }
-                            }
-                            else {
-                                switch (player1_pers) {                                             ////////////////////////////////////////////
-                                    case 1:
-                                        tmp.setImageResource(R.drawable.black_kill);
-                                        break;
-                                    case 2:
-                                        tmp.setImageResource(R.drawable.grace_kill);
-                                        break;
-                                    case 3:
-                                        tmp.setImageResource(R.drawable.lava_kill);
-                                        break;
-                                    case 4:
-                                        tmp.setImageResource(R.drawable.sand_kill);
-                                        break;
-                                }
-                            }
-                                        Log.d("asdasd", "-2");
+
+                            if (isCastle(x, y, 2))
+                                setTexture(tmp, 2, TEXTURE_CASTLEKILLED);
+                            else
+                                setTexture(tmp, 1, TEXTURE_KILL);
                             break;
+
                     }
-                    Log.d("asdasd", "unpressed");
                 }
 
 
@@ -386,68 +295,66 @@ public class Gameplay extends AppCompatActivity {
      * ФУНКЦИИ
      */
 
+    private boolean buttonMatch(CustomButton CB, int team, boolean testForAlive, boolean testForKill, boolean testForCastle) {
+        /* Метод, проверяющий, подходит ли кнопка CB к ХОТЯ БЫ ОДНОМУ указанному флагу.
+         * Например, функция buttonMatch(buttons[2][3], 1, true, false, true) вернёт true, если в клетке (2;3)
+         * стоит живой клоп команды 1 ИЛИ база команды 1.
+         */
+        return false;
+    }
+
 
     private boolean ReasonsToPut(int x, int y) {                                                    // проверка постановки клопа
         boolean b = false;
-        int d;
-        if (step % 6 == 1 || step % 6 == 2 || step % 6 == 3) {
-            d = -1;
-        } else {
-            d = 1;
-        }
+        int d = (currentTeam == 2)? -1 : 1;
+
         try {
             b = b || (d == buttons[x - 1][y].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x - 1][y - 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x - 1][y + 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x][y - 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x][y + 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x + 1][y - 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x + 1][y].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x + 1][y + 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
 
         return b;
     }
 
-
     private boolean ReasonsToEat(int x, int y) {                                                    // проверка съедания клопа
         boolean b = false;
-        int d;
-        if (step % 6 == 1 || step % 6 == 2 || step % 6 == 3) {
-            d = 2;
-        } else {
-            d = -2;
-        }
+        int d = (currentTeam == 2)? 2 : -2;
 
         try {
             b = b || (d == buttons[x - 1][y].getState() && checkActivity(x - 1, y));
@@ -493,7 +400,6 @@ public class Gameplay extends AppCompatActivity {
 
         return b;
     }
-
 
     public boolean checkActivity(int x, int y) {                                                    // проверка активности мертвой кучи клопов
         boolean result = false;
@@ -579,7 +485,6 @@ public class Gameplay extends AppCompatActivity {
         return result;
     }
 
-
     public boolean existEatenNear(int x, int y) {                                                   // проверка существования рядом мертвых клопов
         int d = buttons[x][y].getState();
 
@@ -587,42 +492,42 @@ public class Gameplay extends AppCompatActivity {
         try {
             b = b || (d == buttons[x - 1][y].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x - 1][y - 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x - 1][y + 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x][y - 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x][y + 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x + 1][y - 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x + 1][y].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
         try {
             b = b || (d == buttons[x + 1][y + 1].getState());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("i gotcha:", "promahnulis' mimo imdexa");
+            Log.d("i gotcha:", "promahnulis' mimo indexa");
         }
 
         return b;
@@ -635,5 +540,44 @@ public class Gameplay extends AppCompatActivity {
                 buttons[k1][k2].setCheckable(true);
             }
         }
+    }
+
+    public void minusStep() {                                                                       // процедура отнятия шага; выполняется при кажом успешном действии
+        stepsLeft--;
+        if (stepsLeft == 0) {
+            stepsLeft = 3;
+            currentTeam++;
+            if (currentTeam > teamsCount) currentTeam = 1;
+        }
+        step++;
+    }
+
+    public void setTexture(CustomButton CB, int team, byte state) {                                 // ставит текстуру искомой команды team с искомым состоянием state
+        if (state == 0) CB.setImageResource(R.drawable.ic_grnd_main);
+        else {
+            int textureID = state * 4 + players_textures[team - 1] - 5;
+            switch (textureID) {
+                case 0: CB.setImageResource(R.drawable.grnd_black); break;
+                case 1: CB.setImageResource(R.drawable.grnd_grace); break;
+                case 2: CB.setImageResource(R.drawable.grnd_lava); break;
+                case 3: CB.setImageResource(R.drawable.grnd_sand); break;
+                case 4: CB.setImageResource(R.drawable.black_kill); break;
+                case 5: CB.setImageResource(R.drawable.grace_kill); break;
+                case 6: CB.setImageResource(R.drawable.lava_kill); break;
+                case 7: CB.setImageResource(R.drawable.sand_kill); break;
+                case 8: CB.setImageResource(R.drawable.ctl_black); break;
+                case 9: CB.setImageResource(R.drawable.ctl_grace); break;
+                case 10: CB.setImageResource(R.drawable.ctl_lava); break;
+                case 11: CB.setImageResource(R.drawable.ctl_sand); break;
+                case 12: CB.setImageResource(R.drawable.ctl_black_die); break;
+                case 13: CB.setImageResource(R.drawable.ctl_grace_die); break;
+                case 14: CB.setImageResource(R.drawable.ctl_lava_die); break;
+                case 15: CB.setImageResource(R.drawable.ctl_sand_die); break;
+            }
+        }
+    }
+
+    public boolean isCastle(int x, int y, int seekingTeam) {                                        // проверяет, есть ли в данной точке база команды seekingTeam
+        return (castleCoords[seekingTeam - 1] == y * Width + x);
     }
 }
