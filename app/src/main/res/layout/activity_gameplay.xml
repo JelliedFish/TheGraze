@@ -9,21 +9,93 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameplay_title1"
+            android:src="@drawable/ic_gameplay_title"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameplay_title2"
+            android:src="@drawable/ic_gameplay_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameplay_nowplaying_txt"
+            android:src="@drawable/ic_gameplay_nowplaying"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameplay_stepsleft_txt"
+            android:src="@drawable/ic_gameplay_stepsleft"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="27dp"/>
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="19dp"
+            android:id="@+id/gameplay_team"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="200dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="4dp"/>
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="19dp"
+            android:id="@+id/gameplay_steps"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="29dp"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/gameplay_playingicon"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="220dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="1dp"/>
+
         <LinearLayout
             android:id="@+id/wrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <GridView
+                android:id="@+id/gridView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:numColumns="7"
-                android:layout_weight="3"
+                android:numColumns="8"
                 android:verticalSpacing="0dp"
-                android:horizontalSpacing="0dp"
-                android:id="@+id/gridView">
-
-
+                android:horizontalSpacing="0dp">
             </GridView>
 
         </LinearLayout>

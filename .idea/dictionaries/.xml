@@ -1,19 +1,43 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Михаил">
     <words>
+      <w>appdata</w>
+      <w>buttonsdata</w>
       <w>castlekilled</w>
       <w>castlescoords</w>
       <w>coords</w>
+      <w>fieldshape</w>
+      <w>fileworker</w>
+      <w>freeform</w>
+      <w>freeformme</w>
+      <w>freeformmeclicked</w>
       <w>gameplay</w>
       <w>gameselect</w>
+      <w>grnd</w>
       <w>indexa</w>
+      <w>mapeditor</w>
+      <w>mapeditorclicked</w>
+      <w>mapnumber</w>
+      <w>mapnumbertxt</w>
+      <w>mappreview</w>
+      <w>mapteamscount</w>
       <w>mimo</w>
+      <w>mult</w>
       <w>multiplayer</w>
+      <w>nowplaying</w>
       <w>onoff</w>
       <w>pers</w>
+      <w>playingicon</w>
       <w>promahnulis</w>
+      <w>selectmap</w>
+      <w>setgamefield</w>
+      <w>setgamefieldtype</w>
+      <w>sgft</w>
       <w>singleplayer</w>
+      <w>stepsleft</w>
       <w>teamscount</w>
+      <w>teamsnum</w>
+      <w>пiймав</w>
     </words>
   </dictionary>
 </component>

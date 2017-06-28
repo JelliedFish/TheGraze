@@ -13,6 +13,7 @@ public class SetGameField extends AppCompatActivity {
 
     int fieldWidth = 8;
     int fieldHeight = 12;
+    int teamsCount = 2;
 
     static final int MIN_WIDTH = 5;
     static final int MAX_WIDTH = 12;
@@ -41,6 +42,9 @@ public class SetGameField extends AppCompatActivity {
         final ImageButton setgamefield_height_right = (ImageButton) findViewById(R.id.setgamefield_height_right);
         final ImageView setgamefield_width = (ImageView) findViewById(R.id.setgamefield_width);
         final ImageView setgamefield_height = (ImageView) findViewById(R.id.setgamefield_height);
+        final ImageButton setgamefield_teamscount_left = (ImageButton) findViewById(R.id.ic_setgamefield_teamscount_left);
+        final ImageButton setgamefield_teamscount_right = (ImageButton) findViewById(R.id.ic_setgamefield_teamscount_right);
+        final ImageView setgamefield_teamscount = (ImageView) findViewById(R.id.ic_setgamefield_teamscount);
 
         final ImageButton setgamefield_start = (ImageButton) findViewById(R.id.setgamefield_play);
         final ImageButton setgamefield_reset = (ImageButton) findViewById(R.id.setgamefield_reset);
@@ -49,6 +53,9 @@ public class SetGameField extends AppCompatActivity {
 
         updateWidthButtons(fieldWidth, setgamefield_width_left, setgamefield_width, setgamefield_width_right);
         updateHeightButtons(fieldHeight, setgamefield_height_left, setgamefield_height, setgamefield_height_right);
+        setgamefield_teamscount.setBackgroundResource(R.drawable.ic_setgamefield_num_2);
+        setgamefield_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_left);
+        setgamefield_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
 
 
         setgamefield_width_left.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +94,28 @@ public class SetGameField extends AppCompatActivity {
             }
         });
 
+        setgamefield_teamscount_left.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (teamsCount == 4) {
+                    setgamefield_teamscount.setBackgroundResource(R.drawable.ic_setgamefield_num_2);
+                    setgamefield_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_left);
+                    setgamefield_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
+                    teamsCount = 2;
+                }
+            }
+        });
+
+        setgamefield_teamscount_right.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (teamsCount == 2) {
+                    setgamefield_teamscount.setBackgroundResource(R.drawable.ic_setgamefield_num_4);
+                    setgamefield_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_leftactive);
+                    setgamefield_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_right);
+                    teamsCount = 4;
+                }
+            }
+        });
+
 
         setgamefield_start.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -98,10 +127,16 @@ public class SetGameField extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         setgamefield_start.setBackgroundResource(R.drawable.ic_setgamefield_play);
                         Intent sgf_to_gameplay = new Intent(getBaseContext(), Gameplay.class);
+
                         sgf_to_gameplay.putExtra("GAME_FIELD_KEY_WIDTH", fieldWidth);
                         sgf_to_gameplay.putExtra("GAME_FIELD_KEY_HEIGHT", fieldHeight);
-                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY_TEAMSCOUNT", 2);
-                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY_CASTLESCOORDS", "0;" + (fieldWidth * fieldHeight - 1));
+                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY_TEAMSCOUNT", teamsCount);
+                        if (teamsCount == 2)
+                            sgf_to_gameplay.putExtra("GAME_FIELD_KEY_CASTLESCOORDS", "0;" + (fieldWidth * fieldHeight - 1));
+                        if (teamsCount == 4)
+                            sgf_to_gameplay.putExtra("GAME_FIELD_KEY_CASTLESCOORDS", "0;" + (fieldWidth - 1) + ";" + (fieldWidth * fieldHeight - 1) + ";" + (fieldWidth * (fieldHeight - 1)));
+                        sgf_to_gameplay.putExtra("GAME_FIELD_KEY_BUTTONSDATA", getButtonsDataForRect(fieldWidth, fieldHeight));
+
                         startActivity(sgf_to_gameplay);
                         break;
                 }
@@ -120,6 +155,7 @@ public class SetGameField extends AppCompatActivity {
                         setgamefield_reset.setBackgroundResource(R.drawable.ic_settings_reset);
                         fieldWidth = 8;
                         fieldHeight = 12;
+                        teamsCount = 2;
                         updateWidthButtons(fieldWidth, setgamefield_width_left, setgamefield_width, setgamefield_width_right);
                         updateHeightButtons(fieldHeight, setgamefield_height_left, setgamefield_height, setgamefield_height_right);
                         break;
@@ -180,5 +216,13 @@ public class SetGameField extends AppCompatActivity {
             case 17: num.setImageResource(R.drawable.ic_setgamefield_num_17); break;
             case 18: num.setImageResource(R.drawable.ic_setgamefield_num_18); break;
         }
+    }
+
+    public static String getButtonsDataForRect(int width, int height) {
+        String res = "";
+        for (int i = 0; i < width * height; i++) {
+            res += "1";
+        }
+        return res;
     }
 }

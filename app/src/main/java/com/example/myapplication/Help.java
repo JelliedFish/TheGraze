@@ -37,6 +37,7 @@ public class Help extends AppCompatActivity {
 
         final ImageView help_txt = (ImageView) findViewById(R.id.help_text);
 
+        helpPage = 1;
         updateSwitcherTextures(1, switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
         updateHelpPage(1, help_txt);
 

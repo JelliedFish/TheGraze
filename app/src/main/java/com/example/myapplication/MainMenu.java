@@ -11,9 +11,11 @@ import android.widget.ImageButton;
 public class MainMenu extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         final ImageButton btn_play = (ImageButton) findViewById(R.id.btn1);
         btn_play.setBackgroundResource(R.drawable.ic_btn_mm_play);
@@ -90,6 +92,23 @@ public class MainMenu extends AppCompatActivity {
                 return true;
             }
         });
+
+/*        final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
+        btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditor);
+        btn_mapeditor.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditorclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditor);
+                        break;
+                }
+                return true;
+            }
+        });*/
 
     }
 

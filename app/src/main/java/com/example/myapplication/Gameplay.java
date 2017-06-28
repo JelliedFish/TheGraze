@@ -10,11 +10,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.myapplication.Additionals.CustomAdapter;
 import com.example.myapplication.Additionals.CustomButton;
+import com.example.myapplication.Additionals.LayoutSetter;
+import com.example.myapplication.Data.MapData;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
@@ -24,27 +27,29 @@ public class Gameplay extends AppCompatActivity {
 
     // КОНСТАНТЫ
 
-        private static final byte STATE_MISSING = -1;
-        private static final byte STATE_NEUTRAL = 0;
-        private static final byte STATE_ALIVE = 1;
-        private static final byte STATE_KILL = 2;
-        private static final byte STATE_CASTLE = 3;
-        private static final byte STATE_CASTLEKILLED = 4;
+        static final byte STATE_MISSING = -1;
+        static final byte STATE_NEUTRAL = 0;
+        static final byte STATE_ALIVE = 1;
+        static final byte STATE_KILL = 2;
+        static final byte STATE_CASTLE = 3;
+        static final byte STATE_CASTLEKILLED = 4;
 
     // ДАННЫЕ, ПЕРЕДАВАЕМЫЕ ИЗ ПРЕДЫДУЩИХ ACTIVITY
 
         int Width;
         int Height;
-        int teamsCount;                                                                             // количество команд в игре, на данный момент константа, равная 2.
-        static int[] castleCoords = {0, 0, 0, 0};                                                   // координаты (в массиве fields, а не двумерном массиве buttons!) замков соответствующих 4 команд
+        int teamsCount;                                                                             // количество команд в игре
+        int[] castleCoords;                                                                         // координаты (в массиве fields, а не двумерном массиве buttons!) замков соответствующих 4 команд
+        boolean[] buttonsData;                                                                      // здесь в виде массива T/F хранятся данные о наличии/отсутствии каждой из клеток поля.
+                                                                                                    // проще говоря, buttonsData задаёт форму для непрямоугольного поля.
         static int[] players_textures = {1, 2, 3, 4};                                               // тут хранятся данные о текстурах игроков. Команде N соответствует номер массива N-1
 
     //
 
 
+    static int step;                                                                                // счётчик шагов (сейчас работает, но нигде не применяется)
     static int currentTeam;                                                                         // команда, которая сейчас ходит
     static int stepsLeft;                                                                           // сколько ходов осталось этой команде
-    static int step;                                                                                // счётчик шагов (сейчас работает, но нигде не применяется)
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
 
@@ -60,12 +65,9 @@ public class Gameplay extends AppCompatActivity {
         Width = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_WIDTH", 8);                             // передача данных о карте из предыдущих activity
         Height = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_HEIGHT", 12);                          //
         teamsCount = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_TEAMSCOUNT", 2);                   //
+        castleCoords = MapData.decryptCastleCoords(sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY_CASTLESCOORDS"));
+        buttonsData = MapData.decryptButtonsData(sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY_BUTTONSDATA"));
 
-        String[] castlesCoordsInString = sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY_CASTLESCOORDS").split(";");
-        castleCoords = new int[castlesCoordsInString.length];
-        for (int i = 0; i < castlesCoordsInString.length; i++) {
-            castleCoords[i] = Integer.parseInt(castlesCoordsInString[i]);
-        }
 
         buttons = new CustomButton[Width][Height];
 
@@ -74,12 +76,16 @@ public class Gameplay extends AppCompatActivity {
 
         for (int i = 0; i < Height * Width; i++) {                                                  //
             CustomButton tmp = new CustomButton(getBaseContext());                                  //
-            tmp.setTeam(0);                                                                         //
-            tmp.setState(STATE_NEUTRAL);                                                            //
-            updateTexture(tmp);                                                                     // заполнение всех кнопок картинками
-            tmp.setImageAlpha(210);                                                                 // установка прозрачности
+            if (buttonsData[i])                                                                     // заполнение поля клетками в соответствии с данными об их
+                updateDataAndTexture(tmp, 0, STATE_NEUTRAL);                                        // существовании (buttonData[])
+            else                                                                                    //
+                updateDataAndTexture(tmp, 0, STATE_MISSING);                                        //
             tmp.setCheckable(true);                                                                 //
             fields.add(tmp);                                                                        //
+        }
+
+        for (int i = 0; i < teamsCount; i++) {                                                      // ставим текстуры и координаты баз
+            updateDataAndTexture(fields.get(castleCoords[i]), i + 1, STATE_CASTLE);
         }
 
 
@@ -91,14 +97,6 @@ public class Gameplay extends AppCompatActivity {
             }                                                                                       //
         }                                                                                           //
 
-
-        castleCoords[0] = 0;
-        castleCoords[1] = Width * Height - 1;
-        for (int i = 0; i < teamsCount; i++) {                                                      // ставим текстуры и координаты баз
-            fields.get(castleCoords[i]).setTeam(i + 1);
-            fields.get(castleCoords[i]).setState(STATE_CASTLE);
-            updateTexture(fields.get(castleCoords[i]));
-        }
 
 
         GridView gridView = (GridView) findViewById(R.id.gridView);                                 // создаем гридвью
@@ -114,29 +112,25 @@ public class Gameplay extends AppCompatActivity {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
-        int leftAndRightMargins = displayMetrics.widthPixels / 20;                                  //
-        int upMargin = displayMetrics.heightPixels / 10;                                            //
-        int downMargin = displayMetrics.heightPixels / 20;                                          // задаём гарантированно минимальные значения отступов
-        int maxGridWidth = displayMetrics.widthPixels - (leftAndRightMargins * 2);                  //
-        int maxGridHeight = displayMetrics.heightPixels - upMargin - downMargin;                    //
-        int additionalMargin;                                                                       //
+        int[] gridMargins = LayoutSetter.getRelativeMargins(displayMetrics.widthPixels, displayMetrics.heightPixels, (double) Width / Height, 0.05, 0.12, 0.05, 0.03);
+        // рассчитывает отступы для игровой сетки (см. класс LayoutSetter)
 
-        if ((double) Width / Height < (double) maxGridWidth / maxGridHeight) {                      //
-            additionalMargin = (maxGridWidth - (maxGridHeight * Width / Height)) / 2;               // если гридвью не вписывается по горизонтали - делаем дополнительные вертикальные отступы
-            leftAndRightMargins += additionalMargin;                                                //
-        } else {
-            additionalMargin = (maxGridHeight - (maxGridWidth * Height / Width)) / 2;               //
-            upMargin += additionalMargin;                                                           // если по вертикали - доп. горизонтальные
-            downMargin += additionalMargin;                                                         //
-        }
-
-        layoutParams.setMargins(leftAndRightMargins, upMargin, leftAndRightMargins, downMargin);
+        layoutParams.setMargins(gridMargins[0], gridMargins[1], gridMargins[2], gridMargins[3]);
         wrapperView.setLayoutParams(layoutParams);                                                  // устанавливаем полученные отступы в layout
+
 
 
         step = 0;
         currentTeam = 1;
         stepsLeft = 3;
+
+
+        final ImageView title_teamNum = (ImageView) findViewById(R.id.gameplay_team);
+        final ImageView title_teamIcon = (ImageView) findViewById(R.id.gameplay_playingicon);
+        final ImageView title_stepsLeft = (ImageView) findViewById(R.id.gameplay_steps);
+
+        updateTeamInTitle(title_teamNum, title_teamIcon);
+        updateStepsInTitle(title_stepsLeft);
 
 
         for (int position = 0; position < Height * Width; position++) {                             // обрабатываем каждую кнопку
@@ -156,39 +150,33 @@ public class Gameplay extends AppCompatActivity {
                             if (tmp.getTeam() != currentTeam) {
                                 switch (tmp.getState()) {
                                     case STATE_ALIVE: {
-                                        tmp.setTeam(currentTeam);
-                                        tmp.setState(STATE_KILL);
-                                        updateTexture(tmp);
+                                        updateDataAndTexture(tmp, currentTeam, STATE_KILL);
                                     }
                                     break;
                                     case STATE_CASTLE: {
-                                        tmp.setState(STATE_CASTLEKILLED);
-                                        updateTexture(tmp);
+                                        updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
                                     }
                                     break;
                                     case STATE_NEUTRAL: {
-                                        tmp.setTeam(currentTeam);
-                                        tmp.setState(STATE_ALIVE);
-                                        updateTexture(tmp);
+                                        updateDataAndTexture(tmp, currentTeam, STATE_ALIVE);
                                     }
                                     break;
                                 }
-                                minusStep();
+                                minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                             }
                         }
                         else if (ReasonsToEat(x, y, currentTeam) && tmp.getTeam() != currentTeam) {
                             switch (tmp.getState()) {
                                 case STATE_ALIVE: {
-                                    tmp.setTeam(currentTeam);
-                                    tmp.setState(STATE_KILL);
-                                    updateTexture(tmp);
-                                } break;
+                                    updateDataAndTexture(tmp, currentTeam, STATE_KILL);
+                                }
+                                break;
                                 case STATE_CASTLE: {
-                                    tmp.setState(STATE_CASTLEKILLED);
-                                    updateTexture(tmp);
-                                } break;
+                                    updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
+                                }
+                                break;
                             }
-                            minusStep();
+                            minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                         }
                     }
 
@@ -411,7 +399,7 @@ public class Gameplay extends AppCompatActivity {
     }
 
 
-    private void clear() {                                                                           // обнуление флагов клеток
+    private void clear() {                                                                          // обнуление флагов клеток
         for (int k1 = 0; k1 < Width; k1++) {
             for (int k2 = 0; k2 < Height; k2++) {
                 buttons[k1][k2].setCheckable(true);
@@ -419,22 +407,28 @@ public class Gameplay extends AppCompatActivity {
         }
     }
 
-    private void minusStep() {                                                                       // процедура отнятия шага; выполняется при каждом успешном действии
+    private void minusStep(ImageView teamNumImg, ImageView teamIcon, ImageView stepsImg) {                                                                      // процедура отнятия шага; выполняется при каждом успешном действии
         stepsLeft--;
         if (stepsLeft == 0) {
             stepsLeft = 3;
             currentTeam++;
             if (currentTeam > teamsCount) currentTeam = 1;
+            updateTeamInTitle(teamNumImg, teamIcon);
         }
         step++;
+        updateStepsInTitle(stepsImg);
     }
 
-    private void updateTexture(CustomButton CB) {                                 // ставит текстуру искомой команды team с искомым состоянием state
-        if (CB.getState() == -1) {
+
+    public static void updateTexture(CustomButton CB) {                                                   // обновляет текстуру клетки в соответствии с её командой и состоянием
+        if (CB.getState() == STATE_MISSING) {
             CB.setImageResource(R.drawable.ic_grnd_main);
             CB.setImageAlpha(0);
         }
-        else if (CB.getState() == 0) CB.setImageResource(R.drawable.ic_grnd_main);
+        else if (CB.getState() == STATE_NEUTRAL) {
+            CB.setImageResource(R.drawable.ic_grnd_main);
+            CB.setImageAlpha(210);
+        }
         else {
             int textureID = CB.getState() * 4 + players_textures[CB.getTeam() - 1] - 5;
             switch (textureID) {
@@ -457,4 +451,59 @@ public class Gameplay extends AppCompatActivity {
             }
         }
     }
+
+    public static void updateDataAndTexture(CustomButton CB, Integer newTeam, Byte newState) {
+        // ставит кнопке новую игровую команду, состояние и обновляет её текстуру
+        // если в newTeam или newState передать null, то команда или состояние обновляться не будет
+        if (newTeam != null) CB.setTeam(newTeam);
+        if (newState != null) CB.setState(newState);
+        updateTexture(CB);
+    }
+
+
+    private static void updateTeamInTitle(ImageView teamNumImg, ImageView teamIcon) {
+        switch (currentTeam) {
+            case 1:
+                teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_1);
+                break;
+            case 2:
+                teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_2);
+                break;
+            case 3:
+                teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_3);
+                break;
+            case 4:
+                teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_4);
+                break;
+        }
+        switch (players_textures[currentTeam - 1]) {
+            case 1:
+                teamIcon.setBackgroundResource(R.drawable.grnd_black);
+                break;
+            case 2:
+                teamIcon.setBackgroundResource(R.drawable.grnd_grace);
+                break;
+            case 3:
+                teamIcon.setBackgroundResource(R.drawable.grnd_lava);
+                break;
+            case 4:
+                teamIcon.setBackgroundResource(R.drawable.grnd_sand);
+                break;
+        }
+    }
+
+    private static void updateStepsInTitle(ImageView stepsImg) {
+        switch (stepsLeft) {
+            case 1:
+                stepsImg.setBackgroundResource(R.drawable.ic_gameplay_num_1);
+                break;
+            case 2:
+                stepsImg.setBackgroundResource(R.drawable.ic_gameplay_num_2);
+                break;
+            case 3:
+                stepsImg.setBackgroundResource(R.drawable.ic_gameplay_num_3);
+                break;
+        }
+    }
+
 }

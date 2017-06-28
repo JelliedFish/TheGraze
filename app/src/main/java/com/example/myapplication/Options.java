@@ -11,7 +11,6 @@ import android.widget.ImageView;
 public class Options extends AppCompatActivity {
 
     static boolean musicState = false;
-    static byte diffState = 0;
     static byte[] players_textureState = {1, 2, 3, 4};
 
     @Override
@@ -36,24 +35,6 @@ public class Options extends AppCompatActivity {
         else
             btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
 
-        final ImageButton btn_diff_easy = (ImageButton) findViewById(R.id.options_btn_easy);
-        if (diffState == 0)
-            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
-        else
-            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easy);
-
-        final ImageButton btn_diff_medium = (ImageButton) findViewById(R.id.options_btn_medium);
-        if (diffState == 1)
-            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_mediumselected);
-        else
-            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
-
-        final ImageButton btn_diff_hard = (ImageButton) findViewById(R.id.options_btn_hard);
-        if (diffState == 2)
-            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hardselected);
-        else
-            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
-
         final ImageButton btn_reset = (ImageButton) findViewById(R.id.options_btn_reset);
         btn_reset.setBackgroundResource(R.drawable.ic_settings_reset);
 
@@ -70,67 +51,6 @@ public class Options extends AppCompatActivity {
             }
         });
 
-        btn_diff_easy.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (diffState != 0) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyclicked);
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            diffState = 0;
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
-                            break;
-                    }
-                }
-                return true;
-            }
-        });
-
-        btn_diff_medium.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (diffState != 1) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_mediumclicked);
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            diffState = 1;
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easy);
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_mediumselected);
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
-                            break;
-                    }
-                }
-                return true;
-            }
-        });
-
-        btn_diff_hard.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (diffState != 2) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hardclicked);
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            diffState = 2;
-                            btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easy);
-                            btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
-                            btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hardselected);
-                            break;
-                    }
-                }
-                return true;
-            }
-        });
-
-
 
         final ImageButton player1_leftArrow = (ImageButton) findViewById(R.id.options_player1_prev);
         final ImageView player1_texture = (ImageView) findViewById(R.id.options_player1_texture);
@@ -140,11 +60,18 @@ public class Options extends AppCompatActivity {
         final ImageView player2_texture = (ImageView) findViewById(R.id.options_player2_texture);
         final ImageButton player2_rightArrow = (ImageButton) findViewById(R.id.options_player2_next);
 
-        final ImageButton textures_swap = (ImageButton) findViewById(R.id.options_textures_swap);
+        final ImageButton player3_leftArrow = (ImageButton) findViewById(R.id.options_player3_prev);
+        final ImageView player3_texture = (ImageView) findViewById(R.id.options_player3_texture);
+        final ImageButton player3_rightArrow = (ImageButton) findViewById(R.id.options_player3_next);
+
+        final ImageButton player4_leftArrow = (ImageButton) findViewById(R.id.options_player4_prev);
+        final ImageView player4_texture = (ImageView) findViewById(R.id.options_player4_texture);
+        final ImageButton player4_rightArrow = (ImageButton) findViewById(R.id.options_player4_next);
 
         setPlayersPicturesForVar(players_textureState[0], player1_leftArrow, player1_texture, player1_rightArrow);
         setPlayersPicturesForVar(players_textureState[1], player2_leftArrow, player2_texture, player2_rightArrow);
-        textures_swap.setBackgroundResource(R.drawable.ic_btn_settings_swap);
+        setPlayersPicturesForVar(players_textureState[2], player3_leftArrow, player3_texture, player3_rightArrow);
+        setPlayersPicturesForVar(players_textureState[3], player4_leftArrow, player4_texture, player4_rightArrow);
 
 
         player1_leftArrow.setOnClickListener(new View.OnClickListener() {
@@ -187,15 +114,43 @@ public class Options extends AppCompatActivity {
             }
         });
 
-        textures_swap.setOnClickListener(new View.OnClickListener() {
+        player3_leftArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                byte memory = players_textureState[1];
-                players_textureState[1] = players_textureState[0];
-                players_textureState[0] = memory;
-                setPlayersPicturesForVar(players_textureState[0], player1_leftArrow, player1_texture, player1_rightArrow);
-                setPlayersPicturesForVar(players_textureState[1], player2_leftArrow, player2_texture, player2_rightArrow);
-                Gameplay.players_textures[0] = players_textureState[0];
-                Gameplay.players_textures[1] = players_textureState[1];
+                if (players_textureState[2] > 1) {
+                    Gameplay.players_textures[2]--;
+                    players_textureState[2]--;
+                    setPlayersPicturesForVar(players_textureState[2], player3_leftArrow, player3_texture, player3_rightArrow);
+                }
+            }
+        });
+
+        player3_rightArrow.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (players_textureState[2] < 4) {
+                    Gameplay.players_textures[2]++;
+                    players_textureState[2]++;
+                    setPlayersPicturesForVar(players_textureState[2], player3_leftArrow, player3_texture, player3_rightArrow);
+                }
+            }
+        });
+
+        player4_leftArrow.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (players_textureState[3] > 1) {
+                    Gameplay.players_textures[3]--;
+                    players_textureState[3]--;
+                    setPlayersPicturesForVar(players_textureState[3], player4_leftArrow, player4_texture, player4_rightArrow);
+                }
+            }
+        });
+
+        player4_rightArrow.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (players_textureState[3] < 4) {
+                    Gameplay.players_textures[3]++;
+                    players_textureState[3]++;
+                    setPlayersPicturesForVar(players_textureState[3], player4_leftArrow, player4_texture, player4_rightArrow);
+                }
             }
         });
 
@@ -210,23 +165,24 @@ public class Options extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         btn_reset.setBackgroundResource(R.drawable.ic_settings_reset);
+
                         musicState = false;
-                        diffState = 0;
                         btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
-                        btn_diff_easy.setBackgroundResource(R.drawable.ic_settings_diff_easyselected);
-                        btn_diff_medium.setBackgroundResource(R.drawable.ic_settings_diff_medium);
-                        btn_diff_hard.setBackgroundResource(R.drawable.ic_settings_diff_hard);
+
                         players_textureState[0] = 1;
                         players_textureState[1] = 2;
+                        players_textureState[2] = 3;
+                        players_textureState[3] = 4;
                         setPlayersPicturesForVar(players_textureState[0], player1_leftArrow, player1_texture, player1_rightArrow);
                         setPlayersPicturesForVar(players_textureState[1], player2_leftArrow, player2_texture, player2_rightArrow);
+                        setPlayersPicturesForVar(players_textureState[2], player3_leftArrow, player3_texture, player3_rightArrow);
+                        setPlayersPicturesForVar(players_textureState[3], player4_leftArrow, player4_texture, player4_rightArrow);
                         break;
                 }
                 return true;
             }
         });
     }
-
 
 
     private static void setPlayersPicturesForVar(byte var, ImageButton leftArrowBtn, ImageView img, ImageButton rightArrowBtn) {

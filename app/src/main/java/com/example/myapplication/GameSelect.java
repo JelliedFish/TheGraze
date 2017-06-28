@@ -53,9 +53,9 @@ public class GameSelect extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         btn_multiplayer.setBackgroundResource(R.drawable.ic_multiplayer);
-                        Intent gs_to_sgf = new Intent(getBaseContext(), SetGameField.class);
-                        gs_to_sgf.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        startActivity(gs_to_sgf);
+                        Intent gs_to_sgft = new Intent(getBaseContext(), SetGameFieldType.class);
+                        gs_to_sgft.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(gs_to_sgft);
                         break;
                 }
                 return true;

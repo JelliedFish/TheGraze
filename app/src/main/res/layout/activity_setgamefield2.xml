@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_background">
+
+
+    <ImageView
+        android:id="@+id/setgamefield2_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_options_help_title"/>
+
+    <ImageView
+        android:id="@+id/setgamefield2_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_options_help_title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setgamefield2_return"
+        android:padding="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setgamefield2_teamsnum"
+        android:src="@drawable/ic_setgamefield_teamsnum"
+        android:layout_below="@+id/setgamefield2_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/setgamefield2_teamscount_left"
+        android:layout_below="@+id/setgamefield2_teamsnum"
+        android:layout_alignLeft="@+id/setgamefield2_teamsnum"
+        android:layout_alignStart="@+id/setgamefield2_teamsnum"
+        android:layout_marginTop="11dp"
+        android:layout_marginLeft="91dp"
+        android:layout_marginStart="91dp"/>
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/setgamefield2_teamscount_right"
+        android:layout_below="@+id/setgamefield2_teamsnum"
+        android:layout_toRightOf="@+id/setgamefield2_teamscount"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="11dp"/>
+
+    <ImageView
+        android:layout_width="28dp"
+        android:layout_height="36dp"
+        android:id="@+id/setgamefield2_teamscount"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_below="@+id/setgamefield2_teamsnum"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/setgamefield2_teamscount_left"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setgamefield2_selectmap"
+        android:src="@drawable/ic_setgamefield_selectmap"
+        android:layout_below="@+id/setgamefield2_teamsnum"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setgamefield2_mapnumbertxt"
+        android:src="@drawable/ic_setgamefield_mapnumber"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/setgamefield2_selectmap"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="11dp"
+        android:layout_height="18dp"
+        android:id="@+id/setgamefield2_mapteamscount"
+        android:layout_alignTop="@+id/setgamefield2_mapnumbertxt"
+        android:layout_alignLeft="@+id/setgamefield2_mapnumbertxt"
+        android:layout_alignStart="@+id/setgamefield2_mapnumbertxt"
+        android:layout_marginTop="1dp"/>
+
+    <ImageView
+        android:layout_width="11dp"
+        android:layout_height="18dp"
+        android:id="@+id/setgamefield2_mapnumber"
+        android:layout_alignTop="@+id/setgamefield2_mapnumbertxt"
+        android:layout_alignRight="@+id/setgamefield2_mapnumbertxt"
+        android:layout_alignEnd="@+id/setgamefield2_mapnumbertxt"
+        android:layout_marginTop="1dp" />
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/setgamefield2_map_prev"
+        android:layout_below="@+id/setgamefield2_selectmap"
+        android:layout_toLeftOf="@+id/setgamefield2_mapnumbertxt"
+        android:layout_toStartOf="@+id/setgamefield2_mapnumbertxt"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"/>
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/setgamefield2_map_next"
+        android:layout_below="@+id/setgamefield2_selectmap"
+        android:layout_toRightOf="@+id/setgamefield2_mapnumbertxt"
+        android:layout_toEndOf="@+id/setgamefield2_mapnumbertxt"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setgamefield2_preview_frame"
+        android:src="@drawable/ic_setgamefield_mappreview"
+        android:layout_below="@+id/setgamefield2_map_prev"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <RelativeLayout
+        android:layout_width="225dp"
+        android:layout_height="225dp"
+        android:id="@+id/setgamefield2_previewLayout"
+        android:layout_alignTop="@+id/setgamefield2_preview_frame"
+        android:layout_alignLeft="@+id/setgamefield2_preview_frame"
+        android:layout_alignStart="@+id/setgamefield2_preview_frame">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/setgamefield2_previewLayout2">
+
+            <GridView
+                android:id="@+id/setgamefield2_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="2"
+                android:verticalSpacing="0dp"
+                android:horizontalSpacing="0dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+            </GridView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setgamefield2_play"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" />
+
+</RelativeLayout>

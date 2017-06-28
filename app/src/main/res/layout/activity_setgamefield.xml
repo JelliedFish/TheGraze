@@ -127,13 +127,54 @@
         android:layout_toRightOf="@+id/setgamefield_width"
         android:layout_toEndOf="@+id/setgamefield_width" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ic_setgamefield_teamsnum"
+        android:src="@drawable/ic_setgamefield_teamsnum"
+        android:layout_below="@+id/setgamefield_heightTxt"
+        android:layout_marginTop="45dp"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/ic_setgamefield_teamscount_left"
+        android:layout_below="@+id/ic_setgamefield_teamsnum"
+        android:layout_alignLeft="@+id/ic_setgamefield_teamsnum"
+        android:layout_alignStart="@+id/ic_setgamefield_teamsnum"
+        android:layout_marginTop="11dp"
+        android:layout_marginLeft="91dp"
+        android:layout_marginStart="91dp"/>
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/ic_setgamefield_teamscount_right"
+        android:layout_below="@+id/ic_setgamefield_teamsnum"
+        android:layout_toRightOf="@+id/ic_setgamefield_teamscount"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="11dp"/>
+
+    <ImageView
+        android:layout_width="28dp"
+        android:layout_height="36dp"
+        android:id="@+id/ic_setgamefield_teamscount"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_below="@+id/ic_setgamefield_teamsnum"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/ic_setgamefield_teamscount_left"/>
+
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/setgamefield_play"
-        android:layout_below="@+id/setgamefield_height_left"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/ic_setgamefield_teamscount"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="wrap_content"

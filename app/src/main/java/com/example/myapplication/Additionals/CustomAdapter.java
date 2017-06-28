@@ -33,7 +33,6 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         return bugs.get(position);
     }
 }
