@@ -14,9 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.example.myapplication.Additionals.CustomAdapter;
-import com.example.myapplication.Additionals.CustomButton;
-import com.example.myapplication.Additionals.LayoutSetter;
+import com.example.myapplication.CustomObjects.CustomAdapter;
+import com.example.myapplication.CustomObjects.CustomButton;
+import com.example.myapplication.Abstract.LayoutSetter;
+import com.example.myapplication.Data.GameSettings;
 import com.example.myapplication.Data.MapData;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -42,8 +43,6 @@ public class Gameplay extends AppCompatActivity {
         int[] castleCoords;                                                                         // координаты (в массиве fields, а не двумерном массиве buttons!) замков соответствующих 4 команд
         boolean[] buttonsData;                                                                      // здесь в виде массива T/F хранятся данные о наличии/отсутствии каждой из клеток поля.
                                                                                                     // проще говоря, buttonsData задаёт форму для непрямоугольного поля.
-        static int[] players_textures = {1, 2, 3, 4};                                               // тут хранятся данные о текстурах игроков. Команде N соответствует номер массива N-1
-
     //
 
 
@@ -56,6 +55,7 @@ public class Gameplay extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);                         // фиксируем вертикальную ориентацию окна
@@ -151,32 +151,35 @@ public class Gameplay extends AppCompatActivity {
                                 switch (tmp.getState()) {
                                     case STATE_ALIVE: {
                                         updateDataAndTexture(tmp, currentTeam, STATE_KILL);
+                                        minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                                     }
                                     break;
                                     case STATE_CASTLE: {
                                         updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
+                                        minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                                     }
                                     break;
                                     case STATE_NEUTRAL: {
                                         updateDataAndTexture(tmp, currentTeam, STATE_ALIVE);
+                                        minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                                     }
                                     break;
                                 }
-                                minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                             }
                         }
                         else if (ReasonsToEat(x, y, currentTeam) && tmp.getTeam() != currentTeam) {
                             switch (tmp.getState()) {
                                 case STATE_ALIVE: {
                                     updateDataAndTexture(tmp, currentTeam, STATE_KILL);
+                                    minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                                 }
                                 break;
                                 case STATE_CASTLE: {
                                     updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
+                                    minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                                 }
                                 break;
                             }
-                            minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                         }
                     }
 
@@ -184,6 +187,7 @@ public class Gameplay extends AppCompatActivity {
                 }
             });
         }
+
 
         SlidingMenu menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.RIGHT);
@@ -430,7 +434,7 @@ public class Gameplay extends AppCompatActivity {
             CB.setImageAlpha(210);
         }
         else {
-            int textureID = CB.getState() * 4 + players_textures[CB.getTeam() - 1] - 5;
+            int textureID = CB.getState() * 4 + GameSettings.getPlayers_textureState(CB.getTeam() - 1) - 5;
             switch (textureID) {
                 case 0: CB.setImageResource(R.drawable.grnd_black); break;
                 case 1: CB.setImageResource(R.drawable.grnd_grace); break;
@@ -476,7 +480,7 @@ public class Gameplay extends AppCompatActivity {
                 teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_4);
                 break;
         }
-        switch (players_textures[currentTeam - 1]) {
+        switch (GameSettings.getPlayers_textureState(currentTeam - 1)) {
             case 1:
                 teamIcon.setBackgroundResource(R.drawable.grnd_black);
                 break;

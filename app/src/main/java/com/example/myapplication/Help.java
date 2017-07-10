@@ -9,25 +9,22 @@ import android.widget.ImageView;
 
 public class Help extends AppCompatActivity {
 
-    int helpPage = 1;
+    static int helpPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        ImageButton btn_help_to_main = (ImageButton)findViewById(R.id.help_return);
-        btn_help_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
-        btn_help_to_main.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        helpPage = 1;
 
 
 
+        final ImageButton btn_help_to_main = (ImageButton)findViewById(R.id.help_return);
         final ImageButton switcher_left = (ImageButton) findViewById(R.id.switcher_left);
         final ImageButton switcher_right = (ImageButton) findViewById(R.id.switcher_right);
 
@@ -37,34 +34,44 @@ public class Help extends AppCompatActivity {
 
         final ImageView help_txt = (ImageView) findViewById(R.id.help_text);
 
-        helpPage = 1;
-        updateSwitcherTextures(1, switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
-        updateHelpPage(1, help_txt);
+        btn_help_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
+        updateSwitcherTextures(switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
+        updateHelpPage(help_txt);
 
+
+
+        btn_help_to_main.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         switcher_left.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (helpPage > 1) {
                     helpPage--;
-                    updateSwitcherTextures(helpPage, switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
-                    updateHelpPage(helpPage, help_txt);
+                    updateSwitcherTextures(switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
+                    updateHelpPage(help_txt);
                 }
             }
         });
+
         switcher_right.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (helpPage < 3) {
                     helpPage++;
-                    updateSwitcherTextures(helpPage, switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
-                    updateHelpPage(helpPage, help_txt);
+                    updateSwitcherTextures(switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
+                    updateHelpPage(help_txt);
                 }
             }
         });
+
+
+
     }
 
-
-    private static void updateSwitcherTextures(int currentHelpPage, ImageButton left, ImageButton right, ImageView p1, ImageView p2, ImageView p3) {
-        switch (currentHelpPage) {
+    private static void updateSwitcherTextures(ImageButton left, ImageButton right, ImageView p1, ImageView p2, ImageView p3) {
+        switch (helpPage) {
             case 1:
                 left.setBackgroundResource(R.drawable.ic_help_switcher_left);
                 right.setBackgroundResource(R.drawable.ic_help_switcher_rightactive);
@@ -89,8 +96,8 @@ public class Help extends AppCompatActivity {
         }
     }
 
-    private static void updateHelpPage(int currentHelpPage, ImageView txt) {
-        switch (currentHelpPage) {
+    private static void updateHelpPage(ImageView txt) {
+        switch (helpPage) {
             case 1:
                 txt.setBackgroundResource(R.drawable.ic_help_page1_text);
                 break;
@@ -102,4 +109,5 @@ public class Help extends AppCompatActivity {
                 break;
         }
     }
+
 }

@@ -12,13 +12,28 @@ public class MainMenu extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
+
         final ImageButton btn_play = (ImageButton) findViewById(R.id.btn1);
+        final ImageButton btn_options = (ImageButton) findViewById(R.id.btn2);
+        final ImageButton btn_help = (ImageButton) findViewById(R.id.btn3);
+        final ImageButton btn_exit = (ImageButton) findViewById(R.id.btn4);
+    //    final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
+
         btn_play.setBackgroundResource(R.drawable.ic_btn_mm_play);
+        btn_options.setBackgroundResource(R.drawable.ic_btn_mm_options);
+        btn_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
+        btn_exit.setBackgroundResource(R.drawable.ic_btn_mm_exit);
+    //    btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditor);
+
+
+
         btn_play.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -37,8 +52,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        final ImageButton btn_options = (ImageButton) findViewById(R.id.btn2);
-        btn_options.setBackgroundResource(R.drawable.ic_btn_mm_options);
         btn_options.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -56,8 +69,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        final ImageButton btn_help = (ImageButton) findViewById(R.id.btn3);
-        btn_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
         btn_help.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -75,8 +86,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        final ImageButton btn_exit = (ImageButton) findViewById(R.id.btn4);
-        btn_exit.setBackgroundResource(R.drawable.ic_btn_mm_exit);
         btn_exit.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -93,9 +102,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-/*        final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
-        btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditor);
-        btn_mapeditor.setOnTouchListener(new View.OnTouchListener() {
+/*        btn_mapeditor.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
@@ -110,8 +117,9 @@ public class MainMenu extends AppCompatActivity {
             }
         });*/
 
-    }
 
+
+    }
 
     public void AppExit() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -119,4 +127,5 @@ public class MainMenu extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
 }

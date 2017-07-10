@@ -23,18 +23,15 @@ public class SetGameField extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setgamefield);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        ImageButton btn_setgamefield_to_main = (ImageButton) findViewById(R.id.setgamefield_return);
-        btn_setgamefield_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
-        btn_setgamefield_to_main.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
+
+        final ImageButton btn_setgamefield_to_main = (ImageButton) findViewById(R.id.setgamefield_return);
 
         final ImageButton setgamefield_width_left = (ImageButton) findViewById(R.id.setgamefield_width_left);
         final ImageButton setgamefield_width_right = (ImageButton) findViewById(R.id.setgamefield_width_right);
@@ -48,15 +45,26 @@ public class SetGameField extends AppCompatActivity {
 
         final ImageButton setgamefield_start = (ImageButton) findViewById(R.id.setgamefield_play);
         final ImageButton setgamefield_reset = (ImageButton) findViewById(R.id.setgamefield_reset);
-        setgamefield_start.setBackgroundResource(R.drawable.ic_setgamefield_play);
-        setgamefield_reset.setBackgroundResource(R.drawable.ic_settings_reset);
+
+        btn_setgamefield_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
 
         updateWidthButtons(fieldWidth, setgamefield_width_left, setgamefield_width, setgamefield_width_right);
         updateHeightButtons(fieldHeight, setgamefield_height_left, setgamefield_height, setgamefield_height_right);
+
         setgamefield_teamscount.setBackgroundResource(R.drawable.ic_setgamefield_num_2);
         setgamefield_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_left);
         setgamefield_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
 
+        setgamefield_start.setBackgroundResource(R.drawable.ic_setgamefield_play);
+        setgamefield_reset.setBackgroundResource(R.drawable.ic_settings_reset);
+
+
+
+        btn_setgamefield_to_main.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         setgamefield_width_left.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -163,8 +171,10 @@ public class SetGameField extends AppCompatActivity {
                 return true;
             }
         });
-    }
 
+
+
+    }
 
     public static void updateWidthButtons(int value, ImageButton left, ImageView num, ImageButton right) {
         if (value > MIN_WIDTH)

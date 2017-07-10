@@ -13,9 +13,13 @@ public class SetGameFieldType extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setgamefieldtype);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
 
         ImageButton btn_setgamefieldtype_to_main = (ImageButton) findViewById(R.id.setgamefieldtype_return);
         btn_setgamefieldtype_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
@@ -82,5 +86,9 @@ public class SetGameFieldType extends AppCompatActivity {
                 return true;
             }
         });*/
+
+
+
     }
+
 }

@@ -1,6 +1,6 @@
-package com.example.myapplication.Additionals;
+package com.example.myapplication.Abstract;
 
-public class LayoutSetter {
+public abstract class LayoutSetter {
 
     public static int[] getMargins(int screenWidth, int screenHeight, double relativeDimension_WtoH, int left, int up, int right, int down) {
         /* Возвращает массив из 4 отступов (в таком порядке: левый, верхний, правый, нижний), необходимые для вписания

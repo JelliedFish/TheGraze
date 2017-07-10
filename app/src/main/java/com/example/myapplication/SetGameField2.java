@@ -11,9 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.example.myapplication.Additionals.CustomAdapter;
-import com.example.myapplication.Additionals.CustomButton;
-import com.example.myapplication.Additionals.LayoutSetter;
+import com.example.myapplication.CustomObjects.CustomAdapter;
+import com.example.myapplication.CustomObjects.CustomButton;
+import com.example.myapplication.Abstract.LayoutSetter;
 import com.example.myapplication.Data.MapData;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class SetGameField2 extends AppCompatActivity {
 
     // КОНСТАНТЫ
 
-        private static final int[] MAPS_NUMBER = {3, 2, 5};                                         // количество карт в базе данных (для 2, 3 и 4 игроков соответственно)
+        private static final int[] MAPS_NUMBER = {8, 5, 8};                                         // количество карт в базе данных (для 2, 3 и 4 игроков соответственно)
 
     //
 
@@ -47,9 +47,13 @@ public class SetGameField2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setgamefield2);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
 
         ImageButton btn_setgamefield2_to_main = (ImageButton) findViewById(R.id.setgamefield2_return);
         btn_setgamefield2_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
@@ -163,8 +167,10 @@ public class SetGameField2 extends AppCompatActivity {
                 return true;
             }
         });
-    }
 
+
+
+    }
 
     private static void updateTeamsCountTextures(int newTeamsCount, ImageButton left, ImageView img, ImageButton right, ImageView numOnMap) {
         switch (newTeamsCount) {
@@ -231,7 +237,7 @@ public class SetGameField2 extends AppCompatActivity {
 
         int[] gridMargins = LayoutSetter.getMargins(225, 225, (double) mapWidth / mapHeight, 0, 0, 0, 0);
         layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        layoutParams.setMargins((int) (gridMargins[0] * multLeftRight) + 30, (int) (gridMargins[1] * multUpDown) + 30, (int) (gridMargins[2] * multLeftRight) + 30, (int) (gridMargins[3] * multUpDown) + 30);
+        layoutParams.setMargins((int) (gridMargins[0] * multLeftRight) + 30, (int) (gridMargins[1] * multUpDown) + 30, (int) (gridMargins[2] * multLeftRight) + 25, (int) (gridMargins[3] * multUpDown) + 25);
         previewLayout.setLayoutParams(layoutParams);
     }
 
@@ -264,4 +270,5 @@ public class SetGameField2 extends AppCompatActivity {
         }
         return 239;
     }
+
 }

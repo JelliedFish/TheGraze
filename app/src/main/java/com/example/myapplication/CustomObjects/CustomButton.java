@@ -1,4 +1,4 @@
-package com.example.myapplication.Additionals;
+package com.example.myapplication.CustomObjects;
 
 import android.content.Context;
 import android.util.AttributeSet;

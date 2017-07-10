@@ -13,20 +13,30 @@ public class GameSelect extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameselect);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        ImageButton btn_gameselect_to_main = (ImageButton) findViewById(R.id.gameselect_return);
+
+
+        final ImageButton btn_gameselect_to_main = (ImageButton) findViewById(R.id.gameselect_return);
+        final ImageButton btn_singleplayer = (ImageButton) findViewById(R.id.gameselect_singleplayer);
+        final ImageButton btn_multiplayer = (ImageButton) findViewById(R.id.gameselect_multiplayer);
+
         btn_gameselect_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
+        btn_singleplayer.setBackgroundResource(R.drawable.ic_singleplayer);
+        btn_multiplayer.setBackgroundResource(R.drawable.ic_multiplayer);
+
+
+
         btn_gameselect_to_main.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
             }
         });
 
-        final ImageButton btn_singleplayer = (ImageButton) findViewById(R.id.gameselect_singleplayer);
-        btn_singleplayer.setBackgroundResource(R.drawable.ic_singleplayer);
         btn_singleplayer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -42,8 +52,6 @@ public class GameSelect extends AppCompatActivity {
             }
         });
 
-        final ImageButton btn_multiplayer = (ImageButton) findViewById(R.id.gameselect_multiplayer);
-        btn_multiplayer.setBackgroundResource(R.drawable.ic_multiplayer);
         btn_multiplayer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -61,7 +69,9 @@ public class GameSelect extends AppCompatActivity {
                 return true;
             }
         });
-    }
 
+
+
+    }
 
 }
