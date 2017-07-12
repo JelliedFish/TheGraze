@@ -31,9 +31,19 @@ public class GameSelect extends AppCompatActivity {
 
 
 
-        btn_gameselect_to_main.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
+        btn_gameselect_to_main.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btn_gameselect_to_main.setBackgroundResource(R.drawable.ic_options_help_returnclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_gameselect_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
+                        finish();
+                        break;
+                }
+                return true;
             }
         });
 

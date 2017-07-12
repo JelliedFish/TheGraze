@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.myapplication.CustomObjects.SwitcherBoolean;
 import com.example.myapplication.Data.GameSettings;
 
 public class Options extends AppCompatActivity {
@@ -25,7 +26,8 @@ public class Options extends AppCompatActivity {
 
         final ImageButton btn_options_to_main = (ImageButton) findViewById(R.id.options_return);
 
-        final ImageButton btn_music_onoff = (ImageButton) findViewById(R.id.options_btn_music_onoff);
+        final ImageButton btn_music_on = (ImageButton) findViewById(R.id.options_btn_music_on);
+        final ImageButton btn_music_off = (ImageButton) findViewById(R.id.options_btn_music_off);
 
         final ImageButton player1_leftArrow = (ImageButton) findViewById(R.id.options_player1_prev);
         final ImageView player1_texture = (ImageView) findViewById(R.id.options_player1_texture);
@@ -47,8 +49,7 @@ public class Options extends AppCompatActivity {
 
         btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
 
-        btn_music_onoff.setBackgroundResource((GameSettings.getMusicState())? R.drawable.ic_btn_settings_on : R.drawable.ic_btn_settings_off );
-
+        updateMusicButtons(btn_music_on, btn_music_off);
         setPlayersPicturesForVar(GameSettings.getPlayers_textureState(0), player1_leftArrow, player1_texture, player1_rightArrow);
         setPlayersPicturesForVar(GameSettings.getPlayers_textureState(1), player2_leftArrow, player2_texture, player2_rightArrow);
         setPlayersPicturesForVar(GameSettings.getPlayers_textureState(2), player3_leftArrow, player3_texture, player3_rightArrow);
@@ -58,21 +59,55 @@ public class Options extends AppCompatActivity {
 
 
 
-        btn_options_to_main.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
+        btn_options_to_main.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_returnclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
+                        finish();
+                        break;
+                }
+                return true;
             }
         });
 
-        btn_music_onoff.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getMusicState()) {
-                    GameSettings.setMusicState(false);
-                    btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
-                } else {
-                    GameSettings.setMusicState(true);
-                    btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_on);
+        btn_music_on.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!GameSettings.getMusicState()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            btn_music_on.setBackgroundResource(R.drawable.ic_btn_settings_onclicked);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            GameSettings.setMusicState(true);
+                            updateMusicButtons(btn_music_on, btn_music_off);
+                            break;
+                    }
                 }
+                return true;
+            }
+        });
+
+        btn_music_off.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (GameSettings.getMusicState()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            btn_music_off.setBackgroundResource(R.drawable.ic_btn_settings_offclicked);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            GameSettings.setMusicState(false);
+                            updateMusicButtons(btn_music_on, btn_music_off);
+                            break;
+                    }
+                }
+                return true;
             }
         });
 
@@ -160,7 +195,7 @@ public class Options extends AppCompatActivity {
 
                         GameSettings.reset();
 
-                        btn_music_onoff.setBackgroundResource(R.drawable.ic_btn_settings_off);
+                        updateMusicButtons(btn_music_on, btn_music_off);
                         setPlayersPicturesForVar(GameSettings.getPlayers_textureState(0), player1_leftArrow, player1_texture, player1_rightArrow);
                         setPlayersPicturesForVar(GameSettings.getPlayers_textureState(1), player2_leftArrow, player2_texture, player2_rightArrow);
                         setPlayersPicturesForVar(GameSettings.getPlayers_textureState(2), player3_leftArrow, player3_texture, player3_rightArrow);
@@ -199,6 +234,16 @@ public class Options extends AppCompatActivity {
             case 4:
                 img.setBackgroundResource(R.drawable.grnd_sand);
                 break;
+        }
+    }
+
+    public void updateMusicButtons(ImageButton onButton, ImageButton offButton) {
+        if (GameSettings.getMusicState()) {
+            onButton.setBackgroundResource(R.drawable.ic_btn_settings_onactive);
+            offButton.setBackgroundResource(R.drawable.ic_btn_settings_off);
+        } else {
+            onButton.setBackgroundResource(R.drawable.ic_btn_settings_on);
+            offButton.setBackgroundResource(R.drawable.ic_btn_settings_offactive);
         }
     }
 

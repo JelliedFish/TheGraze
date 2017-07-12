@@ -21,11 +21,21 @@ public class SetGameFieldType extends AppCompatActivity {
 
 
 
-        ImageButton btn_setgamefieldtype_to_main = (ImageButton) findViewById(R.id.setgamefieldtype_return);
+        final ImageButton btn_setgamefieldtype_to_main = (ImageButton) findViewById(R.id.setgamefieldtype_return);
         btn_setgamefieldtype_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
-        btn_setgamefieldtype_to_main.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
+        btn_setgamefieldtype_to_main.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btn_setgamefieldtype_to_main.setBackgroundResource(R.drawable.ic_options_help_returnclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_setgamefieldtype_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
+                        finish();
+                        break;
+                }
+                return true;
             }
         });
 

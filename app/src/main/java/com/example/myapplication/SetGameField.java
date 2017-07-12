@@ -60,9 +60,19 @@ public class SetGameField extends AppCompatActivity {
 
 
 
-        btn_setgamefield_to_main.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
+        btn_setgamefield_to_main.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btn_setgamefield_to_main.setBackgroundResource(R.drawable.ic_options_help_returnclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_setgamefield_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
+                        finish();
+                        break;
+                }
+                return true;
             }
         });
 

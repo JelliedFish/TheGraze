@@ -28,6 +28,9 @@
       <w>mult</w>
       <w>multiplayer</w>
       <w>nowplaying</w>
+      <w>offactive</w>
+      <w>offclicked</w>
+      <w>onclicked</w>
       <w>onoff</w>
       <w>ormore</w>
       <w>pers</w>
