@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.myapplication.Abstract.PopupWindow;
 import com.example.myapplication.CustomObjects.CustomAdapter;
 import com.example.myapplication.CustomObjects.CustomButton;
 import com.example.myapplication.Abstract.LayoutSetter;
@@ -49,6 +50,8 @@ public class Gameplay extends AppCompatActivity {
     static int step;                                                                                // счётчик шагов (сейчас работает, но нигде не применяется)
     static int currentTeam;                                                                         // команда, которая сейчас ходит
     static int stepsLeft;                                                                           // сколько ходов осталось этой команде
+    static boolean[] activeTeams;                                                                   // играющие команды
+    static int activeTeamsCount;                                                                    // количество живых команд
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
 
@@ -59,6 +62,144 @@ public class Gameplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);                         // фиксируем вертикальную ориентацию окна
+
+        final List<ImageButton> gameplayButtons = new ArrayList<>();
+
+
+
+        //—————ВСПЛЫВАЮЩЕЕ ОКНО О ПРЕРЫВАНИИ ИГРЫ—————//
+
+
+
+        final RelativeLayout popup_end = (RelativeLayout) findViewById(R.id.popup_gameplay_end);
+
+
+
+        final ImageButton popup_exit_yes = (ImageButton) findViewById(R.id.popup_gameplay_end_yes);
+        final ImageButton popup_exit_no = (ImageButton) findViewById(R.id.popup_gameplay_end_no);
+
+        popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yes);
+        popup_exit_no.setBackgroundResource(R.drawable.ic_popup_exit_no);
+
+
+
+        popup_exit_yes.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yesclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yes);
+                        PopupWindow.hide(popup_end, gameplayButtons);
+                        finish();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        popup_exit_no.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        popup_exit_no.setBackgroundResource(R.drawable.ic_popup_exit_noclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        popup_exit_no.setBackgroundResource(R.drawable.ic_popup_exit_no);
+                        PopupWindow.hide(popup_end, gameplayButtons);
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
+        //—————ВСПЛЫВАЮЩЕЕ ОКНО ПРИ ВЫЛЕТЕ ИГРОКА (>2)—————//
+
+
+
+        final RelativeLayout popup_playersleft_2ormore = (RelativeLayout) findViewById(R.id.popup_gameplay_last2more);
+
+
+
+        final ImageButton popup_playersleft_2ormore_ok = (ImageButton) findViewById(R.id.popup_gameplay_last2more_ok);
+
+        final ImageView popup_playersleft_2ormore_kickedplayer = (ImageView) findViewById(R.id.popup_gameplay_last2more_kickedplayer);
+        final ImageView popup_playersleft_2ormore_playersleft = (ImageView) findViewById(R.id.popup_gameplay_last2more_playersleft);
+
+        final ImageView popup_playersleft_2ormore_playericon1 = (ImageView) findViewById(R.id.popup_gameplay_last2more_playericon1);
+        final ImageView popup_playersleft_2ormore_playericon2 = (ImageView) findViewById(R.id.popup_gameplay_last2more_playericon2);
+        final ImageView popup_playersleft_2ormore_playericon3 = (ImageView) findViewById(R.id.popup_gameplay_last2more_playericon3);
+
+        final ImageView popup_playersleft_2ormore_playernumber1 = (ImageView) findViewById(R.id.popup_gameplay_last2more_playernumber1);
+        final ImageView popup_playersleft_2ormore_playernumber2 = (ImageView) findViewById(R.id.popup_gameplay_last2more_playernumber2);
+        final ImageView popup_playersleft_2ormore_playernumber3 = (ImageView) findViewById(R.id.popup_gameplay_last2more_playernumber3);
+
+        popup_playersleft_2ormore_ok.setBackgroundResource(R.drawable.ic_popup_gameplay_ok);
+
+
+
+        popup_playersleft_2ormore_ok.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        popup_playersleft_2ormore_ok.setBackgroundResource(R.drawable.ic_popup_gameplay_okclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        popup_playersleft_2ormore_ok.setBackgroundResource(R.drawable.ic_popup_gameplay_ok);
+                        PopupWindow.hide(popup_playersleft_2ormore, gameplayButtons);
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
+        //—————ВСПЛЫВАЮЩЕЕ ОКНО ПРИ ВЫЛЕТЕ ИГРОКА (=1)—————//
+
+
+
+        final RelativeLayout popup_playersleft_1 = (RelativeLayout) findViewById(R.id.popup_gameplay_last1);
+
+
+
+        final ImageButton popup_playersleft_1_ok = (ImageButton) findViewById(R.id.popup_gameplay_last1_ok);
+
+        final ImageView popup_playersleft_1_kickedplayer = (ImageView) findViewById(R.id.popup_gameplay_last1_kickedplayer);
+        final ImageView popup_playersleft_1_winnernumber = (ImageView) findViewById(R.id.popup_gameplay_last1_winnernumber);
+        final ImageView popup_playersleft_1_winnericon = (ImageView) findViewById(R.id.popup_gameplay_last1_winnericon);
+
+        popup_playersleft_1_ok.setBackgroundResource(R.drawable.ic_popup_gameplay_ok);
+
+
+
+        popup_playersleft_1_ok.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        popup_playersleft_1_ok.setBackgroundResource(R.drawable.ic_popup_gameplay_okclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        popup_playersleft_1_ok.setBackgroundResource(R.drawable.ic_popup_gameplay_ok);
+                        PopupWindow.hide(popup_playersleft_1, gameplayButtons);
+                        finish();
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
+        //—————ГЛАВНОЕ ОКНО—————//
+
 
 
         Intent sgf_to_gameplay = getIntent();                                                       //
@@ -123,6 +264,8 @@ public class Gameplay extends AppCompatActivity {
         step = 0;
         currentTeam = 1;
         stepsLeft = 3;
+        activeTeams = getPrimalStateForActiveTeams();
+        activeTeamsCount = teamsCount;
 
 
         final ImageView title_teamNum = (ImageView) findViewById(R.id.gameplay_team);
@@ -181,12 +324,17 @@ public class Gameplay extends AppCompatActivity {
                                 break;
                             }
                         }
-                    }
 
-                    clear();                                                                        // обнуление флагов для проверки клеток с кучкой мёртвых клопов
+                        clear();                                                                    // обнуление флагов для проверки клеток с кучкой мёртвых клопов
+                    }
                 }
             });
         }
+
+
+
+        //—————БОКОВОЕ СЛАЙД-МЕНЮ—————//
+
 
 
         SlidingMenu menu = new SlidingMenu(this);
@@ -197,62 +345,120 @@ public class Gameplay extends AppCompatActivity {
         menu.setMenu(R.layout.sidemenu);
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
 
-        final ImageButton btn_sliding_menu_return_to_main_menu = (ImageButton) findViewById(R.id.sliding_menu_btn_main_menu);
-        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_main_menu);
-        btn_sliding_menu_return_to_main_menu.setOnTouchListener(new View.OnTouchListener() {
+
+
+        final ImageButton slmenu_surrender = (ImageButton) findViewById(R.id.gameplay_surrender);
+        final ImageButton slmenu_help = (ImageButton) findViewById(R.id.gameplay_help);
+        final ImageButton slmenu_terminate = (ImageButton) findViewById(R.id.gameplay_terminate);
+        final ImageButton slmenu_pause = (ImageButton) findViewById(R.id.gameplay_pause);
+
+        gameplayButtons.add(slmenu_surrender);
+        gameplayButtons.add(slmenu_help);
+        gameplayButtons.add(slmenu_terminate);
+        gameplayButtons.add(slmenu_pause);
+
+        slmenu_surrender.setBackgroundResource(R.drawable.ic_gameplay_surrender);
+        slmenu_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
+        slmenu_terminate.setBackgroundResource(R.drawable.ic_gameplay_terminate);
+        slmenu_pause.setBackgroundResource(R.drawable.ic_gameplay_pause);
+
+
+
+        slmenu_surrender.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_main_menu_onclicked);
+                        slmenu_surrender.setBackgroundResource(R.drawable.ic_gameplay_surrenderclicked);
                         break;
                     case MotionEvent.ACTION_UP:
-                        btn_sliding_menu_return_to_main_menu.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_main_menu);
-                        Intent sliding_menu_to_main_menu = new Intent(getBaseContext(), MainMenu.class);
-                        startActivity(sliding_menu_to_main_menu);
+                        slmenu_surrender.setBackgroundResource(R.drawable.ic_gameplay_surrender);
+
+                        activeTeamsCount--;
+                        activeTeams[currentTeam - 1] = false;
+                        int[] activeTeamsList = getActiveTeamsList();
+
+                        if (activeTeamsCount == 1) {
+                            popup_playersleft_1_kickedplayer.setBackgroundResource(intToImg(currentTeam));
+                            popup_playersleft_1_winnernumber.setBackgroundResource(intToImg(activeTeamsList[0]));
+                            popup_playersleft_1_winnericon.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
+
+                            PopupWindow.display(popup_playersleft_1, gameplayButtons);
+                        } else {
+                            popup_playersleft_2ormore_kickedplayer.setBackgroundResource(intToImg(currentTeam));
+                            popup_playersleft_2ormore_playersleft.setBackgroundResource(intToImg(activeTeamsCount));
+
+                            popup_playersleft_2ormore_playernumber1.setBackgroundResource(intToImg(activeTeamsList[0]));
+                            popup_playersleft_2ormore_playernumber2.setBackgroundResource(intToImg(activeTeamsList[1]));
+                            popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3) ? intToImg(activeTeamsList[2]) : R.drawable.ic_aplha);
+
+                            popup_playersleft_2ormore_playericon1.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
+                            popup_playersleft_2ormore_playericon2.setBackgroundResource(teamNumToIcon(activeTeamsList[1]));
+                            popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3) ? teamNumToIcon(activeTeamsList[2]) : R.drawable.ic_aplha);
+
+                            PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
+                        }
+
+                        minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                         break;
                 }
                 return true;
             }
         });
 
-        final ImageButton btn_sliding_menu_return_to_options = (ImageButton) findViewById(R.id.sliding_menu_btn_options);
-        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_options);
-        btn_sliding_menu_return_to_options.setOnTouchListener(new View.OnTouchListener() {
+        slmenu_help.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_options_onclicked);
+                        slmenu_help.setBackgroundResource(R.drawable.ic_btn_mm_helpclicked);
                         break;
                     case MotionEvent.ACTION_UP:
-                        btn_sliding_menu_return_to_options.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_options);
-                        Intent sliding_menu_to_options = new Intent(getBaseContext(), Options.class);
-                        startActivity(sliding_menu_to_options);
+                        slmenu_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
+                        Intent gameplay_to_help = new Intent(getBaseContext(), Help.class);
+                        startActivity(gameplay_to_help);
                         break;
                 }
                 return true;
             }
         });
 
-        final ImageButton btn_sliding_menu_return_to_help = (ImageButton) findViewById(R.id.sliding_menu_btn_help);
-        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_help);
-        btn_sliding_menu_return_to_help.setOnTouchListener(new View.OnTouchListener() {
+        slmenu_terminate.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_helponclicked);
+                        slmenu_terminate.setBackgroundResource(R.drawable.ic_gameplay_terminateclicked);
                         break;
                     case MotionEvent.ACTION_UP:
-                        btn_sliding_menu_return_to_help.setBackgroundResource(R.drawable.ic_btn_sliding_menu_return_to_help);
-                        Intent sliding_menu_to_help = new Intent(getBaseContext(), Help.class);
-                        startActivity(sliding_menu_to_help);
+                        slmenu_terminate.setBackgroundResource(R.drawable.ic_gameplay_terminate);
+                        if (activeTeamsCount == 1)
+                            finish();
+                        else
+                            PopupWindow.display(popup_end, gameplayButtons);
                         break;
                 }
                 return true;
             }
         });
+
+        slmenu_pause.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        slmenu_pause.setBackgroundResource(R.drawable.ic_gameplay_pauseclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        slmenu_pause.setBackgroundResource(R.drawable.ic_gameplay_pause);
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
     }
 
 
@@ -411,24 +617,45 @@ public class Gameplay extends AppCompatActivity {
         }
     }
 
-    private void minusStep(ImageView teamNumImg, ImageView teamIcon, ImageView stepsImg) {                                                                      // процедура отнятия шага; выполняется при каждом успешном действии
-        stepsLeft--;
-        if (stepsLeft == 0) {
-            stepsLeft = 3;
-            currentTeam++;
-            if (currentTeam > teamsCount) currentTeam = 1;
-            updateTeamInTitle(teamNumImg, teamIcon);
+    private boolean[] getPrimalStateForActiveTeams() {
+        boolean[] res = new boolean[teamsCount];
+        for (int i = 0; i < teamsCount; i++) {
+            res[i] = true;
         }
+        return res;
+    }
+
+    private int[] getActiveTeamsList() {
+        int[] res = new int[activeTeamsCount];
+        int k = 0;
+        for (int i = 0; i < activeTeams.length; i++) {
+            if (activeTeams[i]) {
+                res[k] = i + 1;
+                k++;
+            }
+        }
+        return res;
+    }
+
+    private void minusStep(ImageView teamNumImg, ImageView teamIcon, ImageView stepsImg) {          // процедура отнятия шага; выполняется при каждом успешном действии
+        do {
+            stepsLeft--;
+            if (stepsLeft == 0) {
+                stepsLeft = 3;
+                currentTeam++;
+                if (currentTeam > teamsCount) currentTeam = 1;
+            }
+        } while (!activeTeams[currentTeam - 1]);
+
         step++;
+        updateTeamInTitle(teamNumImg, teamIcon);
         updateStepsInTitle(stepsImg);
     }
 
 
     public static void updateTexture(CustomButton CB) {                                                   // обновляет текстуру клетки в соответствии с её командой и состоянием
-        if (CB.getState() == STATE_MISSING) {
-            CB.setImageResource(R.drawable.ic_grnd_main);
-            CB.setImageAlpha(0);
-        }
+        if (CB.getState() == STATE_MISSING)
+            CB.setImageResource(R.drawable.ic_aplha);
         else if (CB.getState() == STATE_NEUTRAL) {
             CB.setImageResource(R.drawable.ic_grnd_main);
             CB.setImageAlpha(210);
@@ -466,48 +693,41 @@ public class Gameplay extends AppCompatActivity {
 
 
     private static void updateTeamInTitle(ImageView teamNumImg, ImageView teamIcon) {
-        switch (currentTeam) {
-            case 1:
-                teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_1);
-                break;
-            case 2:
-                teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_2);
-                break;
-            case 3:
-                teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_3);
-                break;
-            case 4:
-                teamNumImg.setBackgroundResource(R.drawable.ic_gameplay_num_4);
-                break;
-        }
-        switch (GameSettings.getPlayers_textureState(currentTeam - 1)) {
-            case 1:
-                teamIcon.setBackgroundResource(R.drawable.grnd_black);
-                break;
-            case 2:
-                teamIcon.setBackgroundResource(R.drawable.grnd_grace);
-                break;
-            case 3:
-                teamIcon.setBackgroundResource(R.drawable.grnd_lava);
-                break;
-            case 4:
-                teamIcon.setBackgroundResource(R.drawable.grnd_sand);
-                break;
-        }
+        teamNumImg.setBackgroundResource(intToImg(currentTeam));
+        teamIcon.setBackgroundResource(teamNumToIcon(currentTeam));
     }
 
     private static void updateStepsInTitle(ImageView stepsImg) {
-        switch (stepsLeft) {
+        stepsImg.setBackgroundResource(intToImg(stepsLeft));
+    }
+
+
+    private static int intToImg(int i) {
+        switch (i) {
             case 1:
-                stepsImg.setBackgroundResource(R.drawable.ic_gameplay_num_1);
-                break;
+                return R.drawable.ic_gameplay_num_1;
             case 2:
-                stepsImg.setBackgroundResource(R.drawable.ic_gameplay_num_2);
-                break;
+                return R.drawable.ic_gameplay_num_2;
             case 3:
-                stepsImg.setBackgroundResource(R.drawable.ic_gameplay_num_3);
-                break;
+                return R.drawable.ic_gameplay_num_3;
+            case 4:
+                return R.drawable.ic_gameplay_num_4;
         }
+        return 0;
+    }
+
+    private static int teamNumToIcon(int teamNum) {
+        switch (GameSettings.getPlayers_textureState(teamNum - 1)) {
+            case 1:
+                return R.drawable.grnd_black;
+            case 2:
+                return R.drawable.grnd_grace;
+            case 3:
+                return R.drawable.grnd_lava;
+            case 4:
+                return R.drawable.grnd_sand;
+        }
+        return 0;
     }
 
 }

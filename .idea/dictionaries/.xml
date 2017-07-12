@@ -11,10 +11,13 @@
       <w>freeform</w>
       <w>freeformme</w>
       <w>freeformmeclicked</w>
+      <w>gamefield</w>
       <w>gameplay</w>
       <w>gameselect</w>
       <w>grnd</w>
       <w>indexa</w>
+      <w>kickedplayer</w>
+      <w>kickedteam</w>
       <w>mapeditor</w>
       <w>mapeditorclicked</w>
       <w>mapnumber</w>
@@ -26,17 +29,25 @@
       <w>multiplayer</w>
       <w>nowplaying</w>
       <w>onoff</w>
+      <w>ormore</w>
       <w>pers</w>
+      <w>playericon</w>
+      <w>playernumber</w>
+      <w>playersleft</w>
       <w>playingicon</w>
       <w>promahnulis</w>
       <w>selectmap</w>
       <w>setgamefield</w>
       <w>setgamefieldtype</w>
       <w>sgft</w>
+      <w>sidemenu</w>
       <w>singleplayer</w>
+      <w>slmenu</w>
       <w>stepsleft</w>
       <w>teamscount</w>
       <w>teamsnum</w>
+      <w>winnericon</w>
+      <w>winnernumber</w>
       <w>пiймав</w>
     </words>
   </dictionary>

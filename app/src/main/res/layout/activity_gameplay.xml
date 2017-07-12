@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.myapplication.Gameplay"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_gameplay"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/gamefield"
+        android:background="@drawable/background_gameplay">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -100,6 +105,237 @@
 
         </LinearLayout>
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/popup_gameplay_end"
+            android:background="@drawable/ic_popup_back"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_gameplay_end_msg"
+                android:src="@drawable/ic_popup_gameplay_msg_end"
+                android:padding="0dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_gameplay_end_yes"
+                android:padding="0dp"
+                android:layout_alignBottom="@+id/popup_gameplay_end_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_end_msg"
+                android:layout_alignStart="@+id/popup_gameplay_end_msg" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_gameplay_end_no"
+                android:padding="0dp"
+                android:layout_alignBottom="@+id/popup_gameplay_end_msg"
+                android:layout_alignRight="@+id/popup_gameplay_end_msg"
+                android:layout_alignEnd="@+id/popup_gameplay_end_msg" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/popup_gameplay_last2more"
+            android:background="@drawable/ic_popup_back"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_gameplay_last2more_msg"
+                android:src="@drawable/ic_popup_gameplay_msg2more"
+                android:padding="0dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_gameplay_last2more_ok"
+                android:padding="0dp"
+                android:layout_alignBottom="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"/>
+
+
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="14dp"
+                android:id="@+id/popup_gameplay_last2more_kickedplayer"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"
+                android:layout_marginLeft="119dp"
+                android:layout_marginStart="119dp"
+                android:layout_marginTop="17dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="14dp"
+                android:id="@+id/popup_gameplay_last2more_playersleft"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="95dp"/>
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:id="@+id/popup_gameplay_last2more_playericon1"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"
+                android:layout_marginLeft="130dp"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="80dp"/>
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:id="@+id/popup_gameplay_last2more_playericon2"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"
+                android:layout_marginLeft="165dp"
+                android:layout_marginStart="165dp"
+                android:layout_marginTop="80dp"/>
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:id="@+id/popup_gameplay_last2more_playericon3"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"
+                android:layout_marginLeft="200dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="80dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="14dp"
+                android:id="@+id/popup_gameplay_last2more_playernumber1"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"
+                android:layout_marginLeft="137dp"
+                android:layout_marginStart="137dp"
+                android:layout_marginTop="109dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="14dp"
+                android:id="@+id/popup_gameplay_last2more_playernumber2"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"
+                android:layout_marginLeft="172dp"
+                android:layout_marginStart="172dp"
+                android:layout_marginTop="109dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="14dp"
+                android:id="@+id/popup_gameplay_last2more_playernumber3"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last2more_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last2more_msg"
+                android:layout_marginLeft="207dp"
+                android:layout_marginStart="207dp"
+                android:layout_marginTop="109dp"/>
+
+        </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/popup_gameplay_last1"
+        android:background="@drawable/ic_popup_back"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/popup_gameplay_last1_msg"
+            android:src="@drawable/ic_popup_gameplay_msg1"
+            android:padding="0dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/popup_gameplay_last1_ok"
+            android:padding="0dp"
+            android:layout_alignBottom="@+id/popup_gameplay_last1_msg"
+            android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
+            android:layout_alignStart="@+id/popup_gameplay_last1_msg" />
+
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="14dp"
+            android:id="@+id/popup_gameplay_last1_kickedplayer"
+            android:padding="0dp"
+            android:layout_alignTop="@+id/popup_gameplay_last1_msg"
+            android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
+            android:layout_alignStart="@+id/popup_gameplay_last1_msg"
+            android:layout_marginLeft="119dp"
+            android:layout_marginStart="119dp"
+            android:layout_marginTop="17dp"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="14dp"
+            android:id="@+id/popup_gameplay_last1_winnernumber"
+            android:padding="0dp"
+            android:layout_alignTop="@+id/popup_gameplay_last1_msg"
+            android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
+            android:layout_alignStart="@+id/popup_gameplay_last1_msg"
+            android:layout_marginLeft="87dp"
+            android:layout_marginStart="87dp"
+            android:layout_marginTop="110dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/popup_gameplay_last1_winnericon"
+            android:padding="0dp"
+            android:layout_alignTop="@+id/popup_gameplay_last1_msg"
+            android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
+            android:layout_alignStart="@+id/popup_gameplay_last1_msg"
+            android:layout_marginLeft="111dp"
+            android:layout_marginStart="111dp"
+            android:layout_marginTop="78dp"/>
+
+
     </RelativeLayout>
+
+
+    </RelativeLayout>
+
 
 </LinearLayout>

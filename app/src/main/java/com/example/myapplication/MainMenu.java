@@ -7,6 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+
+import com.example.myapplication.Abstract.PopupWindow;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -18,6 +24,63 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        final List<ImageButton> mainMenuButtons = new ArrayList<>();
+
+
+
+        //——————————//
+
+
+
+        final RelativeLayout popup_exit = (RelativeLayout) findViewById(R.id.mm_popup_exit);
+
+
+
+        final ImageButton popup_exit_yes = (ImageButton) findViewById(R.id.mm_popup_exit_yes);
+        final ImageButton popup_exit_no = (ImageButton) findViewById(R.id.mm_popup_exit_no);
+
+        popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yes);
+        popup_exit_no.setBackgroundResource(R.drawable.ic_popup_exit_no);
+
+
+
+        popup_exit_yes.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yesclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yes);
+                        PopupWindow.hide(popup_exit, mainMenuButtons);
+                        AppExit();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        popup_exit_no.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        popup_exit_no.setBackgroundResource(R.drawable.ic_popup_exit_noclicked);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        popup_exit_no.setBackgroundResource(R.drawable.ic_popup_exit_no);
+                        PopupWindow.hide(popup_exit, mainMenuButtons);
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
+        //——————————//
+
 
 
         final ImageButton btn_play = (ImageButton) findViewById(R.id.btn1);
@@ -25,6 +88,12 @@ public class MainMenu extends AppCompatActivity {
         final ImageButton btn_help = (ImageButton) findViewById(R.id.btn3);
         final ImageButton btn_exit = (ImageButton) findViewById(R.id.btn4);
     //    final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
+
+        mainMenuButtons.add(btn_play);
+        mainMenuButtons.add(btn_options);
+        mainMenuButtons.add(btn_help);
+        mainMenuButtons.add(btn_exit);
+    //    mainMenuButtons.add(btn_mapeditor);
 
         btn_play.setBackgroundResource(R.drawable.ic_btn_mm_play);
         btn_options.setBackgroundResource(R.drawable.ic_btn_mm_options);
@@ -95,12 +164,13 @@ public class MainMenu extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         btn_exit.setBackgroundResource(R.drawable.ic_btn_mm_exit);
-                        AppExit();
+                        PopupWindow.display(popup_exit, mainMenuButtons);
                         break;
                 }
                 return true;
             }
         });
+
 
 /*        btn_mapeditor.setOnTouchListener(new View.OnTouchListener() {
             @Override
