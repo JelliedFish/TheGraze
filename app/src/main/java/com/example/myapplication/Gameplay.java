@@ -52,6 +52,7 @@ public class Gameplay extends AppCompatActivity {
     static int stepsLeft;                                                                           // сколько ходов осталось этой команде
     static boolean[] activeTeams;                                                                   // играющие команды
     static int activeTeamsCount;                                                                    // количество живых команд
+    static int[] aliveUnitsCount;                                                                   // количество ЖИВЫХ клопов в каждой команде
 
     CustomButton[][] buttons = new CustomButton[Width][Height];
 
@@ -266,6 +267,7 @@ public class Gameplay extends AppCompatActivity {
         stepsLeft = 3;
         activeTeams = getPrimalStateForActiveTeams();
         activeTeamsCount = teamsCount;
+        aliveUnitsCount = new int[]{1, 1, 1, 1};
 
 
         final ImageView title_teamNum = (ImageView) findViewById(R.id.gameplay_team);
@@ -282,42 +284,42 @@ public class Gameplay extends AppCompatActivity {
             final int x = position % Width;                                                         // находим месторасположение кнопки в двумерном массиве (и на поле
             final int y = position / Width;                                                         // соотвественно), задаем эти значения переменным
 
-
             tmp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {                                                         // добавляем для каждой кнопки слушатель действия
 
-                    if (tmp.getState() != STATE_MISSING && tmp.getState() != STATE_KILL && tmp.getState() != STATE_CASTLEKILLED) {
-                                                                                                    // если мы не нажали на "мертвую" или отсутствующую клетку, то
+                    if ((tmp.getState() != STATE_MISSING) && (tmp.getState() != STATE_KILL) && (tmp.getState() != STATE_CASTLEKILLED) && (tmp.getTeam() != currentTeam)) {
+                                                                                                    // если мы не нажали на "мертвую" или отсутствующую клетку, либо на клетку своей команды
                         if (ReasonsToPut(x, y, currentTeam)) {
-                            if (tmp.getTeam() != currentTeam) {
-                                switch (tmp.getState()) {
-                                    case STATE_ALIVE: {
-                                        updateDataAndTexture(tmp, currentTeam, STATE_KILL);
-                                        minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
-                                    }
-                                    break;
-                                    case STATE_CASTLE: {
-                                        updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
-                                        minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
-                                    }
-                                    break;
-                                    case STATE_NEUTRAL: {
-                                        updateDataAndTexture(tmp, currentTeam, STATE_ALIVE);
-                                        minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        else if (ReasonsToEat(x, y, currentTeam) && tmp.getTeam() != currentTeam) {
                             switch (tmp.getState()) {
                                 case STATE_ALIVE: {
+                                    aliveUnitsCount[tmp.getTeam() - 1]--;
+                                    updateDataAndTexture(tmp, currentTeam, STATE_KILL);
+                                }
+                                break;
+                                case STATE_CASTLE: {
+                                    aliveUnitsCount[tmp.getTeam() - 1]--;
+                                    updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
+                                }
+                                break;
+                                case STATE_NEUTRAL: {
+                                    aliveUnitsCount[currentTeam - 1]++;
+                                    updateDataAndTexture(tmp, currentTeam, STATE_ALIVE);
+                                }
+                                break;
+                            }
+                            minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
+                        }
+                        else if (ReasonsToEat(x, y, currentTeam)) {
+                            switch (tmp.getState()) {
+                                case STATE_ALIVE: {
+                                    aliveUnitsCount[tmp.getTeam() - 1]--;
                                     updateDataAndTexture(tmp, currentTeam, STATE_KILL);
                                     minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                                 }
                                 break;
                                 case STATE_CASTLE: {
+                                    aliveUnitsCount[tmp.getTeam() - 1]--;
                                     updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
                                     minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
                                 }
@@ -326,6 +328,39 @@ public class Gameplay extends AppCompatActivity {
                         }
 
                         clear();                                                                    // обнуление флагов для проверки клеток с кучкой мёртвых клопов
+
+                        for (int i = 1; i <= 4; i++) {                                              // для каждого игрока проверяет, надо ли его кикнуть из-за отсутствия его живых клеток
+                            if (activeTeams[i - 1] && aliveUnitsCount[i - 1] == 0) {
+
+                                activeTeamsCount--;
+                                activeTeams[i - 1] = false;
+                                int[] activeTeamsList = getActiveTeamsList();
+
+                                if (activeTeamsCount == 1) {
+                                    popup_playersleft_1_kickedplayer.setBackgroundResource(intToImg(i));
+                                    popup_playersleft_1_winnernumber.setBackgroundResource(intToImg(activeTeamsList[0]));
+                                    popup_playersleft_1_winnericon.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
+
+                                    PopupWindow.display(popup_playersleft_1, gameplayButtons);
+                                } else {
+                                    popup_playersleft_2ormore_kickedplayer.setBackgroundResource(intToImg(i));
+                                    popup_playersleft_2ormore_playersleft.setBackgroundResource(intToImg(activeTeamsCount));
+
+                                    popup_playersleft_2ormore_playernumber1.setBackgroundResource(intToImg(activeTeamsList[0]));
+                                    popup_playersleft_2ormore_playernumber2.setBackgroundResource(intToImg(activeTeamsList[1]));
+                                    popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3) ? intToImg(activeTeamsList[2]) : R.drawable.ic_alpha);
+
+                                    popup_playersleft_2ormore_playericon1.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
+                                    popup_playersleft_2ormore_playericon2.setBackgroundResource(teamNumToIcon(activeTeamsList[1]));
+                                    popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3) ? teamNumToIcon(activeTeamsList[2]) : R.drawable.ic_alpha);
+
+                                    PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
+                                }
+
+                                if (currentTeam == i)
+                                    minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
+                            }
+                        }
                     }
                 }
             });
@@ -390,11 +425,11 @@ public class Gameplay extends AppCompatActivity {
 
                             popup_playersleft_2ormore_playernumber1.setBackgroundResource(intToImg(activeTeamsList[0]));
                             popup_playersleft_2ormore_playernumber2.setBackgroundResource(intToImg(activeTeamsList[1]));
-                            popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3) ? intToImg(activeTeamsList[2]) : R.drawable.ic_aplha);
+                            popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3) ? intToImg(activeTeamsList[2]) : R.drawable.ic_alpha);
 
                             popup_playersleft_2ormore_playericon1.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
                             popup_playersleft_2ormore_playericon2.setBackgroundResource(teamNumToIcon(activeTeamsList[1]));
-                            popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3) ? teamNumToIcon(activeTeamsList[2]) : R.drawable.ic_aplha);
+                            popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3) ? teamNumToIcon(activeTeamsList[2]) : R.drawable.ic_alpha);
 
                             PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
                         }
@@ -655,7 +690,7 @@ public class Gameplay extends AppCompatActivity {
 
     public static void updateTexture(CustomButton CB) {                                                   // обновляет текстуру клетки в соответствии с её командой и состоянием
         if (CB.getState() == STATE_MISSING)
-            CB.setImageResource(R.drawable.ic_aplha);
+            CB.setImageResource(R.drawable.ic_alpha);
         else if (CB.getState() == STATE_NEUTRAL) {
             CB.setImageResource(R.drawable.ic_grnd_main);
             CB.setImageAlpha(210);
