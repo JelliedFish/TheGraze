@@ -269,70 +269,129 @@
         </RelativeLayout>
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/popup_gameplay_last1"
-        android:background="@drawable/ic_popup_back"
-        android:visibility="invisible">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/popup_gameplay_last1"
+            android:background="@drawable/ic_popup_back"
+            android:visibility="invisible">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/popup_gameplay_last1_msg"
-            android:src="@drawable/ic_popup_gameplay_msg1"
-            android:padding="0dp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_gameplay_last1_msg"
+                android:src="@drawable/ic_popup_gameplay_msg1"
+                android:padding="0dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/popup_gameplay_last1_ok"
-            android:padding="0dp"
-            android:layout_alignBottom="@+id/popup_gameplay_last1_msg"
-            android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
-            android:layout_alignStart="@+id/popup_gameplay_last1_msg" />
-
-
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="14dp"
-            android:id="@+id/popup_gameplay_last1_kickedplayer"
-            android:padding="0dp"
-            android:layout_alignTop="@+id/popup_gameplay_last1_msg"
-            android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
-            android:layout_alignStart="@+id/popup_gameplay_last1_msg"
-            android:layout_marginLeft="119dp"
-            android:layout_marginStart="119dp"
-            android:layout_marginTop="17dp"/>
-
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="14dp"
-            android:id="@+id/popup_gameplay_last1_winnernumber"
-            android:padding="0dp"
-            android:layout_alignTop="@+id/popup_gameplay_last1_msg"
-            android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
-            android:layout_alignStart="@+id/popup_gameplay_last1_msg"
-            android:layout_marginLeft="87dp"
-            android:layout_marginStart="87dp"
-            android:layout_marginTop="110dp"/>
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/popup_gameplay_last1_winnericon"
-            android:padding="0dp"
-            android:layout_alignTop="@+id/popup_gameplay_last1_msg"
-            android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
-            android:layout_alignStart="@+id/popup_gameplay_last1_msg"
-            android:layout_marginLeft="111dp"
-            android:layout_marginStart="111dp"
-            android:layout_marginTop="78dp"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_gameplay_last1_ok"
+                android:padding="0dp"
+                android:layout_alignBottom="@+id/popup_gameplay_last1_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last1_msg" />
 
 
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="14dp"
+                android:id="@+id/popup_gameplay_last1_kickedplayer"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last1_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last1_msg"
+                android:layout_marginLeft="119dp"
+                android:layout_marginStart="119dp"
+                android:layout_marginTop="17dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="14dp"
+                android:id="@+id/popup_gameplay_last1_winnernumber"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last1_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last1_msg"
+                android:layout_marginLeft="87dp"
+                android:layout_marginStart="87dp"
+                android:layout_marginTop="110dp"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/popup_gameplay_last1_winnericon"
+                android:padding="0dp"
+                android:layout_alignTop="@+id/popup_gameplay_last1_msg"
+                android:layout_alignLeft="@+id/popup_gameplay_last1_msg"
+                android:layout_alignStart="@+id/popup_gameplay_last1_msg"
+                android:layout_marginLeft="111dp"
+                android:layout_marginStart="111dp"
+                android:layout_marginTop="78dp"/>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gameplay_stripe_center"
+                android:padding="0dp"
+                android:src="@drawable/ic_gameplay_stripecenter"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gameplay_stripe_up"
+                android:padding="0dp"
+                android:src="@drawable/ic_gameplay_stripe"
+                android:layout_below="@+id/gameplay_stripe_center"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gameplay_stripe_down"
+                android:padding="0dp"
+                android:src="@drawable/ic_gameplay_stripe"
+                android:layout_above="@+id/gameplay_stripe_center"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gameplay_stripe_up2"
+                android:padding="0dp"
+                android:src="@drawable/ic_gameplay_stripe"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gameplay_stripe_down2"
+                android:padding="0dp"
+                android:src="@drawable/ic_gameplay_stripe"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
 
 
     </RelativeLayout>

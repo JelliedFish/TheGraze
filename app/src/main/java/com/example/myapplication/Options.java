@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.example.myapplication.CustomObjects.SwitcherBoolean;
 import com.example.myapplication.Data.GameSettings;
 
 public class Options extends AppCompatActivity {

@@ -118,7 +118,7 @@ public class Gameplay extends AppCompatActivity {
 
 
 
-        //—————ВСПЛЫВАЮЩЕЕ ОКНО ПРИ ВЫЛЕТЕ ИГРОКА (>2)—————//
+        //—————ВСПЛЫВАЮЩЕЕ ОКНО ПРИ ВЫЛЕТЕ ИГРОКА (>=2)—————//
 
 
 
@@ -253,7 +253,7 @@ public class Gameplay extends AppCompatActivity {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
-        int[] gridMargins = LayoutSetter.getRelativeMargins(displayMetrics.widthPixels, displayMetrics.heightPixels, (double) Width / Height, 0.05, 0.12, 0.05, 0.03);
+        int[] gridMargins = LayoutSetter.getRelativeMargins(displayMetrics.widthPixels, displayMetrics.heightPixels, (double) Width / Height, 0.05, 0.12, 0.09, 0.03);
         // рассчитывает отступы для игровой сетки (см. класс LayoutSetter)
 
         layoutParams.setMargins(gridMargins[0], gridMargins[1], gridMargins[2], gridMargins[3]);
