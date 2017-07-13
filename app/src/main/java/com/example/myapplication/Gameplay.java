@@ -329,7 +329,7 @@ public class Gameplay extends AppCompatActivity {
 
                         clear();                                                                    // обнуление флагов для проверки клеток с кучкой мёртвых клопов
 
-                        for (int i = 1; i <= 4; i++) {                                              // для каждого игрока проверяет, надо ли его кикнуть из-за отсутствия его живых клеток
+                        for (int i = 1; i <= teamsCount; i++) {                                              // для каждого игрока проверяет, надо ли его кикнуть из-за отсутствия его живых клеток
                             if (activeTeams[i - 1] && aliveUnitsCount[i - 1] == 0) {
 
                                 activeTeamsCount--;
