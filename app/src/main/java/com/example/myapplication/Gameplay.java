@@ -689,32 +689,7 @@ public class Gameplay extends AppCompatActivity {
 
 
     public static void updateTexture(CustomButton CB) {                                                   // обновляет текстуру клетки в соответствии с её командой и состоянием
-        if (CB.getState() == STATE_MISSING)
-            CB.setImageResource(R.drawable.ic_alpha);
-        else if (CB.getState() == STATE_NEUTRAL) {
-            CB.setImageResource(R.drawable.ic_grnd_main);
-        }
-        else {
-            int textureID = CB.getState() * 4 + GameSettings.getPlayers_textureState(CB.getTeam() - 1) - 5;
-            switch (textureID) {
-                case 0: CB.setImageResource(R.drawable.grnd_black); break;
-                case 1: CB.setImageResource(R.drawable.grnd_grace); break;
-                case 2: CB.setImageResource(R.drawable.grnd_lava); break;
-                case 3: CB.setImageResource(R.drawable.grnd_sand); break;
-                case 4: CB.setImageResource(R.drawable.black_kill); break;
-                case 5: CB.setImageResource(R.drawable.grace_kill); break;
-                case 6: CB.setImageResource(R.drawable.lava_kill); break;
-                case 7: CB.setImageResource(R.drawable.sand_kill); break;
-                case 8: CB.setImageResource(R.drawable.ctl_black); break;
-                case 9: CB.setImageResource(R.drawable.ctl_grace); break;
-                case 10: CB.setImageResource(R.drawable.ctl_lava); break;
-                case 11: CB.setImageResource(R.drawable.ctl_sand); break;
-                case 12: CB.setImageResource(R.drawable.ctl_black_die); break;
-                case 13: CB.setImageResource(R.drawable.ctl_grace_die); break;
-                case 14: CB.setImageResource(R.drawable.ctl_lava_die); break;
-                case 15: CB.setImageResource(R.drawable.ctl_sand_die); break;
-            }
-        }
+        CB.setBackgroundResource(GameSettings.getPlayerTextureID(CB.getTeam(), CB.getState()));
     }
 
     public static void updateDataAndTexture(CustomButton CB, Integer newTeam, Byte newState) {

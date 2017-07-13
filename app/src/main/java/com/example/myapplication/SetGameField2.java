@@ -85,7 +85,7 @@ public class SetGameField2 extends AppCompatActivity {
         final ImageView setgamefield2_map_number = (ImageView) findViewById(R.id.setgamefield2_mapnumber);
 
         teamsCount = 2;
-        updateTeamsCountTextures(2, setgamefield2_teamscount_left, setgamefield2_teamscount, setgamefield2_teamscount_right, setgamefield2_mapteamscount);
+        updateTeamsCountTextures(setgamefield2_teamscount_left, setgamefield2_teamscount, setgamefield2_teamscount_right, setgamefield2_mapteamscount);
         resetMap(setgamefield2_map_arrow_left, setgamefield2_map_number, setgamefield2_map_arrow_right);
 
 
@@ -108,7 +108,7 @@ public class SetGameField2 extends AppCompatActivity {
             public void onClick(View v) {
                 if (teamsCount > 2) {
                     teamsCount--;
-                    updateTeamsCountTextures(teamsCount, setgamefield2_teamscount_left, setgamefield2_teamscount, setgamefield2_teamscount_right, setgamefield2_mapteamscount);
+                    updateTeamsCountTextures(setgamefield2_teamscount_left, setgamefield2_teamscount, setgamefield2_teamscount_right, setgamefield2_mapteamscount);
                     resetMap(setgamefield2_map_arrow_left, setgamefield2_map_number, setgamefield2_map_arrow_right);
                     updateMapPreview();
                 }
@@ -119,7 +119,7 @@ public class SetGameField2 extends AppCompatActivity {
             public void onClick(View v) {
                 if (teamsCount < 4) {
                     teamsCount++;
-                    updateTeamsCountTextures(teamsCount, setgamefield2_teamscount_left, setgamefield2_teamscount, setgamefield2_teamscount_right, setgamefield2_mapteamscount);
+                    updateTeamsCountTextures(setgamefield2_teamscount_left, setgamefield2_teamscount, setgamefield2_teamscount_right, setgamefield2_mapteamscount);
                     resetMap(setgamefield2_map_arrow_left, setgamefield2_map_number, setgamefield2_map_arrow_right);
                     updateMapPreview();
                 }
@@ -182,8 +182,8 @@ public class SetGameField2 extends AppCompatActivity {
 
     }
 
-    private static void updateTeamsCountTextures(int newTeamsCount, ImageButton left, ImageView img, ImageButton right, ImageView numOnMap) {
-        switch (newTeamsCount) {
+    private static void updateTeamsCountTextures(ImageButton left, ImageView img, ImageButton right, ImageView numOnMap) {
+        switch (teamsCount) {
             case 2:
                 left.setBackgroundResource(R.drawable.ic_btn_settings_left);
                 right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
@@ -197,8 +197,8 @@ public class SetGameField2 extends AppCompatActivity {
                 right.setBackgroundResource(R.drawable.ic_btn_settings_right);
                 break;
         }
-        img.setBackgroundResource(intToImage(newTeamsCount));
-        numOnMap.setBackgroundResource(intToImage(newTeamsCount));
+        img.setBackgroundResource(intToImage(teamsCount));
+        numOnMap.setBackgroundResource(intToImage(teamsCount));
     }
 
     private static void updateMapDataAndTextures(ImageButton left, ImageView img, ImageButton right) {
