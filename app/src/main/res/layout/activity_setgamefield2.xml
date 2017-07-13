@@ -66,6 +66,7 @@
         android:id="@+id/setgamefield2_teamscount_right"
         android:layout_below="@+id/setgamefield2_teamsnum"
         android:layout_toRightOf="@+id/setgamefield2_teamscount"
+        android:layout_toEndOf="@+id/setgamefield2_teamscount"
         android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="11dp"/>
@@ -79,7 +80,8 @@
         android:layout_marginStart="4dp"
         android:layout_below="@+id/setgamefield2_teamsnum"
         android:layout_centerHorizontal="true"
-        android:layout_toRightOf="@+id/setgamefield2_teamscount_left"/>
+        android:layout_toRightOf="@+id/setgamefield2_teamscount_left"
+        android:layout_toEndOf="@+id/setgamefield2_teamscount_left"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -131,6 +133,17 @@
     <ImageButton
         android:layout_width="23dp"
         android:layout_height="46dp"
+        android:id="@+id/setgamefield2_map_prev_super"
+        android:layout_below="@+id/setgamefield2_selectmap"
+        android:layout_toLeftOf="@+id/setgamefield2_mapnumbertxt"
+        android:layout_toStartOf="@+id/setgamefield2_mapnumbertxt"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp"/>
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
         android:id="@+id/setgamefield2_map_next"
         android:layout_below="@+id/setgamefield2_selectmap"
         android:layout_toRightOf="@+id/setgamefield2_mapnumbertxt"
@@ -138,6 +151,17 @@
         android:layout_marginTop="13dp"
         android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"/>
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/setgamefield2_map_next_super"
+        android:layout_below="@+id/setgamefield2_selectmap"
+        android:layout_toRightOf="@+id/setgamefield2_mapnumbertxt"
+        android:layout_toEndOf="@+id/setgamefield2_mapnumbertxt"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"/>
 
     <ImageView
         android:layout_width="wrap_content"

@@ -15,9 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.myapplication.Abstract.PopupWindow;
+import com.example.myapplication.Abstract.ViewPatterns;
 import com.example.myapplication.CustomObjects.CustomAdapter;
 import com.example.myapplication.CustomObjects.CustomButton;
 import com.example.myapplication.Abstract.LayoutSetter;
+import com.example.myapplication.Data.Const;
 import com.example.myapplication.Data.GameSettings;
 import com.example.myapplication.Data.MapData;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -26,15 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gameplay extends AppCompatActivity {
-
-    // КОНСТАНТЫ
-
-        public static final byte STATE_MISSING = -1;
-        public static final byte STATE_NEUTRAL = 0;
-        public static final byte STATE_ALIVE = 1;
-        public static final byte STATE_KILL = 2;
-        public static final byte STATE_CASTLE = 3;
-        public static final byte STATE_CASTLEKILLED = 4;
 
     // ДАННЫЕ, ПЕРЕДАВАЕМЫЕ ИЗ ПРЕДЫДУЩИХ ACTIVITY
 
@@ -210,8 +203,8 @@ public class Gameplay extends AppCompatActivity {
 
 
         Intent sgf_to_gameplay = getIntent();                                                       //
-        fieldWidth = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_WIDTH", 8);                             // передача данных о карте из предыдущих activity
-        fieldHeight = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_HEIGHT", 12);                          //
+        fieldWidth = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_WIDTH", 8);                        // передача данных о карте из предыдущих activity
+        fieldHeight = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_HEIGHT", 12);                     //
         teamsCount = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_TEAMSCOUNT", 2);                   //
         castleCoords = MapData.decryptCastleCoords(sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY_CASTLESCOORDS"));
         buttonsData = MapData.decryptButtonsData(sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY_BUTTONSDATA"));
@@ -222,24 +215,24 @@ public class Gameplay extends AppCompatActivity {
 
         final List<CustomButton> fields = new ArrayList<>();                                        // массив всех кнопок
 
-        for (int i = 0; i < fieldHeight * fieldWidth; i++) {                                                  //
+        for (int i = 0; i < fieldHeight * fieldWidth; i++) {                                        //
             CustomButton tmp = new CustomButton(getBaseContext());                                  //
             if (buttonsData[i])                                                                     // заполнение поля клетками в соответствии с данными об их
-                updateDataAndTexture(tmp, 0, STATE_NEUTRAL);                                        // существовании (buttonData[])
+                updateDataAndTexture(tmp, 0, Const.STATE_NEUTRAL);                                  // существовании (buttonData[])
             else                                                                                    //
-                updateDataAndTexture(tmp, 0, STATE_MISSING);                                        //
+                updateDataAndTexture(tmp, 0, Const.STATE_MISSING);                                  //
             tmp.setCheckable(true);                                                                 //
             fields.add(tmp);                                                                        //
         }
 
         for (int i = 0; i < teamsCount; i++) {                                                      // ставим текстуры и координаты баз
-            updateDataAndTexture(fields.get(castleCoords[i]), i + 1, STATE_CASTLE);
+            updateDataAndTexture(fields.get(castleCoords[i]), i + 1, Const.STATE_CASTLE);
         }
 
 
         int l = 0;
-        for (int i = 0; i < fieldHeight; i++) {                                                          //
-            for (int j = 0; j < fieldWidth; j++) {                                                       //
+        for (int i = 0; i < fieldHeight; i++) {                                                     //
+            for (int j = 0; j < fieldWidth; j++) {                                                  //
                 buttons[j][i] = fields.get(l);                                                      // связываем наш массив кнопок с двумерным массивом кнопок
                 l++;                                                                                //
             }                                                                                       //
@@ -249,7 +242,7 @@ public class Gameplay extends AppCompatActivity {
 
         GridView gridView = (GridView) findViewById(R.id.gridView);                                 // создаем гридвью
         gridView.setAdapter(new CustomAdapter(this, fields));                                       // связываем гридвью и адаптер
-        gridView.setNumColumns(fieldWidth);                                                              // установка кол-ва колонок для гридвью
+        gridView.setNumColumns(fieldWidth);                                                         // установка кол-ва колонок для гридвью
 
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();                         // фича, необходимая для получения высоты и ширины экрана в пикселях:
@@ -283,33 +276,33 @@ public class Gameplay extends AppCompatActivity {
         updateTitle();
 
 
-        for (int position = 0; position < fieldHeight * fieldWidth; position++) {                             // обрабатываем каждую кнопку
+        for (int position = 0; position < fieldHeight * fieldWidth; position++) {                   // обрабатываем каждую кнопку
 
             final CustomButton tmp = fields.get(position);
-            final int x = position % fieldWidth;                                                         // находим месторасположение кнопки в двумерном массиве (и на поле
-            final int y = position / fieldWidth;                                                         // соотвественно), задаем эти значения переменным
+            final int x = position % fieldWidth;                                                    // находим месторасположение кнопки в двумерном массиве (и на поле
+            final int y = position / fieldWidth;                                                    // соотвественно), задаем эти значения переменным
 
             tmp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {                                                         // добавляем для каждой кнопки слушатель действия
 
-                    if ((tmp.getState() != STATE_MISSING) && (tmp.getState() != STATE_KILL) && (tmp.getState() != STATE_CASTLEKILLED) && (tmp.getTeam() != currentTeam)) {
+                    if ((tmp.getState() != Const.STATE_MISSING) && (tmp.getState() != Const.STATE_KILL) && (tmp.getState() != Const.STATE_CASTLEKILLED) && (tmp.getTeam() != currentTeam)) {
                                                                                                     // если мы не нажали на "мертвую" или отсутствующую клетку, либо на клетку своей команды
                         if (ReasonsToPut(x, y, currentTeam)) {
                             switch (tmp.getState()) {
-                                case STATE_ALIVE: {
+                                case Const.STATE_ALIVE: {
                                     aliveUnitsCount[tmp.getTeam() - 1]--;
-                                    updateDataAndTexture(tmp, currentTeam, STATE_KILL);
+                                    updateDataAndTexture(tmp, currentTeam, Const.STATE_KILL);
                                 }
                                 break;
-                                case STATE_CASTLE: {
+                                case Const.STATE_CASTLE: {
                                     aliveUnitsCount[tmp.getTeam() - 1]--;
-                                    updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
+                                    updateDataAndTexture(tmp, null, Const.STATE_CASTLEKILLED);
                                 }
                                 break;
-                                case STATE_NEUTRAL: {
+                                case Const.STATE_NEUTRAL: {
                                     aliveUnitsCount[currentTeam - 1]++;
-                                    updateDataAndTexture(tmp, currentTeam, STATE_ALIVE);
+                                    updateDataAndTexture(tmp, currentTeam, Const.STATE_ALIVE);
                                 }
                                 break;
                             }
@@ -317,15 +310,15 @@ public class Gameplay extends AppCompatActivity {
                         }
                         else if (ReasonsToEat(x, y, currentTeam)) {
                             switch (tmp.getState()) {
-                                case STATE_ALIVE: {
+                                case Const.STATE_ALIVE: {
                                     aliveUnitsCount[tmp.getTeam() - 1]--;
-                                    updateDataAndTexture(tmp, currentTeam, STATE_KILL);
+                                    updateDataAndTexture(tmp, currentTeam, Const.STATE_KILL);
                                     minusStep();
                                 }
                                 break;
-                                case STATE_CASTLE: {
+                                case Const.STATE_CASTLE: {
                                     aliveUnitsCount[tmp.getTeam() - 1]--;
-                                    updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
+                                    updateDataAndTexture(tmp, null, Const.STATE_CASTLEKILLED);
                                     minusStep();
                                 }
                                 break;
@@ -334,7 +327,7 @@ public class Gameplay extends AppCompatActivity {
 
                         clear();                                                                    // обнуление флагов для проверки клеток с кучкой мёртвых клопов
 
-                        for (int i = 1; i <= teamsCount; i++) {                                              // для каждого игрока проверяет, надо ли его кикнуть из-за отсутствия его живых клеток
+                        for (int i = 1; i <= teamsCount; i++) {                                     // для каждого игрока проверяет, надо ли его кикнуть из-за отсутствия его живых клеток
                             if (activeTeams[i - 1] && aliveUnitsCount[i - 1] == 0) {
 
                                 activeTeamsCount--;
@@ -342,22 +335,28 @@ public class Gameplay extends AppCompatActivity {
                                 int[] activeTeamsList = getActiveTeamsList();
 
                                 if (activeTeamsCount == 1) {
-                                    popup_playersleft_1_kickedplayer.setBackgroundResource(intToImg(i));
-                                    popup_playersleft_1_winnernumber.setBackgroundResource(intToImg(activeTeamsList[0]));
+                                    ViewPatterns.setNumImg(popup_playersleft_1_kickedplayer, i, Const.COLOR_YELLOW);
+                                    ViewPatterns.setNumImg(popup_playersleft_1_winnernumber, activeTeamsList[0], Const.COLOR_YELLOW);
                                     popup_playersleft_1_winnericon.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
 
                                     PopupWindow.display(popup_playersleft_1, gameplayButtons);
                                 } else {
-                                    popup_playersleft_2ormore_kickedplayer.setBackgroundResource(intToImg(i));
-                                    popup_playersleft_2ormore_playersleft.setBackgroundResource(intToImg(activeTeamsCount));
+                                    ViewPatterns.setNumImg(popup_playersleft_2ormore_kickedplayer, i, Const.COLOR_YELLOW);
+                                    ViewPatterns.setNumImg(popup_playersleft_2ormore_playersleft, activeTeamsCount, Const.COLOR_YELLOW);
 
-                                    popup_playersleft_2ormore_playernumber1.setBackgroundResource(intToImg(activeTeamsList[0]));
-                                    popup_playersleft_2ormore_playernumber2.setBackgroundResource(intToImg(activeTeamsList[1]));
-                                    popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3)? intToImg(activeTeamsList[2]) : R.drawable.ic_alpha);
-
+                                    ViewPatterns.setNumImg(popup_playersleft_2ormore_playernumber1, activeTeamsList[0], Const.COLOR_YELLOW);
                                     popup_playersleft_2ormore_playericon1.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
+
+                                    ViewPatterns.setNumImg(popup_playersleft_2ormore_playernumber2, activeTeamsList[1], Const.COLOR_YELLOW);
                                     popup_playersleft_2ormore_playericon2.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[1]));
-                                    popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3)? GameSettings.getPlayerTextureID(activeTeamsList[2]) : R.drawable.ic_alpha);
+
+                                    if (activeTeamsCount == 3) {
+                                        ViewPatterns.setNumImg(popup_playersleft_2ormore_playernumber3, activeTeamsList[2], Const.COLOR_YELLOW);
+                                        popup_playersleft_2ormore_playericon3.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[2]));
+                                    } else {
+                                        popup_playersleft_2ormore_playernumber3.setImageResource(R.drawable.ic_alpha);
+                                        popup_playersleft_2ormore_playericon3.setBackgroundResource(R.drawable.ic_alpha);
+                                    }
 
                                     PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
                                 }
@@ -419,22 +418,28 @@ public class Gameplay extends AppCompatActivity {
                         int[] activeTeamsList = getActiveTeamsList();
 
                         if (activeTeamsCount == 1) {
-                            popup_playersleft_1_kickedplayer.setBackgroundResource(intToImg(currentTeam));
-                            popup_playersleft_1_winnernumber.setBackgroundResource(intToImg(activeTeamsList[0]));
+                            ViewPatterns.setNumImg(popup_playersleft_1_kickedplayer, currentTeam, Const.COLOR_YELLOW);
+                            ViewPatterns.setNumImg(popup_playersleft_1_winnernumber, activeTeamsList[0], Const.COLOR_YELLOW);
                             popup_playersleft_1_winnericon.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
 
                             PopupWindow.display(popup_playersleft_1, gameplayButtons);
                         } else {
-                            popup_playersleft_2ormore_kickedplayer.setBackgroundResource(intToImg(currentTeam));
-                            popup_playersleft_2ormore_playersleft.setBackgroundResource(intToImg(activeTeamsCount));
+                            ViewPatterns.setNumImg(popup_playersleft_2ormore_kickedplayer, currentTeam, Const.COLOR_YELLOW);
+                            ViewPatterns.setNumImg(popup_playersleft_2ormore_playersleft, activeTeamsCount, Const.COLOR_YELLOW);
 
-                            popup_playersleft_2ormore_playernumber1.setBackgroundResource(intToImg(activeTeamsList[0]));
-                            popup_playersleft_2ormore_playernumber2.setBackgroundResource(intToImg(activeTeamsList[1]));
-                            popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3) ? intToImg(activeTeamsList[2]) : R.drawable.ic_alpha);
-
+                            ViewPatterns.setNumImg(popup_playersleft_2ormore_playernumber1, activeTeamsList[0], Const.COLOR_YELLOW);
                             popup_playersleft_2ormore_playericon1.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
+
+                            ViewPatterns.setNumImg(popup_playersleft_2ormore_playernumber2, activeTeamsList[1], Const.COLOR_YELLOW);
                             popup_playersleft_2ormore_playericon2.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[1]));
-                            popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3) ? GameSettings.getPlayerTextureID(activeTeamsList[2]) : R.drawable.ic_alpha);
+
+                            if (activeTeamsCount == 3) {
+                                ViewPatterns.setNumImg(popup_playersleft_2ormore_playernumber3, activeTeamsList[2], Const.COLOR_YELLOW);
+                                popup_playersleft_2ormore_playericon3.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[2]));
+                            } else {
+                                popup_playersleft_2ormore_playernumber3.setImageResource(R.drawable.ic_alpha);
+                                popup_playersleft_2ormore_playericon3.setBackgroundResource(R.drawable.ic_alpha);
+                            }
 
                             PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
                         }
@@ -508,11 +513,11 @@ public class Gameplay extends AppCompatActivity {
 
 
     private boolean isAliveUnitThere(int x, int y, int team) {                                      // вспомогательный метод для ReasonsToPut
-        return ((buttons[x][y].getState() == STATE_ALIVE) || (buttons[x][y].getState() == STATE_CASTLE)) && buttons[x][y].getTeam() == team;
+        return ((buttons[x][y].getState() == Const.STATE_ALIVE) || (buttons[x][y].getState() == Const.STATE_CASTLE)) && buttons[x][y].getTeam() == team;
     }
 
     private boolean isKilledUnitThere(int x, int y, int team) {                                     // вспомогательный метод для ReasonsToEat и existEatenNear
-        return (buttons[x][y].getState() == STATE_KILL) && (buttons[x][y].getTeam() == team);
+        return (buttons[x][y].getState() == Const.STATE_KILL) && (buttons[x][y].getTeam() == team);
     }
 
 
@@ -706,24 +711,10 @@ public class Gameplay extends AppCompatActivity {
 
 
     private void updateTitle() {
-        title_teamNum.setBackgroundResource(intToImg(currentTeam));
+        ViewPatterns.setNumImg(title_teamNum, currentTeam, Const.COLOR_YELLOW);
+        ViewPatterns.setNumImg(title_stepsLeft, stepsLeft, Const.COLOR_YELLOW);
         title_teamIcon.setBackgroundResource(GameSettings.getPlayerTextureID(currentTeam));
-        title_stepsLeft.setBackgroundResource(intToImg(stepsLeft));
     }
 
-
-    private static int intToImg(int i) {
-        switch (i) {
-            case 1:
-                return R.drawable.ic_gameplay_num_1;
-            case 2:
-                return R.drawable.ic_gameplay_num_2;
-            case 3:
-                return R.drawable.ic_gameplay_num_3;
-            case 4:
-                return R.drawable.ic_gameplay_num_4;
-        }
-        return 0;
-    }
 
 }

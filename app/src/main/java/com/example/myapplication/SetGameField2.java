@@ -15,6 +15,8 @@ import com.example.myapplication.Abstract.ViewPatterns;
 import com.example.myapplication.CustomObjects.CustomAdapter;
 import com.example.myapplication.CustomObjects.CustomButton;
 import com.example.myapplication.Abstract.LayoutSetter;
+import com.example.myapplication.CustomObjects.IntSelector;
+import com.example.myapplication.Data.Const;
 import com.example.myapplication.Data.MapData;
 
 import java.util.ArrayList;
@@ -28,8 +30,8 @@ public class SetGameField2 extends AppCompatActivity {
 
     //
 
-    static int teamsCount;
-    static int currentMap;
+    IntSelector teamsCount = new IntSelector(2, 2, 4);
+    IntSelector currentMap = new IntSelector(1, 1, MAPS_NUMBER[0]);
 
     static MapData map;
 
@@ -37,6 +39,7 @@ public class SetGameField2 extends AppCompatActivity {
     static int mapHeight;
     static int[] mapCastleCoords;
     static boolean[] mapButtonsData;
+
 
 
     static List<CustomButton> previewButtons;
@@ -53,6 +56,8 @@ public class SetGameField2 extends AppCompatActivity {
 
     ImageButton setgamefield2_map_arrow_left;
     ImageButton setgamefield2_map_arrow_right;
+    ImageButton setgamefield2_map_arrow_left_super;
+    ImageButton setgamefield2_map_arrow_right_super;
     ImageView setgamefield2_map_number;
 
 
@@ -79,9 +84,12 @@ public class SetGameField2 extends AppCompatActivity {
 
         setgamefield2_map_arrow_left = (ImageButton) findViewById(R.id.setgamefield2_map_prev);
         setgamefield2_map_arrow_right = (ImageButton) findViewById(R.id.setgamefield2_map_next);
+        setgamefield2_map_arrow_left_super = (ImageButton) findViewById(R.id.setgamefield2_map_prev_super);
+        setgamefield2_map_arrow_right_super = (ImageButton) findViewById(R.id.setgamefield2_map_next_super);
         setgamefield2_map_number = (ImageView) findViewById(R.id.setgamefield2_mapnumber);
 
-        teamsCount = 2;
+        teamsCount.setVal(2);
+        currentMap.setVal(1);
         updateTeamsCountTextures();
         resetMap();
 
@@ -101,46 +109,119 @@ public class SetGameField2 extends AppCompatActivity {
 
 
 
-        setgamefield2_teamscount_left.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (teamsCount > 2) {
-                    teamsCount--;
-                    updateTeamsCountTextures();
-                    resetMap();
-                    updateMapPreview();
+        setgamefield2_teamscount_left.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!teamsCount.isMin()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield2_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_leftclicked);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            teamsCount.minus();
+                            updateTeamsCountTextures();
+                            resetMap();
+                            updateMapPreview();
+                            break;
+                    }
                 }
+                return true;
             }
         });
 
-        setgamefield2_teamscount_right.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (teamsCount < 4) {
-                    teamsCount++;
-                    updateTeamsCountTextures();
-                    resetMap();
-                    updateMapPreview();
+        setgamefield2_teamscount_right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!teamsCount.isMax()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield2_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_rightclicked);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            teamsCount.plus();
+                            updateTeamsCountTextures();
+                            resetMap();
+                            updateMapPreview();
+                            break;
+                    }
                 }
+                return true;
             }
         });
 
-
-        setgamefield2_map_arrow_left.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (currentMap > 1) {
-                    currentMap--;
-                    updateMapDataAndTextures();
-                    updateMapPreview();
+        setgamefield2_map_arrow_left.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!currentMap.isMin()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield2_map_arrow_left.setBackgroundResource(R.drawable.ic_btn_settings_leftclicked_rect);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            currentMap.minus();
+                            updateMapDataAndTextures();
+                            updateMapPreview();
+                            break;
+                    }
                 }
+                return true;
             }
         });
 
-        setgamefield2_map_arrow_right.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (currentMap < MAPS_NUMBER[teamsCount - 2]) {
-                    currentMap++;
-                    updateMapDataAndTextures();
-                    updateMapPreview();
+        setgamefield2_map_arrow_right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!currentMap.isMax()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield2_map_arrow_right.setBackgroundResource(R.drawable.ic_btn_settings_rightclicked_rect);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            currentMap.plus();
+                            updateMapDataAndTextures();
+                            updateMapPreview();
+                            break;
+                    }
                 }
+                return true;
+            }
+        });
+
+        setgamefield2_map_arrow_left_super.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!currentMap.isMin()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield2_map_arrow_left_super.setBackgroundResource(R.drawable.ic_btn_settings_leftclicked_super);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            currentMap.minus(5);
+                            updateMapDataAndTextures();
+                            updateMapPreview();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        setgamefield2_map_arrow_right_super.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!currentMap.isMax()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield2_map_arrow_right_super.setBackgroundResource(R.drawable.ic_btn_settings_rightclicked_super);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            currentMap.plus(5);
+                            updateMapDataAndTextures();
+                            updateMapPreview();
+                            break;
+                    }
+                }
+                return true;
             }
         });
 
@@ -164,7 +245,7 @@ public class SetGameField2 extends AppCompatActivity {
 
                         sgf2_to_gameplay.putExtra("GAME_FIELD_KEY_WIDTH", mapWidth);
                         sgf2_to_gameplay.putExtra("GAME_FIELD_KEY_HEIGHT", mapHeight);
-                        sgf2_to_gameplay.putExtra("GAME_FIELD_KEY_TEAMSCOUNT", teamsCount);
+                        sgf2_to_gameplay.putExtra("GAME_FIELD_KEY_TEAMSCOUNT", teamsCount.getVal());
                         sgf2_to_gameplay.putExtra("GAME_FIELD_KEY_CASTLESCOORDS", map.getCastleCoords());
                         sgf2_to_gameplay.putExtra("GAME_FIELD_KEY_BUTTONSDATA", map.getButtonsData());
 
@@ -180,7 +261,7 @@ public class SetGameField2 extends AppCompatActivity {
     }
 
     private void updateTeamsCountTextures() {
-        switch (teamsCount) {
+        switch (teamsCount.getVal()) {
             case 2:
                 setgamefield2_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_left);
                 setgamefield2_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
@@ -194,28 +275,34 @@ public class SetGameField2 extends AppCompatActivity {
                 setgamefield2_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_right);
                 break;
         }
-        setgamefield2_teamscount.setBackgroundResource(intToImage(teamsCount));
-        setgamefield2_mapteamscount.setBackgroundResource(intToImage(teamsCount));
+        ViewPatterns.setNumImg(setgamefield2_teamscount, teamsCount.getVal(), Const.COLOR_GRAY);
+        ViewPatterns.setNumImg(setgamefield2_mapteamscount, teamsCount.getVal(), Const.COLOR_GRAY);
     }
 
     private void updateMapDataAndTextures() {
-        map = MapData.getMap(teamsCount, currentMap);
+        map = MapData.getMap(teamsCount.getVal(), currentMap.getVal());
         mapWidth = map.getWidth();
         mapHeight = map.getHeight();
         mapCastleCoords = MapData.decryptCastleCoords(map.getCastleCoords());
         mapButtonsData = MapData.decryptButtonsData(map.getButtonsData());
 
-        if (currentMap == 1)
-            setgamefield2_map_arrow_left.setBackgroundResource(R.drawable.ic_btn_settings_left);
-        else
-            setgamefield2_map_arrow_left.setBackgroundResource(R.drawable.ic_btn_settings_leftactive);
+        if (currentMap.isMin()) {
+            setgamefield2_map_arrow_left.setBackgroundResource(R.drawable.ic_btn_settings_left_rect);
+            setgamefield2_map_arrow_left_super.setBackgroundResource(R.drawable.ic_btn_settings_left_super);
+        } else {
+            setgamefield2_map_arrow_left.setBackgroundResource(R.drawable.ic_btn_settings_leftactive_rect);
+            setgamefield2_map_arrow_left_super.setBackgroundResource(R.drawable.ic_btn_settings_leftactive_super);
+        }
 
-        if (currentMap == MAPS_NUMBER[teamsCount - 2])
-            setgamefield2_map_arrow_right.setBackgroundResource(R.drawable.ic_btn_settings_right);
-        else
-            setgamefield2_map_arrow_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
+        if (currentMap.isMax()) {
+            setgamefield2_map_arrow_right.setBackgroundResource(R.drawable.ic_btn_settings_right_rect);
+            setgamefield2_map_arrow_right_super.setBackgroundResource(R.drawable.ic_btn_settings_right_super);
+        } else {
+            setgamefield2_map_arrow_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive_rect);
+            setgamefield2_map_arrow_right_super.setBackgroundResource(R.drawable.ic_btn_settings_rightactive_super);
+        }
 
-        setgamefield2_map_number.setBackgroundResource(intToImage(currentMap));
+        ViewPatterns.setNumImg(setgamefield2_map_number, currentMap.getVal(), Const.COLOR_GRAY);
     }
 
     private void updateMapPreview() {
@@ -228,15 +315,15 @@ public class SetGameField2 extends AppCompatActivity {
         for (int i = 0; i < mapWidth * mapHeight; i++) {
             CustomButton tmp = new CustomButton(getBaseContext());
             if (mapButtonsData[i]) {
-                Gameplay.updateDataAndTexture(tmp, 0, Gameplay.STATE_NEUTRAL);
+                Gameplay.updateDataAndTexture(tmp, 0, Const.STATE_NEUTRAL);
             } else {
-                Gameplay.updateDataAndTexture(tmp, 0, Gameplay.STATE_MISSING);
+                Gameplay.updateDataAndTexture(tmp, 0, Const.STATE_MISSING);
             }
             previewButtons.add(tmp);
         }
 
-        for (int i = 0; i < teamsCount; i++) {
-            Gameplay.updateDataAndTexture(previewButtons.get(mapCastleCoords[i]), i + 1, Gameplay.STATE_CASTLE);
+        for (int i = 0; i < teamsCount.getVal(); i++) {
+            Gameplay.updateDataAndTexture(previewButtons.get(mapCastleCoords[i]), i + 1, Const.STATE_CASTLE);
         }
 
         preview_gridView.setAdapter(new CustomAdapter(this, previewButtons));
@@ -249,33 +336,8 @@ public class SetGameField2 extends AppCompatActivity {
     }
 
     private void resetMap() {
-        currentMap = 1;
+        currentMap = new IntSelector(1, 1, MAPS_NUMBER[teamsCount.getVal() - 2]);
         updateMapDataAndTextures();
-    }
-
-
-    private static int intToImage(int arg) {
-        switch (arg) {
-            case 1:
-                return R.drawable.ic_setgamefield_num_1;
-            case 2:
-                return R.drawable.ic_setgamefield_num_2;
-            case 3:
-                return R.drawable.ic_setgamefield_num_3;
-            case 4:
-                return R.drawable.ic_setgamefield_num_4;
-            case 5:
-                return R.drawable.ic_setgamefield_num_5;
-            case 6:
-                return R.drawable.ic_setgamefield_num_6;
-            case 7:
-                return R.drawable.ic_setgamefield_num_7;
-            case 8:
-                return R.drawable.ic_setgamefield_num_8;
-            case 9:
-                return R.drawable.ic_setgamefield_num_9;
-        }
-        return 239;
     }
 
 }

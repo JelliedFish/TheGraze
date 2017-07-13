@@ -1,6 +1,5 @@
 package com.example.myapplication.Data;
 
-import com.example.myapplication.Gameplay;
 import com.example.myapplication.R;
 
 public class GameSettings {
@@ -59,9 +58,9 @@ public class GameSettings {
     }
 
     public static int getPlayerTextureID(int playerNum, int playerState) {
-        if (playerState == Gameplay.STATE_MISSING)
+        if (playerState == Const.STATE_MISSING)
             return R.drawable.ic_alpha;
-        else if (playerState == Gameplay.STATE_NEUTRAL) {
+        else if (playerState == Const.STATE_NEUTRAL) {
             return R.drawable.ic_grnd_main;
         }
         else {

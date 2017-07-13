@@ -81,6 +81,17 @@
         android:layout_toRightOf="@+id/setgamefield_heightTxt"
         android:layout_toEndOf="@+id/setgamefield_heightTxt" />
 
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/setgamefield_width_left_super"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/setgamefield_txt"
+        android:layout_toRightOf="@+id/setgamefield_heightTxt"
+        android:layout_toEndOf="@+id/setgamefield_heightTxt" />
+
     <ImageView
         android:layout_width="40dp"
         android:layout_height="36dp"
@@ -106,9 +117,31 @@
     <ImageButton
         android:layout_width="23dp"
         android:layout_height="46dp"
+        android:id="@+id/setgamefield_width_right_super"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/setgamefield_txt"
+        android:layout_toRightOf="@+id/setgamefield_width"
+        android:layout_toEndOf="@+id/setgamefield_width" />
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
         android:id="@+id/setgamefield_height_left"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="75dp"
+        android:layout_below="@+id/setgamefield_txt"
+        android:layout_toRightOf="@+id/setgamefield_heightTxt"
+        android:layout_toEndOf="@+id/setgamefield_heightTxt" />
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/setgamefield_height_left_super"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="75dp"
         android:layout_below="@+id/setgamefield_txt"
         android:layout_toRightOf="@+id/setgamefield_heightTxt"
@@ -131,6 +164,17 @@
         android:id="@+id/setgamefield_height_right"
         android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="75dp"
+        android:layout_below="@+id/setgamefield_txt"
+        android:layout_toRightOf="@+id/setgamefield_width"
+        android:layout_toEndOf="@+id/setgamefield_width" />
+
+    <ImageButton
+        android:layout_width="23dp"
+        android:layout_height="46dp"
+        android:id="@+id/setgamefield_height_right_super"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="75dp"
         android:layout_below="@+id/setgamefield_txt"
         android:layout_toRightOf="@+id/setgamefield_width"

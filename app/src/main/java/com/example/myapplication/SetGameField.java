@@ -11,12 +11,13 @@ import android.widget.ImageView;
 
 import com.example.myapplication.Abstract.ViewPatterns;
 import com.example.myapplication.CustomObjects.IntSelector;
+import com.example.myapplication.Data.Const;
 
 public class SetGameField extends AppCompatActivity {
 
 
 
-    IntSelector fieldWidth = new IntSelector(8, 6, 12);
+    IntSelector fieldWidth = new IntSelector(8, 6, 18);
     IntSelector fieldHeight = new IntSelector(12, 6, 18);
     IntSelector teamsCount = new IntSelector(2, 2, 4);
 
@@ -24,10 +25,16 @@ public class SetGameField extends AppCompatActivity {
 
     ImageButton setgamefield_width_left;
     ImageButton setgamefield_width_right;
+    ImageButton setgamefield_width_left_super;
+    ImageButton setgamefield_width_right_super;
     ImageView setgamefield_width;
+
     ImageButton setgamefield_height_left;
     ImageButton setgamefield_height_right;
+    ImageButton setgamefield_height_left_super;
+    ImageButton setgamefield_height_right_super;
     ImageView setgamefield_height;
+
     ImageButton setgamefield_teamscount_left;
     ImageButton setgamefield_teamscount_right;
     ImageView setgamefield_teamscount;
@@ -51,10 +58,16 @@ public class SetGameField extends AppCompatActivity {
 
         setgamefield_width_left = (ImageButton) findViewById(R.id.setgamefield_width_left);
         setgamefield_width_right = (ImageButton) findViewById(R.id.setgamefield_width_right);
+        setgamefield_width_left_super = (ImageButton) findViewById(R.id.setgamefield_width_left_super);
+        setgamefield_width_right_super = (ImageButton) findViewById(R.id.setgamefield_width_right_super);
+        setgamefield_width = (ImageView) findViewById(R.id.setgamefield_width);
+
         setgamefield_height_left = (ImageButton) findViewById(R.id.setgamefield_height_left);
         setgamefield_height_right = (ImageButton) findViewById(R.id.setgamefield_height_right);
-        setgamefield_width = (ImageView) findViewById(R.id.setgamefield_width);
+        setgamefield_height_left_super = (ImageButton) findViewById(R.id.setgamefield_height_left_super);
+        setgamefield_height_right_super = (ImageButton) findViewById(R.id.setgamefield_height_right_super);
         setgamefield_height = (ImageView) findViewById(R.id.setgamefield_height);
+
         setgamefield_teamscount_left = (ImageButton) findViewById(R.id.ic_setgamefield_teamscount_left);
         setgamefield_teamscount_right = (ImageButton) findViewById(R.id.ic_setgamefield_teamscount_right);
         setgamefield_teamscount = (ImageView) findViewById(R.id.ic_setgamefield_teamscount);
@@ -71,7 +84,151 @@ public class SetGameField extends AppCompatActivity {
 
 
 
-        setgamefield_width_left.setOnClickListener(new View.OnClickListener() {
+        setgamefield_width_left.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!fieldWidth.isMin()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_width_left.setBackgroundResource(R.drawable.ic_btn_settings_leftclicked_rect);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            fieldWidth.minus();
+                            updateWidthButtons();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        setgamefield_width_right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!fieldWidth.isMax()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_width_right.setBackgroundResource(R.drawable.ic_btn_settings_rightclicked_rect);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            fieldWidth.plus();
+                            updateWidthButtons();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        setgamefield_width_left_super.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!fieldWidth.isMin()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_width_left_super.setBackgroundResource(R.drawable.ic_btn_settings_leftclicked_super);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            fieldWidth.minus(5);
+                            updateWidthButtons();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        setgamefield_width_right_super.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!fieldWidth.isMax()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_width_right_super.setBackgroundResource(R.drawable.ic_btn_settings_rightclicked_super);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            fieldWidth.plus(5);
+                            updateWidthButtons();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        setgamefield_height_left.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!fieldHeight.isMin()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_height_left.setBackgroundResource(R.drawable.ic_btn_settings_leftclicked_rect);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            fieldHeight.minus();
+                            updateHeightButtons();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        setgamefield_height_right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!fieldHeight.isMax()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_height_right.setBackgroundResource(R.drawable.ic_btn_settings_rightclicked_rect);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            fieldHeight.plus();
+                            updateHeightButtons();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        setgamefield_height_left_super.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!fieldHeight.isMin()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_height_left_super.setBackgroundResource(R.drawable.ic_btn_settings_leftclicked_super);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            fieldHeight.minus(5);
+                            updateHeightButtons();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        setgamefield_height_right_super.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!fieldHeight.isMax()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_height_right_super.setBackgroundResource(R.drawable.ic_btn_settings_rightclicked_super);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            fieldHeight.plus(5);
+                            updateHeightButtons();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        /*setgamefield_width_left.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 fieldWidth.minus();
                 updateWidthButtons();
@@ -97,22 +254,43 @@ public class SetGameField extends AppCompatActivity {
                 fieldHeight.plus();
                 updateHeightButtons();
             }
-        });
+        });*/
 
-        setgamefield_teamscount_left.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                teamsCount.minus();
-                updateTeamsCountButtons();
+        setgamefield_teamscount_left.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!teamsCount.isMin()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_leftclicked);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            teamsCount.minus();
+                            updateTeamsCountButtons();
+                            break;
+                    }
+                }
+                return true;
             }
         });
 
-        setgamefield_teamscount_right.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                teamsCount.plus();
-                updateTeamsCountButtons();
+        setgamefield_teamscount_right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!teamsCount.isMax()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            setgamefield_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_rightclicked);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            teamsCount.plus();
+                            updateTeamsCountButtons();
+                            break;
+                    }
+                }
+                return true;
             }
         });
-
 
         setgamefield_start.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -162,67 +340,59 @@ public class SetGameField extends AppCompatActivity {
     }
 
     private void updateWidthButtons() {
-        if (fieldWidth.isMin())
-            setgamefield_width_left.setBackgroundResource(R.drawable.ic_btn_settings_left);
-        else
-            setgamefield_width_left.setBackgroundResource(R.drawable.ic_btn_settings_leftactive);
-
-        if (fieldWidth.isMax())
-            setgamefield_width_right.setBackgroundResource(R.drawable.ic_btn_settings_right);
-        else
-            setgamefield_width_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
-
-        switch (fieldWidth.getVal()) {
-            case 6: setgamefield_width.setImageResource(R.drawable.ic_setgamefield_num_6); break;
-            case 7: setgamefield_width.setImageResource(R.drawable.ic_setgamefield_num_7); break;
-            case 8: setgamefield_width.setImageResource(R.drawable.ic_setgamefield_num_8); break;
-            case 9: setgamefield_width.setImageResource(R.drawable.ic_setgamefield_num_9); break;
-            case 10: setgamefield_width.setImageResource(R.drawable.ic_setgamefield_num_10); break;
-            case 11: setgamefield_width.setImageResource(R.drawable.ic_setgamefield_num_11); break;
-            case 12: setgamefield_width.setImageResource(R.drawable.ic_setgamefield_num_12); break;
+        if (fieldWidth.isMin()) {
+            setgamefield_width_left.setBackgroundResource(R.drawable.ic_btn_settings_left_rect);
+            setgamefield_width_left_super.setBackgroundResource(R.drawable.ic_btn_settings_left_super);
+        } else {
+            setgamefield_width_left.setBackgroundResource(R.drawable.ic_btn_settings_leftactive_rect);
+            setgamefield_width_left_super.setBackgroundResource(R.drawable.ic_btn_settings_leftactive_super);
         }
+
+        if (fieldWidth.isMax()) {
+            setgamefield_width_right.setBackgroundResource(R.drawable.ic_btn_settings_right_rect);
+            setgamefield_width_right_super.setBackgroundResource(R.drawable.ic_btn_settings_right_super);
+        } else {
+            setgamefield_width_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive_rect);
+            setgamefield_width_right_super.setBackgroundResource(R.drawable.ic_btn_settings_rightactive_super);
+        }
+
+        ViewPatterns.setNumImg(setgamefield_width, fieldWidth.getVal(), Const.COLOR_GRAY);
     }
 
     private void updateHeightButtons() {
-        if (fieldHeight.isMin())
-            setgamefield_height_left.setBackgroundResource(R.drawable.ic_btn_settings_left);
-        else
-            setgamefield_height_left.setBackgroundResource(R.drawable.ic_btn_settings_leftactive);
-
-        if (fieldHeight.isMax())
-            setgamefield_height_right.setBackgroundResource(R.drawable.ic_btn_settings_right);
-        else
-            setgamefield_height_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
-
-        switch (fieldHeight.getVal()) {
-            case 5: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_5); break;
-            case 6: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_6); break;
-            case 7: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_7); break;
-            case 8: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_8); break;
-            case 9: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_9); break;
-            case 10: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_10); break;
-            case 11: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_11); break;
-            case 12: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_12); break;
-            case 13: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_13); break;
-            case 14: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_14); break;
-            case 15: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_15); break;
-            case 16: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_16); break;
-            case 17: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_17); break;
-            case 18: setgamefield_height.setImageResource(R.drawable.ic_setgamefield_num_18); break;
+        if (fieldHeight.isMin()) {
+            setgamefield_height_left.setBackgroundResource(R.drawable.ic_btn_settings_left_rect);
+            setgamefield_height_left_super.setBackgroundResource(R.drawable.ic_btn_settings_left_super);
+        } else {
+            setgamefield_height_left.setBackgroundResource(R.drawable.ic_btn_settings_leftactive_rect);
+            setgamefield_height_left_super.setBackgroundResource(R.drawable.ic_btn_settings_leftactive_super);
         }
+
+        if (fieldHeight.isMax()) {
+            setgamefield_height_right.setBackgroundResource(R.drawable.ic_btn_settings_right_rect);
+            setgamefield_height_right_super.setBackgroundResource(R.drawable.ic_btn_settings_right_super);
+        } else {
+            setgamefield_height_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive_rect);
+            setgamefield_height_right_super.setBackgroundResource(R.drawable.ic_btn_settings_rightactive_super);
+        }
+
+        ViewPatterns.setNumImg(setgamefield_height, fieldHeight.getVal(), Const.COLOR_GRAY);
     }
 
     private void updateTeamsCountButtons() {
-        if (teamsCount.getVal() == 2) {
+
+        ViewPatterns.setNumImg(setgamefield_teamscount, teamsCount.getVal(), Const.COLOR_GRAY);
+
+        if (teamsCount.isMin()) {
             setgamefield_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_left);
-            setgamefield_teamscount.setBackgroundResource(R.drawable.ic_setgamefield_num_2);
             setgamefield_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
         }
-        if (teamsCount.getVal() == 4) {
+
+        if (teamsCount.isMax()) {
             setgamefield_teamscount_left.setBackgroundResource(R.drawable.ic_btn_settings_leftactive);
-            setgamefield_teamscount.setBackgroundResource(R.drawable.ic_setgamefield_num_4);
             setgamefield_teamscount_right.setBackgroundResource(R.drawable.ic_btn_settings_right);
         }
+
     }
 
 
