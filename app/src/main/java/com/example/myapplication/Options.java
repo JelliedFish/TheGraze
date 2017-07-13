@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.myapplication.Abstract.ViewPatterns;
 import com.example.myapplication.Data.GameSettings;
 
 public class Options extends AppCompatActivity {
@@ -23,36 +24,18 @@ public class Options extends AppCompatActivity {
 
 
 
-        final ImageButton btn_options_to_main = (ImageButton) findViewById(R.id.options_return);
+        ViewPatterns.generateReturnButton((ImageButton) findViewById(R.id.options_return), this);
+
+
 
         final ImageButton btn_music_on = (ImageButton) findViewById(R.id.options_btn_music_on);
         final ImageButton btn_music_off = (ImageButton) findViewById(R.id.options_btn_music_off);
-
         final ImageButton btn_reset = (ImageButton) findViewById(R.id.options_btn_reset);
 
-        btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
-
         updateMusicButtons(btn_music_on, btn_music_off);
-
         btn_reset.setBackgroundResource(R.drawable.ic_settings_reset);
 
 
-
-        btn_options_to_main.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_returnclicked);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
-                        finish();
-                        break;
-                }
-                return true;
-            }
-        });
 
         btn_music_on.setOnTouchListener(new View.OnTouchListener() {
             @Override
