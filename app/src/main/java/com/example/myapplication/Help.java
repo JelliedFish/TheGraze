@@ -8,9 +8,16 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.myapplication.Abstract.ViewPatterns;
+import com.example.myapplication.CustomObjects.IntSelector;
+
 public class Help extends AppCompatActivity {
 
-    static int helpPage = 1;
+
+
+    static IntSelector helpPage = new IntSelector(1, 1, 3);
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +28,12 @@ public class Help extends AppCompatActivity {
         setContentView(R.layout.activity_help);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        helpPage = 1;
+        helpPage.setVal(1);
+
+        ViewPatterns.generateReturnButton((ImageButton) findViewById(R.id.help_return), this);
 
 
 
-        final ImageButton btn_help_to_main = (ImageButton)findViewById(R.id.help_return);
         final ImageButton switcher_left = (ImageButton) findViewById(R.id.switcher_left);
         final ImageButton switcher_right = (ImageButton) findViewById(R.id.switcher_right);
 
@@ -35,45 +43,24 @@ public class Help extends AppCompatActivity {
 
         final ImageView help_txt = (ImageView) findViewById(R.id.help_text);
 
-        btn_help_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
         updateSwitcherTextures(switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
         updateHelpPage(help_txt);
 
 
 
-        btn_help_to_main.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        btn_help_to_main.setBackgroundResource(R.drawable.ic_options_help_returnclicked);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        btn_help_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
-                        finish();
-                        break;
-                }
-                return true;
-            }
-        });
-
         switcher_left.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (helpPage > 1) {
-                    helpPage--;
-                    updateSwitcherTextures(switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
-                    updateHelpPage(help_txt);
-                }
+                helpPage.minus();
+                updateSwitcherTextures(switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
+                updateHelpPage(help_txt);
             }
         });
 
         switcher_right.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (helpPage < 3) {
-                    helpPage++;
-                    updateSwitcherTextures(switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
-                    updateHelpPage(help_txt);
-                }
+                helpPage.plus();
+                updateSwitcherTextures(switcher_left, switcher_right, switcher_page1_icon, switcher_page2_icon, switcher_page3_icon);
+                updateHelpPage(help_txt);
             }
         });
 
@@ -82,7 +69,7 @@ public class Help extends AppCompatActivity {
     }
 
     private static void updateSwitcherTextures(ImageButton left, ImageButton right, ImageView p1, ImageView p2, ImageView p3) {
-        switch (helpPage) {
+        switch (helpPage.getVal()) {
             case 1:
                 left.setBackgroundResource(R.drawable.ic_help_switcher_left);
                 right.setBackgroundResource(R.drawable.ic_help_switcher_rightactive);
@@ -108,7 +95,7 @@ public class Help extends AppCompatActivity {
     }
 
     private static void updateHelpPage(ImageView txt) {
-        switch (helpPage) {
+        switch (helpPage.getVal()) {
             case 1:
                 txt.setBackgroundResource(R.drawable.ic_help_page1_text);
                 break;

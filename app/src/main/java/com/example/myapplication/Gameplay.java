@@ -54,6 +54,12 @@ public class Gameplay extends AppCompatActivity {
     static int activeTeamsCount;                                                                    // количество живых команд
     static int[] aliveUnitsCount;                                                                   // количество ЖИВЫХ клопов в каждой команде
 
+
+    ImageView title_teamNum;
+    ImageView title_teamIcon;
+    ImageView title_stepsLeft;
+
+
     CustomButton[][] buttons = new CustomButton[fieldWidth][fieldHeight];
 
 
@@ -270,12 +276,11 @@ public class Gameplay extends AppCompatActivity {
         aliveUnitsCount = new int[]{1, 1, 1, 1};
 
 
-        final ImageView title_teamNum = (ImageView) findViewById(R.id.gameplay_team);
-        final ImageView title_teamIcon = (ImageView) findViewById(R.id.gameplay_playingicon);
-        final ImageView title_stepsLeft = (ImageView) findViewById(R.id.gameplay_steps);
+        title_teamNum = (ImageView) findViewById(R.id.gameplay_team);
+        title_teamIcon = (ImageView) findViewById(R.id.gameplay_playingicon);
+        title_stepsLeft = (ImageView) findViewById(R.id.gameplay_steps);
 
-        updateTeamInTitle(title_teamNum, title_teamIcon);
-        updateStepsInTitle(title_stepsLeft);
+        updateTitle();
 
 
         for (int position = 0; position < fieldHeight * fieldWidth; position++) {                             // обрабатываем каждую кнопку
@@ -308,20 +313,20 @@ public class Gameplay extends AppCompatActivity {
                                 }
                                 break;
                             }
-                            minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
+                            minusStep();
                         }
                         else if (ReasonsToEat(x, y, currentTeam)) {
                             switch (tmp.getState()) {
                                 case STATE_ALIVE: {
                                     aliveUnitsCount[tmp.getTeam() - 1]--;
                                     updateDataAndTexture(tmp, currentTeam, STATE_KILL);
-                                    minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
+                                    minusStep();
                                 }
                                 break;
                                 case STATE_CASTLE: {
                                     aliveUnitsCount[tmp.getTeam() - 1]--;
                                     updateDataAndTexture(tmp, null, STATE_CASTLEKILLED);
-                                    minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
+                                    minusStep();
                                 }
                                 break;
                             }
@@ -358,7 +363,7 @@ public class Gameplay extends AppCompatActivity {
                                 }
 
                                 if (currentTeam == i)
-                                    minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
+                                    minusStep();
                             }
                         }
                     }
@@ -434,7 +439,7 @@ public class Gameplay extends AppCompatActivity {
                             PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
                         }
 
-                        minusStep(title_teamNum, title_teamIcon, title_stepsLeft);
+                        minusStep();
                         break;
                 }
                 return true;
@@ -672,7 +677,7 @@ public class Gameplay extends AppCompatActivity {
         return res;
     }
 
-    private void minusStep(ImageView teamNumImg, ImageView teamIcon, ImageView stepsImg) {          // процедура отнятия шага; выполняется при каждом успешном действии
+    private void minusStep() {                                                                      // процедура отнятия шага; выполняется при каждом успешном действии
         do {
             stepsLeft--;
             if (stepsLeft == 0) {
@@ -683,8 +688,7 @@ public class Gameplay extends AppCompatActivity {
         } while (!activeTeams[currentTeam - 1]);
 
         step++;
-        updateTeamInTitle(teamNumImg, teamIcon);
-        updateStepsInTitle(stepsImg);
+        updateTitle();
     }
 
 
@@ -701,13 +705,10 @@ public class Gameplay extends AppCompatActivity {
     }
 
 
-    private static void updateTeamInTitle(ImageView teamNumImg, ImageView teamIcon) {
-        teamNumImg.setBackgroundResource(intToImg(currentTeam));
-        teamIcon.setBackgroundResource(GameSettings.getPlayerTextureID(currentTeam));
-    }
-
-    private static void updateStepsInTitle(ImageView stepsImg) {
-        stepsImg.setBackgroundResource(intToImg(stepsLeft));
+    private void updateTitle() {
+        title_teamNum.setBackgroundResource(intToImg(currentTeam));
+        title_teamIcon.setBackgroundResource(GameSettings.getPlayerTextureID(currentTeam));
+        title_stepsLeft.setBackgroundResource(intToImg(stepsLeft));
     }
 
 

@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.example.myapplication.Abstract.ViewPatterns;
+
 public class GameSelect extends AppCompatActivity {
 
     @Override
@@ -21,31 +23,17 @@ public class GameSelect extends AppCompatActivity {
 
 
 
-        final ImageButton btn_gameselect_to_main = (ImageButton) findViewById(R.id.gameselect_return);
+        ViewPatterns.generateReturnButton((ImageButton) findViewById(R.id.gameselect_return), this);
+
+
+
         final ImageButton btn_singleplayer = (ImageButton) findViewById(R.id.gameselect_singleplayer);
         final ImageButton btn_multiplayer = (ImageButton) findViewById(R.id.gameselect_multiplayer);
 
-        btn_gameselect_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
         btn_singleplayer.setBackgroundResource(R.drawable.ic_singleplayer);
         btn_multiplayer.setBackgroundResource(R.drawable.ic_multiplayer);
 
 
-
-        btn_gameselect_to_main.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        btn_gameselect_to_main.setBackgroundResource(R.drawable.ic_options_help_returnclicked);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        btn_gameselect_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
-                        finish();
-                        break;
-                }
-                return true;
-            }
-        });
 
         btn_singleplayer.setOnTouchListener(new View.OnTouchListener() {
             @Override
