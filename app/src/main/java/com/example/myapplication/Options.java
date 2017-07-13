@@ -28,31 +28,11 @@ public class Options extends AppCompatActivity {
         final ImageButton btn_music_on = (ImageButton) findViewById(R.id.options_btn_music_on);
         final ImageButton btn_music_off = (ImageButton) findViewById(R.id.options_btn_music_off);
 
-        final ImageButton player1_leftArrow = (ImageButton) findViewById(R.id.options_player1_prev);
-        final ImageView player1_texture = (ImageView) findViewById(R.id.options_player1_texture);
-        final ImageButton player1_rightArrow = (ImageButton) findViewById(R.id.options_player1_next);
-
-        final ImageButton player2_leftArrow = (ImageButton) findViewById(R.id.options_player2_prev);
-        final ImageView player2_texture = (ImageView) findViewById(R.id.options_player2_texture);
-        final ImageButton player2_rightArrow = (ImageButton) findViewById(R.id.options_player2_next);
-
-        final ImageButton player3_leftArrow = (ImageButton) findViewById(R.id.options_player3_prev);
-        final ImageView player3_texture = (ImageView) findViewById(R.id.options_player3_texture);
-        final ImageButton player3_rightArrow = (ImageButton) findViewById(R.id.options_player3_next);
-
-        final ImageButton player4_leftArrow = (ImageButton) findViewById(R.id.options_player4_prev);
-        final ImageView player4_texture = (ImageView) findViewById(R.id.options_player4_texture);
-        final ImageButton player4_rightArrow = (ImageButton) findViewById(R.id.options_player4_next);
-
         final ImageButton btn_reset = (ImageButton) findViewById(R.id.options_btn_reset);
 
         btn_options_to_main.setBackgroundResource(R.drawable.ic_options_help_return);
 
         updateMusicButtons(btn_music_on, btn_music_off);
-        setPlayersPicturesForVar(GameSettings.getPlayers_textureState(0), player1_leftArrow, player1_texture, player1_rightArrow);
-        setPlayersPicturesForVar(GameSettings.getPlayers_textureState(1), player2_leftArrow, player2_texture, player2_rightArrow);
-        setPlayersPicturesForVar(GameSettings.getPlayers_textureState(2), player3_leftArrow, player3_texture, player3_rightArrow);
-        setPlayersPicturesForVar(GameSettings.getPlayers_textureState(3), player4_leftArrow, player4_texture, player4_rightArrow);
 
         btn_reset.setBackgroundResource(R.drawable.ic_settings_reset);
 
@@ -110,77 +90,51 @@ public class Options extends AppCompatActivity {
             }
         });
 
-        player1_leftArrow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getPlayers_textureState(0) > 1) {
-                    GameSettings.addToTextureState(0, -1);
-                    setPlayersPicturesForVar(GameSettings.getPlayers_textureState(0), player1_leftArrow, player1_texture, player1_rightArrow);
-                }
-            }
-        });
 
-        player1_rightArrow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getPlayers_textureState(0) < 4) {
-                    GameSettings.addToTextureState(0, 1);
-                    setPlayersPicturesForVar(GameSettings.getPlayers_textureState(0), player1_leftArrow, player1_texture, player1_rightArrow);
-                }
-            }
-        });
 
-        player2_leftArrow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getPlayers_textureState(1) > 1) {
-                    GameSettings.addToTextureState(1, -1);
-                    setPlayersPicturesForVar(GameSettings.getPlayers_textureState(1), player2_leftArrow, player2_texture, player2_rightArrow);
-                }
-            }
-        });
+        //——————————//
 
-        player2_rightArrow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getPlayers_textureState(1) < 4) {
-                    GameSettings.addToTextureState(1, 1);
-                    setPlayersPicturesForVar(GameSettings.getPlayers_textureState(1), player2_leftArrow, player2_texture, player2_rightArrow);
-                }
-            }
-        });
 
-        player3_leftArrow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getPlayers_textureState(2) > 1) {
-                    GameSettings.addToTextureState(2, -1);
-                    setPlayersPicturesForVar(GameSettings.getPlayers_textureState(2), player3_leftArrow, player3_texture, player3_rightArrow);
-                }
-            }
-        });
 
-        player3_rightArrow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getPlayers_textureState(2) < 4) {
-                    GameSettings.addToTextureState(2, 1);
-                    setPlayersPicturesForVar(GameSettings.getPlayers_textureState(2), player3_leftArrow, player3_texture, player3_rightArrow);
-                }
-            }
-        });
+        final ImageButton[] pt_leftArrows = new ImageButton[4];
+        final ImageView[] pt_textures = new ImageView[4];
+        final ImageButton[] pt_rightArrows = new ImageButton[4];
 
-        player4_leftArrow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getPlayers_textureState(3) > 1) {
-                    GameSettings.addToTextureState(3, -1);
-                    setPlayersPicturesForVar(GameSettings.getPlayers_textureState(3), player4_leftArrow, player4_texture, player4_rightArrow);
-                }
-            }
-        });
 
-        player4_rightArrow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (GameSettings.getPlayers_textureState(3) < 4) {
-                    GameSettings.addToTextureState(3, 1);
-                    setPlayersPicturesForVar(GameSettings.getPlayers_textureState(3), player4_leftArrow, player4_texture, player4_rightArrow);
+        for (int i = 0; i < 4; i++) {
+            final int finalI = i;
+
+            pt_leftArrows[i] = (ImageButton) findViewById(getResID_leftArrow(i));
+            pt_textures[i] = (ImageView) findViewById(getResID_texture(i));
+            pt_rightArrows[i] = (ImageButton) findViewById(getResID_rightArrow(i));
+
+            updatePlayersSwitchers(i, pt_leftArrows[i], pt_textures[i], pt_rightArrows[i]);
+
+            pt_leftArrows[i].setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if (GameSettings.getPlayers_textureState(finalI) > 1) {
+                        GameSettings.addToTextureState(finalI, -1);
+                        updatePlayersSwitchers(finalI, pt_leftArrows[finalI], pt_textures[finalI], pt_rightArrows[finalI]);
+                    }
                 }
-            }
-        });
+            });
+
+            pt_rightArrows[i].setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if (GameSettings.getPlayers_textureState(finalI) < 4) {
+                        GameSettings.addToTextureState(finalI, 1);
+                        updatePlayersSwitchers(finalI, pt_leftArrows[finalI], pt_textures[finalI], pt_rightArrows[finalI]);
+                    }
+                }
+            });
+
+        }
+
+
+
+        //——————————//
+
+
 
         btn_reset.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -193,12 +147,11 @@ public class Options extends AppCompatActivity {
                         btn_reset.setBackgroundResource(R.drawable.ic_settings_reset);
 
                         GameSettings.reset();
-
                         updateMusicButtons(btn_music_on, btn_music_off);
-                        setPlayersPicturesForVar(GameSettings.getPlayers_textureState(0), player1_leftArrow, player1_texture, player1_rightArrow);
-                        setPlayersPicturesForVar(GameSettings.getPlayers_textureState(1), player2_leftArrow, player2_texture, player2_rightArrow);
-                        setPlayersPicturesForVar(GameSettings.getPlayers_textureState(2), player3_leftArrow, player3_texture, player3_rightArrow);
-                        setPlayersPicturesForVar(GameSettings.getPlayers_textureState(3), player4_leftArrow, player4_texture, player4_rightArrow);
+                        for (int i = 0; i < 4; i++) {
+                            updatePlayersSwitchers(i, pt_leftArrows[i], pt_textures[i], pt_rightArrows[i]);
+                        }
+
                         break;
                 }
                 return true;
@@ -209,34 +162,51 @@ public class Options extends AppCompatActivity {
 
     }
 
-    private static void setPlayersPicturesForVar(byte var, ImageButton leftArrowBtn, ImageView img, ImageButton rightArrowBtn) {
-        if (var == 1)
-            leftArrowBtn.setBackgroundResource(R.drawable.ic_btn_settings_left);
-        else
-            leftArrowBtn.setBackgroundResource(R.drawable.ic_btn_settings_leftactive);
 
-        if (var == 4)
-            rightArrowBtn.setBackgroundResource(R.drawable.ic_btn_settings_right);
-        else
-            rightArrowBtn.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
-
-        switch (var) {
+    private static int getResID_leftArrow(int index) {
+        switch (index) {
+            case 0:
+                return R.id.options_player1_prev;
             case 1:
-                img.setBackgroundResource(R.drawable.grnd_black);
-                break;
+                return R.id.options_player2_prev;
             case 2:
-                img.setBackgroundResource(R.drawable.grnd_grace);
-                break;
+                return R.id.options_player3_prev;
             case 3:
-                img.setBackgroundResource(R.drawable.grnd_lava);
-                break;
-            case 4:
-                img.setBackgroundResource(R.drawable.grnd_sand);
-                break;
+                return R.id.options_player4_prev;
         }
+        return 0;
     }
 
-    public void updateMusicButtons(ImageButton onButton, ImageButton offButton) {
+    private static int getResID_texture(int index) {
+        switch (index) {
+            case 0:
+                return R.id.options_player1_texture;
+            case 1:
+                return R.id.options_player2_texture;
+            case 2:
+                return R.id.options_player3_texture;
+            case 3:
+                return R.id.options_player4_texture;
+        }
+        return 0;
+    }
+
+    private static int getResID_rightArrow(int index) {
+        switch (index) {
+            case 0:
+                return R.id.options_player1_next;
+            case 1:
+                return R.id.options_player2_next;
+            case 2:
+                return R.id.options_player3_next;
+            case 3:
+                return R.id.options_player4_next;
+        }
+        return 0;
+    }
+
+
+    private void updateMusicButtons(ImageButton onButton, ImageButton offButton) {
         if (GameSettings.getMusicState()) {
             onButton.setBackgroundResource(R.drawable.ic_btn_settings_onactive);
             offButton.setBackgroundResource(R.drawable.ic_btn_settings_off);
@@ -244,6 +214,22 @@ public class Options extends AppCompatActivity {
             onButton.setBackgroundResource(R.drawable.ic_btn_settings_on);
             offButton.setBackgroundResource(R.drawable.ic_btn_settings_offactive);
         }
+    }
+
+    private static void updatePlayersSwitchers(int playerNum, ImageButton leftArrowBtn, ImageView img, ImageButton rightArrowBtn) {
+        int textureState = GameSettings.getPlayers_textureState(playerNum);
+
+        if (textureState == 1)
+            leftArrowBtn.setBackgroundResource(R.drawable.ic_btn_settings_left);
+        else
+            leftArrowBtn.setBackgroundResource(R.drawable.ic_btn_settings_leftactive);
+
+        if (textureState == 4)
+            rightArrowBtn.setBackgroundResource(R.drawable.ic_btn_settings_right);
+        else
+            rightArrowBtn.setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
+
+        img.setBackgroundResource(GameSettings.getPlayerTextureID(playerNum + 1));
     }
 
 }

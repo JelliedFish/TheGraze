@@ -29,17 +29,17 @@ public class Gameplay extends AppCompatActivity {
 
     // КОНСТАНТЫ
 
-        static final byte STATE_MISSING = -1;
-        static final byte STATE_NEUTRAL = 0;
-        static final byte STATE_ALIVE = 1;
-        static final byte STATE_KILL = 2;
-        static final byte STATE_CASTLE = 3;
-        static final byte STATE_CASTLEKILLED = 4;
+        public static final byte STATE_MISSING = -1;
+        public static final byte STATE_NEUTRAL = 0;
+        public static final byte STATE_ALIVE = 1;
+        public static final byte STATE_KILL = 2;
+        public static final byte STATE_CASTLE = 3;
+        public static final byte STATE_CASTLEKILLED = 4;
 
     // ДАННЫЕ, ПЕРЕДАВАЕМЫЕ ИЗ ПРЕДЫДУЩИХ ACTIVITY
 
-        int Width;
-        int Height;
+        int fieldWidth;                                                                             // ширина поля (имеются ввиду количество игровых клеток в ширину)
+        int fieldHeight;                                                                            // высота поля
         int teamsCount;                                                                             // количество команд в игре
         int[] castleCoords;                                                                         // координаты (в массиве fields, а не двумерном массиве buttons!) замков соответствующих 4 команд
         boolean[] buttonsData;                                                                      // здесь в виде массива T/F хранятся данные о наличии/отсутствии каждой из клеток поля.
@@ -54,7 +54,7 @@ public class Gameplay extends AppCompatActivity {
     static int activeTeamsCount;                                                                    // количество живых команд
     static int[] aliveUnitsCount;                                                                   // количество ЖИВЫХ клопов в каждой команде
 
-    CustomButton[][] buttons = new CustomButton[Width][Height];
+    CustomButton[][] buttons = new CustomButton[fieldWidth][fieldHeight];
 
 
     @Override
@@ -204,19 +204,19 @@ public class Gameplay extends AppCompatActivity {
 
 
         Intent sgf_to_gameplay = getIntent();                                                       //
-        Width = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_WIDTH", 8);                             // передача данных о карте из предыдущих activity
-        Height = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_HEIGHT", 12);                          //
+        fieldWidth = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_WIDTH", 8);                             // передача данных о карте из предыдущих activity
+        fieldHeight = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_HEIGHT", 12);                          //
         teamsCount = sgf_to_gameplay.getIntExtra("GAME_FIELD_KEY_TEAMSCOUNT", 2);                   //
         castleCoords = MapData.decryptCastleCoords(sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY_CASTLESCOORDS"));
         buttonsData = MapData.decryptButtonsData(sgf_to_gameplay.getStringExtra("GAME_FIELD_KEY_BUTTONSDATA"));
 
 
-        buttons = new CustomButton[Width][Height];
+        buttons = new CustomButton[fieldWidth][fieldHeight];
 
 
         final List<CustomButton> fields = new ArrayList<>();                                        // массив всех кнопок
 
-        for (int i = 0; i < Height * Width; i++) {                                                  //
+        for (int i = 0; i < fieldHeight * fieldWidth; i++) {                                                  //
             CustomButton tmp = new CustomButton(getBaseContext());                                  //
             if (buttonsData[i])                                                                     // заполнение поля клетками в соответствии с данными об их
                 updateDataAndTexture(tmp, 0, STATE_NEUTRAL);                                        // существовании (buttonData[])
@@ -232,8 +232,8 @@ public class Gameplay extends AppCompatActivity {
 
 
         int l = 0;
-        for (int i = 0; i < Height; i++) {                                                          //
-            for (int j = 0; j < Width; j++) {                                                       //
+        for (int i = 0; i < fieldHeight; i++) {                                                          //
+            for (int j = 0; j < fieldWidth; j++) {                                                       //
                 buttons[j][i] = fields.get(l);                                                      // связываем наш массив кнопок с двумерным массивом кнопок
                 l++;                                                                                //
             }                                                                                       //
@@ -243,7 +243,7 @@ public class Gameplay extends AppCompatActivity {
 
         GridView gridView = (GridView) findViewById(R.id.gridView);                                 // создаем гридвью
         gridView.setAdapter(new CustomAdapter(this, fields));                                       // связываем гридвью и адаптер
-        gridView.setNumColumns(Width);                                                              // установка кол-ва колонок для гридвью
+        gridView.setNumColumns(fieldWidth);                                                              // установка кол-ва колонок для гридвью
 
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();                         // фича, необходимая для получения высоты и ширины экрана в пикселях:
@@ -254,7 +254,7 @@ public class Gameplay extends AppCompatActivity {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
-        int[] gridMargins = LayoutSetter.getRelativeMargins(displayMetrics.widthPixels, displayMetrics.heightPixels, (double) Width / Height, 0.05, 0.12, 0.09, 0.03);
+        int[] gridMargins = LayoutSetter.getRelativeMargins(displayMetrics.widthPixels, displayMetrics.heightPixels, (double) fieldWidth / fieldHeight, 0.05, 0.12, 0.09, 0.03);
         // рассчитывает отступы для игровой сетки (см. класс LayoutSetter)
 
         layoutParams.setMargins(gridMargins[0], gridMargins[1], gridMargins[2], gridMargins[3]);
@@ -278,11 +278,11 @@ public class Gameplay extends AppCompatActivity {
         updateStepsInTitle(title_stepsLeft);
 
 
-        for (int position = 0; position < Height * Width; position++) {                             // обрабатываем каждую кнопку
+        for (int position = 0; position < fieldHeight * fieldWidth; position++) {                             // обрабатываем каждую кнопку
 
             final CustomButton tmp = fields.get(position);
-            final int x = position % Width;                                                         // находим месторасположение кнопки в двумерном массиве (и на поле
-            final int y = position / Width;                                                         // соотвественно), задаем эти значения переменным
+            final int x = position % fieldWidth;                                                         // находим месторасположение кнопки в двумерном массиве (и на поле
+            final int y = position / fieldWidth;                                                         // соотвественно), задаем эти значения переменным
 
             tmp.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -339,7 +339,7 @@ public class Gameplay extends AppCompatActivity {
                                 if (activeTeamsCount == 1) {
                                     popup_playersleft_1_kickedplayer.setBackgroundResource(intToImg(i));
                                     popup_playersleft_1_winnernumber.setBackgroundResource(intToImg(activeTeamsList[0]));
-                                    popup_playersleft_1_winnericon.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
+                                    popup_playersleft_1_winnericon.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
 
                                     PopupWindow.display(popup_playersleft_1, gameplayButtons);
                                 } else {
@@ -348,11 +348,11 @@ public class Gameplay extends AppCompatActivity {
 
                                     popup_playersleft_2ormore_playernumber1.setBackgroundResource(intToImg(activeTeamsList[0]));
                                     popup_playersleft_2ormore_playernumber2.setBackgroundResource(intToImg(activeTeamsList[1]));
-                                    popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3) ? intToImg(activeTeamsList[2]) : R.drawable.ic_alpha);
+                                    popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3)? intToImg(activeTeamsList[2]) : R.drawable.ic_alpha);
 
-                                    popup_playersleft_2ormore_playericon1.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
-                                    popup_playersleft_2ormore_playericon2.setBackgroundResource(teamNumToIcon(activeTeamsList[1]));
-                                    popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3) ? teamNumToIcon(activeTeamsList[2]) : R.drawable.ic_alpha);
+                                    popup_playersleft_2ormore_playericon1.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
+                                    popup_playersleft_2ormore_playericon2.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[1]));
+                                    popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3)? GameSettings.getPlayerTextureID(activeTeamsList[2]) : R.drawable.ic_alpha);
 
                                     PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
                                 }
@@ -416,7 +416,7 @@ public class Gameplay extends AppCompatActivity {
                         if (activeTeamsCount == 1) {
                             popup_playersleft_1_kickedplayer.setBackgroundResource(intToImg(currentTeam));
                             popup_playersleft_1_winnernumber.setBackgroundResource(intToImg(activeTeamsList[0]));
-                            popup_playersleft_1_winnericon.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
+                            popup_playersleft_1_winnericon.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
 
                             PopupWindow.display(popup_playersleft_1, gameplayButtons);
                         } else {
@@ -427,9 +427,9 @@ public class Gameplay extends AppCompatActivity {
                             popup_playersleft_2ormore_playernumber2.setBackgroundResource(intToImg(activeTeamsList[1]));
                             popup_playersleft_2ormore_playernumber3.setBackgroundResource((activeTeamsCount == 3) ? intToImg(activeTeamsList[2]) : R.drawable.ic_alpha);
 
-                            popup_playersleft_2ormore_playericon1.setBackgroundResource(teamNumToIcon(activeTeamsList[0]));
-                            popup_playersleft_2ormore_playericon2.setBackgroundResource(teamNumToIcon(activeTeamsList[1]));
-                            popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3) ? teamNumToIcon(activeTeamsList[2]) : R.drawable.ic_alpha);
+                            popup_playersleft_2ormore_playericon1.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
+                            popup_playersleft_2ormore_playericon2.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[1]));
+                            popup_playersleft_2ormore_playericon3.setBackgroundResource((activeTeamsCount == 3) ? GameSettings.getPlayerTextureID(activeTeamsList[2]) : R.drawable.ic_alpha);
 
                             PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
                         }
@@ -645,8 +645,8 @@ public class Gameplay extends AppCompatActivity {
 
 
     private void clear() {                                                                          // обнуление флагов клеток
-        for (int k1 = 0; k1 < Width; k1++) {
-            for (int k2 = 0; k2 < Height; k2++) {
+        for (int k1 = 0; k1 < fieldWidth; k1++) {
+            for (int k2 = 0; k2 < fieldHeight; k2++) {
                 buttons[k1][k2].setCheckable(true);
             }
         }
@@ -693,7 +693,6 @@ public class Gameplay extends AppCompatActivity {
             CB.setImageResource(R.drawable.ic_alpha);
         else if (CB.getState() == STATE_NEUTRAL) {
             CB.setImageResource(R.drawable.ic_grnd_main);
-            CB.setImageAlpha(210);
         }
         else {
             int textureID = CB.getState() * 4 + GameSettings.getPlayers_textureState(CB.getTeam() - 1) - 5;
@@ -729,7 +728,7 @@ public class Gameplay extends AppCompatActivity {
 
     private static void updateTeamInTitle(ImageView teamNumImg, ImageView teamIcon) {
         teamNumImg.setBackgroundResource(intToImg(currentTeam));
-        teamIcon.setBackgroundResource(teamNumToIcon(currentTeam));
+        teamIcon.setBackgroundResource(GameSettings.getPlayerTextureID(currentTeam));
     }
 
     private static void updateStepsInTitle(ImageView stepsImg) {
@@ -747,20 +746,6 @@ public class Gameplay extends AppCompatActivity {
                 return R.drawable.ic_gameplay_num_3;
             case 4:
                 return R.drawable.ic_gameplay_num_4;
-        }
-        return 0;
-    }
-
-    private static int teamNumToIcon(int teamNum) {
-        switch (GameSettings.getPlayers_textureState(teamNum - 1)) {
-            case 1:
-                return R.drawable.grnd_black;
-            case 2:
-                return R.drawable.grnd_grace;
-            case 3:
-                return R.drawable.grnd_lava;
-            case 4:
-                return R.drawable.grnd_sand;
         }
         return 0;
     }
