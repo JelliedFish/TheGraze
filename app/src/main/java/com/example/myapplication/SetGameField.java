@@ -49,6 +49,7 @@ public class SetGameField extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setgamefield);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
 
 
@@ -227,34 +228,6 @@ public class SetGameField extends AppCompatActivity {
                 return true;
             }
         });
-
-        /*setgamefield_width_left.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                fieldWidth.minus();
-                updateWidthButtons();
-            }
-        });
-
-        setgamefield_width_right.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                fieldWidth.plus();
-                updateWidthButtons();
-            }
-        });
-
-        setgamefield_height_left.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                fieldHeight.minus();
-                updateHeightButtons();
-            }
-        });
-
-        setgamefield_height_right.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                fieldHeight.plus();
-                updateHeightButtons();
-            }
-        });*/
 
         setgamefield_teamscount_left.setOnTouchListener(new View.OnTouchListener() {
             @Override
