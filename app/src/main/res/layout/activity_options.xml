@@ -59,9 +59,9 @@
         android:layout_below="@id/options_return"
         android:layout_toRightOf="@id/options_music"
         android:layout_toEndOf="@id/options_music"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"/>
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -104,6 +104,17 @@
         android:layout_alignStart="@+id/options_title" />
 
     <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:id="@+id/options_player1_warning"
+        android:layout_alignTop="@id/options_player1"
+        android:layout_toRightOf="@id/options_player1"
+        android:layout_toEndOf="@id/options_player1"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/options_player2"
@@ -112,6 +123,17 @@
         android:layout_below="@+id/options_player1_prev"
         android:layout_alignLeft="@+id/options_player1"
         android:layout_alignStart="@+id/options_player1" />
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:id="@+id/options_player2_warning"
+        android:layout_alignTop="@id/options_player2"
+        android:layout_toRightOf="@id/options_player2"
+        android:layout_toEndOf="@id/options_player2"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -124,6 +146,17 @@
         android:layout_alignStart="@+id/options_player2" />
 
     <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:id="@+id/options_player3_warning"
+        android:layout_alignTop="@id/options_player3"
+        android:layout_toRightOf="@id/options_player3"
+        android:layout_toEndOf="@id/options_player3"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/options_player4"
@@ -132,6 +165,17 @@
         android:layout_below="@+id/options_player3_prev"
         android:layout_alignLeft="@+id/options_player3"
         android:layout_alignStart="@+id/options_player3" />
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:id="@+id/options_player4_warning"
+        android:layout_alignTop="@id/options_player4"
+        android:layout_toRightOf="@id/options_player4"
+        android:layout_toEndOf="@id/options_player4"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
 
     <ImageButton
         android:layout_width="wrap_content"

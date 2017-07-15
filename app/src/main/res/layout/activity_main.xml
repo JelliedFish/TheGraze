@@ -16,46 +16,58 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/mm_title"
             android:src="@drawable/ic_mm_title"
             android:padding="0dp"
             android:layout_marginTop="0dp"
             android:layout_alignParentTop="true" />
 
         <ImageButton
-            android:id="@+id/btn1"
+            android:id="@+id/btn_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="0dp"
             android:layout_marginTop="250dp"
             android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/btn2"
-            android:layout_alignStart="@+id/btn2" />
+            android:layout_alignLeft="@+id/btn_options"
+            android:layout_alignStart="@+id/btn_options" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn2"
+            android:id="@+id/btn_options"
             android:padding="0dp"
-            android:layout_below="@+id/btn1"
+            android:layout_below="@+id/btn_play"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/options_warning"
+            android:padding="0dp"
+            android:layout_alignTop="@+id/btn_options"
+            android:layout_toRightOf="@id/btn_options"
+            android:layout_toEndOf="@id/btn_options"
             android:layout_marginBottom="2dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_help"
+            android:padding="0dp"
             android:layout_centerHorizontal="true"
+            android:layout_below="@+id/btn_options"
             android:layout_marginTop="10dp" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn3"
+            android:id="@+id/btn_exit"
             android:padding="0dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/btn2"
-            android:layout_marginTop="10dp" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn4"
-            android:padding="0dp"
-            android:layout_below="@+id/btn3"
+            android:layout_below="@+id/btn_help"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp" />
 
@@ -64,9 +76,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_mapeditor"
             android:padding="0dp"
-            android:layout_below="@+id/btn4"
+            android:layout_below="@+id/btn_exit"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_reserved"
+            android:padding="0dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 
@@ -104,6 +125,70 @@
             android:layout_alignBottom="@+id/mm_popup_exit_msg"
             android:layout_alignRight="@+id/mm_popup_exit_msg"
             android:layout_alignEnd="@+id/mm_popup_exit_msg" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mm_popup_reserved_missing"
+        android:background="@drawable/ic_popup_back"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mm_popup_reserved_missing_msg"
+            android:src="@drawable/ic_mm_reserved_msg"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mm_popup_reserved_missing_ok"
+            android:padding="0dp"
+            android:layout_alignBottom="@+id/mm_popup_reserved_missing_msg"
+            android:layout_alignLeft="@+id/mm_popup_reserved_missing_msg"
+            android:layout_alignStart="@+id/mm_popup_reserved_missing_msg" />
+
+        </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mm_popup_reserved_exist"
+        android:background="@drawable/ic_popup_back"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mm_popup_reserved_exist_msg"
+            android:src="@drawable/ic_mm_reserved_active_msg"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mm_popup_reserved_exist_yes"
+            android:padding="0dp"
+            android:layout_alignBottom="@+id/mm_popup_reserved_exist_msg"
+            android:layout_alignLeft="@+id/mm_popup_reserved_exist_msg"
+            android:layout_alignStart="@+id/mm_popup_reserved_exist_msg" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mm_popup_reserved_exist_no"
+            android:padding="0dp"
+            android:layout_alignBottom="@+id/mm_popup_reserved_exist_msg"
+            android:layout_alignRight="@+id/mm_popup_reserved_exist_msg"
+            android:layout_alignEnd="@+id/mm_popup_reserved_exist_msg" />
+
 
     </RelativeLayout>
 

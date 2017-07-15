@@ -18,6 +18,7 @@ public class Options extends AppCompatActivity {
     final ImageButton[] pt_leftArrows = new ImageButton[4];
     final ImageView[] pt_textures = new ImageView[4];
     final ImageButton[] pt_rightArrows = new ImageButton[4];
+    final ImageView[] pt_warnings = new ImageView[4];
 
     ImageButton btn_music_on;
     ImageButton btn_music_off;
@@ -96,8 +97,10 @@ public class Options extends AppCompatActivity {
             pt_leftArrows[i] = (ImageButton) findViewById(getResID_leftArrow(i));
             pt_textures[i] = (ImageView) findViewById(getResID_texture(i));
             pt_rightArrows[i] = (ImageButton) findViewById(getResID_rightArrow(i));
+            pt_warnings[i] = (ImageView) findViewById(getResID_warning(i));
 
             updatePlayersSwitchers(i);
+
 
             pt_leftArrows[i].setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -110,6 +113,7 @@ public class Options extends AppCompatActivity {
                             case MotionEvent.ACTION_UP:
                                 GameSettings.addToTextureState(finalI, -1);
                                 updatePlayersSwitchers(finalI);
+                                updateTexturesWarnings();
                                 break;
                         }
                     }
@@ -128,6 +132,7 @@ public class Options extends AppCompatActivity {
                             case MotionEvent.ACTION_UP:
                                 GameSettings.addToTextureState(finalI, 1);
                                 updatePlayersSwitchers(finalI);
+                                updateTexturesWarnings();
                                 break;
                         }
                     }
@@ -136,6 +141,8 @@ public class Options extends AppCompatActivity {
             });
 
         }
+
+        updateTexturesWarnings();
 
 
 
@@ -158,6 +165,7 @@ public class Options extends AppCompatActivity {
                         for (int i = 0; i < 4; i++) {
                             updatePlayersSwitchers(i);
                         }
+                        updateTexturesWarnings();
 
                         break;
                 }
@@ -212,6 +220,20 @@ public class Options extends AppCompatActivity {
         return 0;
     }
 
+    private static int getResID_warning(int index) {
+        switch (index) {
+            case 0:
+                return R.id.options_player1_warning;
+            case 1:
+                return R.id.options_player2_warning;
+            case 2:
+                return R.id.options_player3_warning;
+            case 3:
+                return R.id.options_player4_warning;
+        }
+        return 0;
+    }
+
 
     private void updateMusicButtons() {
         if (GameSettings.getMusicState()) {
@@ -237,6 +259,14 @@ public class Options extends AppCompatActivity {
             pt_rightArrows[playerNum].setBackgroundResource(R.drawable.ic_btn_settings_rightactive);
 
         pt_textures[playerNum].setBackgroundResource(GameSettings.getPlayerTextureID(playerNum + 1));
+    }
+
+    private void updateTexturesWarnings() {
+        boolean[] warnings = GameSettings.texturesListMatch();
+        MainMenu.options_warning.setBackgroundResource((warnings[0])? R.drawable.ic_mm_warning : R.drawable.ic_alpha );
+        for (int i = 0; i < 4; i++) {
+            pt_warnings[i].setBackgroundResource((warnings[i + 1])? R.drawable.ic_settings_warning : R.drawable.ic_alpha );
+        }
     }
 
 }
