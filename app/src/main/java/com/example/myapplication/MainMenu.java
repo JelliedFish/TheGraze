@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 
 import com.example.myapplication.Abstract.PopupWindow;
@@ -18,28 +19,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenu extends AppCompatActivity {
-    static MediaPlayer mediaPlayer;                                                                 //Добавляем плеер для музыки
-
+     static MediaPlayer mediaPlayer;
     public static ImageView options_warning;
 
     public void onCreate(Bundle savedInstanceState) {
 
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.thebestmusic);                     //Добавляю музыку
+        mediaPlayer  = MediaPlayer.create(getApplicationContext(),R.raw.thebestmusic);
         mediaPlayer.start();
-
+        mediaPlayer.setLooping(true);
 
         final List<ImageButton> mainMenuButtons = new ArrayList<>();
 
 
-        //——————————//
 
         //—————ВСПЛЫВАЮЩЕЕ ОКНО О ЗАКРЫТИИ ИГРЫ—————//
 
@@ -63,6 +60,8 @@ public class MainMenu extends AppCompatActivity {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yesclicked);
+                        MainMenu.mediaPlayer.stop();
+                        MainMenu.mediaPlayer.release();
                         break;
                     case MotionEvent.ACTION_UP:
                         popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yes);
@@ -91,16 +90,10 @@ public class MainMenu extends AppCompatActivity {
         });
 
 
-        //——————————//
 
         //—————ВСПЛЫВАЮЩЕЕ ОКНО О СОХРАНЁННОЙ ИГРЕ [1]—————//
 
 
-        final ImageButton btn_play = (ImageButton) findViewById(R.id.btn1);
-        final ImageButton btn_options = (ImageButton) findViewById(R.id.btn2);
-        final ImageButton btn_help = (ImageButton) findViewById(R.id.btn3);
-        final ImageButton btn_exit = (ImageButton) findViewById(R.id.btn4);
-        //    final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
 
         final RelativeLayout popup_reserved_exist = (RelativeLayout) findViewById(R.id.mm_popup_reserved_exist);
 
@@ -188,7 +181,7 @@ public class MainMenu extends AppCompatActivity {
         final ImageButton btn_options = (ImageButton) findViewById(R.id.btn_options);
         final ImageButton btn_help = (ImageButton) findViewById(R.id.btn_help);
         final ImageButton btn_exit = (ImageButton) findViewById(R.id.btn_exit);
-    //    final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
+        //    final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
         final ImageButton btn_reserved = (ImageButton) findViewById(R.id.btn_reserved);
         options_warning = (ImageView) findViewById(R.id.options_warning);
 
@@ -197,7 +190,6 @@ public class MainMenu extends AppCompatActivity {
         mainMenuButtons.add(btn_help);
         mainMenuButtons.add(btn_exit);
         //    mainMenuButtons.add(btn_mapeditor);
-    //    mainMenuButtons.add(btn_mapeditor);
         mainMenuButtons.add(btn_reserved);
 
         btn_play.setBackgroundResource(R.drawable.ic_btn_mm_play);
@@ -205,9 +197,9 @@ public class MainMenu extends AppCompatActivity {
         btn_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
         btn_exit.setBackgroundResource(R.drawable.ic_btn_mm_exit);
         //    btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditor);
-    //    btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditor);
         btn_reserved.setBackgroundResource((GameSettings.isReservedGameExist())? R.drawable.ic_mm_reserved_active : R.drawable.ic_mm_reserved );
         options_warning.setBackgroundResource((GameSettings.texturesListMatch()[0])? R.drawable.ic_mm_warning : R.drawable.ic_alpha );
+
 
 
         btn_play.setOnTouchListener(new View.OnTouchListener() {
@@ -219,9 +211,9 @@ public class MainMenu extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         btn_play.setBackgroundResource(R.drawable.ic_btn_mm_play);
-                        Intent main_to_gs = new Intent(getBaseContext(), GameSelect.class);
-                        main_to_gs.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        startActivity(main_to_gs);
+                        Intent main_to_sgft = new Intent(getBaseContext(), SetGameFieldType.class);
+                        main_to_sgft.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(main_to_sgft);
                         break;
                 }
                 return true;
@@ -267,8 +259,6 @@ public class MainMenu extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
                         btn_exit.setBackgroundResource(R.drawable.ic_btn_mm_exitclicked);
                         break;
                     case MotionEvent.ACTION_UP:
@@ -279,7 +269,6 @@ public class MainMenu extends AppCompatActivity {
                 return true;
             }
         });
-
 
 /*        btn_mapeditor.setOnTouchListener(new View.OnTouchListener() {
             @Override
