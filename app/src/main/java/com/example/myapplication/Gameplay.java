@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -31,7 +32,7 @@ public class Gameplay extends AppCompatActivity {
 
     // ДАННЫЕ, ПЕРЕДАВАЕМЫЕ ИЗ ПРЕДЫДУЩИХ ACTIVITY
 
-        int fieldWidth;                                                                             // ширина поля (имеются ввиду количество игровых клеток в ширину)
+          int fieldWidth;                                                                             // ширина поля (имеются ввиду количество игровых клеток в ширину)
         int fieldHeight;                                                                            // высота поля
         int teamsCount;                                                                             // количество команд в игре
         int[] castleCoords;                                                                         // координаты (в массиве fields, а не двумерном массиве buttons!) замков соответствующих 4 команд
@@ -52,7 +53,6 @@ public class Gameplay extends AppCompatActivity {
     ImageView title_teamIcon;
     ImageView title_stepsLeft;
 
-
     CustomButton[][] buttons = new CustomButton[fieldWidth][fieldHeight];
 
 
@@ -62,6 +62,7 @@ public class Gameplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);                         // фиксируем вертикальную ориентацию окна
+
 
         final List<ImageButton> gameplayButtons = new ArrayList<>();
 

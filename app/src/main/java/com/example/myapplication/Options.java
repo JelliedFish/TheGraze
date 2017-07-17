@@ -54,9 +54,13 @@ public class Options extends AppCompatActivity {
                 if (!GameSettings.getMusicState()) {
                     switch (motionEvent.getAction()) {
                         case MotionEvent.ACTION_DOWN:
+
+                            MainMenu.mediaPlayer.start();
                             btn_music_on.setBackgroundResource(R.drawable.ic_btn_settings_onclicked);
                             break;
+
                         case MotionEvent.ACTION_UP:
+
                             GameSettings.setMusicState(true);
                             updateMusicButtons();
                             break;
@@ -69,12 +73,17 @@ public class Options extends AppCompatActivity {
         btn_music_off.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 if (GameSettings.getMusicState()) {
                     switch (motionEvent.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             btn_music_off.setBackgroundResource(R.drawable.ic_btn_settings_offclicked);
+
+                            MainMenu.mediaPlayer.pause();
+
                             break;
                         case MotionEvent.ACTION_UP:
+
                             GameSettings.setMusicState(false);
                             updateMusicButtons();
                             break;

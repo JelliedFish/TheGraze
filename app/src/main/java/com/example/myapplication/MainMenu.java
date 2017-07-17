@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -15,25 +16,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenu extends AppCompatActivity {
+    static MediaPlayer mediaPlayer;                                                                 //Добавляем плеер для музыки
 
     public void onCreate(Bundle savedInstanceState) {
 
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.thebestmusic);                     //Добавляю музыку
+        mediaPlayer.start();
+
 
         final List<ImageButton> mainMenuButtons = new ArrayList<>();
-
 
 
         //——————————//
 
 
-
         final RelativeLayout popup_exit = (RelativeLayout) findViewById(R.id.mm_popup_exit);
-
 
 
         final ImageButton popup_exit_yes = (ImageButton) findViewById(R.id.mm_popup_exit_yes);
@@ -41,7 +43,6 @@ public class MainMenu extends AppCompatActivity {
 
         popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yes);
         popup_exit_no.setBackgroundResource(R.drawable.ic_popup_exit_no);
-
 
 
         popup_exit_yes.setOnTouchListener(new View.OnTouchListener() {
@@ -78,29 +79,26 @@ public class MainMenu extends AppCompatActivity {
         });
 
 
-
         //——————————//
-
 
 
         final ImageButton btn_play = (ImageButton) findViewById(R.id.btn1);
         final ImageButton btn_options = (ImageButton) findViewById(R.id.btn2);
         final ImageButton btn_help = (ImageButton) findViewById(R.id.btn3);
         final ImageButton btn_exit = (ImageButton) findViewById(R.id.btn4);
-    //    final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
+        //    final ImageButton btn_mapeditor = (ImageButton) findViewById(R.id.btn_mapeditor);
 
         mainMenuButtons.add(btn_play);
         mainMenuButtons.add(btn_options);
         mainMenuButtons.add(btn_help);
         mainMenuButtons.add(btn_exit);
-    //    mainMenuButtons.add(btn_mapeditor);
+        //    mainMenuButtons.add(btn_mapeditor);
 
         btn_play.setBackgroundResource(R.drawable.ic_btn_mm_play);
         btn_options.setBackgroundResource(R.drawable.ic_btn_mm_options);
         btn_help.setBackgroundResource(R.drawable.ic_btn_mm_help);
         btn_exit.setBackgroundResource(R.drawable.ic_btn_mm_exit);
-    //    btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditor);
-
+        //    btn_mapeditor.setBackgroundResource(R.drawable.ic_btn_mm_mapeditor);
 
 
         btn_play.setOnTouchListener(new View.OnTouchListener() {
@@ -160,6 +158,8 @@ public class MainMenu extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
                         btn_exit.setBackgroundResource(R.drawable.ic_btn_mm_exitclicked);
                         break;
                     case MotionEvent.ACTION_UP:
@@ -186,7 +186,6 @@ public class MainMenu extends AppCompatActivity {
                 return true;
             }
         });*/
-
 
 
     }
