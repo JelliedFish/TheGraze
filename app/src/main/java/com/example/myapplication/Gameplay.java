@@ -66,6 +66,8 @@ public class Gameplay extends AppCompatActivity {
 
         final List<ImageButton> gameplayButtons = new ArrayList<>();
 
+        final GridView gridView = (GridView) findViewById(R.id.gridView);                                 // создаем гридвью
+
 
 
         //—————ВСПЛЫВАЮЩЕЕ ОКНО О ПРЕРЫВАНИИ ИГРЫ—————//
@@ -93,7 +95,7 @@ public class Gameplay extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         popup_exit_yes.setBackgroundResource(R.drawable.ic_popup_exit_yes);
-                        PopupWindow.hide(popup_end, gameplayButtons);
+                        PopupWindow.hide(popup_end, gameplayButtons, gridView);
                         finish();
                         break;
                 }
@@ -110,7 +112,7 @@ public class Gameplay extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         popup_exit_no.setBackgroundResource(R.drawable.ic_popup_exit_no);
-                        PopupWindow.hide(popup_end, gameplayButtons);
+                        PopupWindow.hide(popup_end, gameplayButtons, gridView);
                         break;
                 }
                 return true;
@@ -153,7 +155,7 @@ public class Gameplay extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         popup_playersleft_2ormore_ok.setBackgroundResource(R.drawable.ic_popup_gameplay_ok);
-                        PopupWindow.hide(popup_playersleft_2ormore, gameplayButtons);
+                        PopupWindow.hide(popup_playersleft_2ormore, gameplayButtons, gridView);
                         break;
                 }
                 return true;
@@ -189,7 +191,7 @@ public class Gameplay extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         popup_playersleft_1_ok.setBackgroundResource(R.drawable.ic_popup_gameplay_ok);
-                        PopupWindow.hide(popup_playersleft_1, gameplayButtons);
+                        PopupWindow.hide(popup_playersleft_1, gameplayButtons, gridView);
                         finish();
                         break;
                 }
@@ -241,7 +243,6 @@ public class Gameplay extends AppCompatActivity {
 
 
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);                                 // создаем гридвью
         gridView.setAdapter(new CustomAdapter(this, fields));                                       // связываем гридвью и адаптер
         gridView.setNumColumns(fieldWidth);                                                         // установка кол-ва колонок для гридвью
 
@@ -340,7 +341,7 @@ public class Gameplay extends AppCompatActivity {
                                     ViewPatterns.setNumImg(popup_playersleft_1_winnernumber, activeTeamsList[0], Const.COLOR_YELLOW);
                                     popup_playersleft_1_winnericon.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
 
-                                    PopupWindow.display(popup_playersleft_1, gameplayButtons);
+                                    PopupWindow.display(popup_playersleft_1, gameplayButtons, gridView);
                                 } else {
                                     ViewPatterns.setNumImg(popup_playersleft_2ormore_kickedplayer, i, Const.COLOR_YELLOW);
                                     ViewPatterns.setNumImg(popup_playersleft_2ormore_playersleft, activeTeamsCount, Const.COLOR_YELLOW);
@@ -359,7 +360,7 @@ public class Gameplay extends AppCompatActivity {
                                         popup_playersleft_2ormore_playericon3.setBackgroundResource(R.drawable.ic_alpha);
                                     }
 
-                                    PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
+                                    PopupWindow.display(popup_playersleft_2ormore, gameplayButtons, gridView);
                                 }
 
                                 if (currentTeam == i)
@@ -423,7 +424,7 @@ public class Gameplay extends AppCompatActivity {
                             ViewPatterns.setNumImg(popup_playersleft_1_winnernumber, activeTeamsList[0], Const.COLOR_YELLOW);
                             popup_playersleft_1_winnericon.setBackgroundResource(GameSettings.getPlayerTextureID(activeTeamsList[0]));
 
-                            PopupWindow.display(popup_playersleft_1, gameplayButtons);
+                            PopupWindow.display(popup_playersleft_1, gameplayButtons, gridView);
                         } else {
                             ViewPatterns.setNumImg(popup_playersleft_2ormore_kickedplayer, currentTeam, Const.COLOR_YELLOW);
                             ViewPatterns.setNumImg(popup_playersleft_2ormore_playersleft, activeTeamsCount, Const.COLOR_YELLOW);
@@ -442,7 +443,7 @@ public class Gameplay extends AppCompatActivity {
                                 popup_playersleft_2ormore_playericon3.setBackgroundResource(R.drawable.ic_alpha);
                             }
 
-                            PopupWindow.display(popup_playersleft_2ormore, gameplayButtons);
+                            PopupWindow.display(popup_playersleft_2ormore, gameplayButtons, gridView);
                         }
 
                         minusStep();
@@ -481,7 +482,7 @@ public class Gameplay extends AppCompatActivity {
                         if (activeTeamsCount == 1)
                             finish();
                         else
-                            PopupWindow.display(popup_end, gameplayButtons);
+                            PopupWindow.display(popup_end, gameplayButtons, gridView);
                         break;
                 }
                 return true;

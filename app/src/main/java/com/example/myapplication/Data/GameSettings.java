@@ -28,17 +28,43 @@ public class GameSettings {
         players_textureState[index] = newTextureState;
     }
 
-
-
-    public static void addToTextureState(int index, int count) {
-        players_textureState[index] += count;
+    private static boolean reservedGameExist = false;
+    public static boolean isReservedGameExist() {
+        return reservedGameExist;
     }
+    public static void setReservedGameExist(boolean reservedGameExist) {
+        GameSettings.reservedGameExist = reservedGameExist;
+    }
+
+
 
     public static void reset() {
         byte[] newTS = {1, 2, 3, 4};
 
         setMusicState(false);
         setPlayers_textureState(newTS);
+    }
+
+    public static void addToTextureState(int index, int count) {
+        players_textureState[index] += count;
+    }
+
+    public static boolean[] texturesListMatch() {
+        /* Возвращает данные о совпадении или несовпадении текстур у игроков
+         * Первый элемент массива - наличие/отсутствие совпадений, в остальных 4-ёх содержится
+         * наличие/отсутствие их у каждого из 4 игроков
+         */
+        boolean[] res = {false, false, false, false, false};
+        for (int i = 1; i < 5; i++) {
+            for (int j = i + 1; j < 5; j++) {
+                if (GameSettings.getPlayers_textureState(i - 1) == GameSettings.getPlayers_textureState(j - 1)) {
+                    res[0] = true;
+                    res[i] = true;
+                    res[j] = true;
+                }
+            }
+        }
+        return res;
     }
 
 
